@@ -2,6 +2,13 @@
 
 Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io/fnaf-versus/).
 
+## V41.6 — Pitch-dark Hallways
+
+- Hai cửa phòng trực: khi tắt đèn, hành lang ngoài cửa mở gần như đen hoàn toàn; chỉ giữ viền và ngưỡng cửa rất mờ. Không vẽ tường, sàn hay đèn hành lang khi không có ánh sáng.
+- Kính quan sát trên cửa đóng tối sâu, hạn chế phản chiếu giả. Bật đèn bên nào thì chỉ bên đó hiện hành lang/quái như bình thường.
+- Giữ quy tắc mắt V41.5 (Chuẩn/Khó/Hell 0%, Dễ 50%, Baby 100%). Không thay đổi gameplay, radar, sát thương, giao thức 42 hay tính năng nhìn gần cửa sổ.
+- Kiểm tra cú pháp và mô phỏng lệnh vẽ 9 tình huống đạt; chưa kiểm tra ảnh thực tế trên trình duyệt.
+
 ## V41.5 — Dark Door Eyes
 
 - Chuẩn (Normal): xác suất thấy mắt animatronic khi tắt đèn giảm từ 25% xuống 0%, kể cả lượt ngẫu nhiên đã lưu trước đó. Khó/Hell giữ 0%, Dễ 50%, Baby 100%.
