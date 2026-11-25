@@ -2,6 +2,15 @@
 
 Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io/fnaf-versus/).
 
+## V41.3 — Door Knock / Distraction Balance
+
+- Đập cửa ưu tiên nghi binh, tiếng va đập định hướng trái/phải và viền cảnh báo ngắn 1,6s trên HUD/nút cửa. Không tự khóa điều khiển, không trực tiếp làm hao điện hoặc gây nhiễu camera.
+- Giảm sát thương độ bền mỗi lần đủ điều kiện: Bonnie 5, Chica 5, Freddy 6, Foxy Versus 8, Foxy Rush 10 (từ 15/15/18/20/34).
+- Mỗi cửa có hồi sát thương chung 8s, kể cả nhiều quái cùng tấn công; tiếng động có hồi riêng 3s/cửa. Hai cửa độc lập. Foxy Rush cần đứng trước cửa đóng 1,5s trước khi đập.
+- Cửa nguyên vẹn cần tối thiểu 20/20/17/13/10 cú gây sát thương tương ứng nếu không sửa, không tính thời gian tiếp cận và rút lui.
+- Cửa hỏng khóa tối thiểu 4s (Versus) / 6s (Foxy Rush), cần sửa tới 20% để đóng lại. Giữ nguyên sửa 5 điểm/giây, phí 0,25% điện/giây, radar và tốc độ/kỹ năng Foxy Rush.
+- Solo/Co-op không thay đổi cơ chế đập cửa. Giao thức 42 giữ nguyên, nên cả hai người chơi tải lại V41.3 để dùng cùng luật. Kiểm tra cú pháp và mô phỏng logic đạt; chưa kiểm thử thiết bị thật, multiplayer đầu cuối, GitHub Pages.
+
 ## V41.2 — Radar & Door Repair
 
 ### Radar và bản đồ
