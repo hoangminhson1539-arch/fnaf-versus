@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#05080d">
-<title>FNAF 1 · MEGA COMPLEX · VERSUS V41.4</title>
+<title>FNAF 1 · MEGA COMPLEX · VERSUS V41.5</title>
 <style>
 :root{color-scheme:dark;--bg:#05080d;--line:#33434b;--red:#ff485e;--green:#98ffbd;--yellow:#ffd078;--cyan:#9fe7f9;--muted:#a1aeb6}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -958,7 +958,7 @@ function award(id){if(saved.achievements.includes(id))return;saved.achievements.
 function medalList(){return MEDALS.map(([id,ico,label,desc])=>`<div class="achievement ${saved.achievements.includes(id)?'':'locked'}"><span class="icon">${ico}</span><div><strong>${label} ${saved.achievements.includes(id)?'✓':'🔒'}</strong><small>${desc}</small></div></div>`).join('')}
 function cash(n){saved.credits=Math.max(0,Math.floor(saved.credits+n));saveStorage()}
 function difficultyName(d){return ({baby:'BABY MODE',easy:'DỄ',normal:'CHUẨN',hard:'KHÓ',hell:'HELL PROTOCOL'})[d]||'CHUẨN'}
-function difficultyPicker(){return `<div class="setting-row"><strong>Độ khó ca mới</strong><select data-setting="difficulty">${['baby','easy','normal','hard','hell'].map(d=>`<option value="${d}" ${saved.settings.difficulty===d?'selected':''}>${difficultyName(d)}</option>`).join('')}</select></div><p class="smallprint">Baby: tập chơi, mắt 100%, không nhận phần thưởng mở boss. Dễ: mắt 50%. Chuẩn: mắt 25%. Khó/Hell: mắt 0%, quái im lặng và không cảnh báo cửa tự động. Tỷ lệ tính mỗi lần đến cửa khi tắt đèn. Áp dụng cho ca mới.</p>`}
+function difficultyPicker(){return `<div class="setting-row"><strong>Độ khó ca mới</strong><select data-setting="difficulty">${['baby','easy','normal','hard','hell'].map(d=>`<option value="${d}" ${saved.settings.difficulty===d?'selected':''}>${difficultyName(d)}</option>`).join('')}</select></div><p class="smallprint">Baby: tập chơi, mắt 100%, không nhận phần thưởng mở boss. Dễ: mắt 50%. Chuẩn/Khó/Hell: mắt 0% khi tắt đèn. Khó/Hell: quái im lặng và không cảnh báo cửa tự động. Tỷ lệ tính mỗi lần đến cửa khi tắt đèn. Áp dụng cho ca mới.</p>`}
 function menu(){document.body.classList.toggle('solo-compact',saved.settings.simpleUI!==false);if(net.ws)netLeave(false);bossUnlockCheck(true);if(storyOverlayOpen)storyClose();$('deathSkip').hidden=true;resetRoamInput();if(state&&['playing','paused','blackout'].includes(state.phase))snapshot();state=makeGame(saved.unlocked);state.phase='menu';state.camera=false;stage.classList.remove('camera-mode');updateUI(true);
  let choices='';for(let n=1;n<=5;n++){choices+=`<button type="button" data-night="${n}" ${n>saved.unlocked?'disabled':''} class="${saved.completed.includes(n)?'finished':''} ${n===saved.unlocked?'current':''}" title="${n>saved.unlocked?'Chưa mở khóa':'Bắt đầu đêm '+n}">${saved.completed.includes(n)?'★':n}</button>`}
  if(saved.unlocked>=6)choices+='<button type="button" data-night="6" class="current" title="Đêm 6">6★</button>';
@@ -1113,7 +1113,7 @@ function foleyWorld(now,dt){const s=state,r=s?.roam;const live=!!(s&&r&&['playin
 }
 
 // V23: one eye-visibility decision per physical arrival, independent of lights, camera and FPS.
-function doorEyeChance(s=state){return ({baby:1,easy:.5,normal:.25,hard:0,hell:0})[s?.shiftDifficulty]??.25;}
+function doorEyeChance(s=state){return ({baby:1,easy:.5,normal:0,hard:0,hell:0})[s?.shiftDifficulty]??0;}
 function syncDoorEyes(){const s=state;if(!s||s.phase!=='playing')return;const rolls=s.doorEyeRolls||(s.doorEyeRolls={}),present=new Set();for(const side of ['left','right'])for(const name of corridorThreat(side).at){const key=side+':'+name;present.add(key);if(typeof rolls[key]!=='boolean')rolls[key]=Math.random()<doorEyeChance(s);}for(const key of Object.keys(rolls))if(!present.has(key))delete rolls[key];}
 function showDarkDoorEyes(side,name){const chance=doorEyeChance();if(chance===0)return false;if(chance===1)return true;return state?.doorEyeRolls?.[side+':'+name]===true;}
 function corridorThreat(side){if(!state)return {level:0,names:[],at:[],hall:[]};
