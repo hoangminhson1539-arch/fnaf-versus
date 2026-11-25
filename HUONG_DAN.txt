@@ -1,4 +1,4 @@
-FNAF 1 VERSUS — V40.2
+FNAF 1 VERSUS — V41.3
 
 1. CHƠI TRÊN WEBSITE HTTPS
 
@@ -28,7 +28,7 @@ FNAF 1 VERSUS — V40.2
 - Versus là đối đầu giữa bảo vệ và đội animatronics. Bảo vệ sống đến 6 AM để thắng. Phe quái thắng nếu bắt được bảo vệ trước khi hết giờ.
 - Foxy Rush là đối đầu giữa bảo vệ và Foxy. Người chơi phe quái điều khiển Foxy. Chiến thuật AI của đội quái dùng trong Versus.
 - Bảo vệ dùng A/L cho cửa trái/phải và S/K cho đèn trái/phải. Trong Versus và Foxy Rush, hạ camera trước khi điều khiển cửa hoặc đèn. Space mở hoặc hạ camera ở vai có quyền quan sát. Khi camera mở, 1–0 và - hoặc phím mũi tên trái/phải để đổi camera. F sửa camera đang nhiễu hoặc cầu chì hỏng theo vai và tình trạng.
-- Phe quái dùng 1–4 hoặc nút tên để chọn animatronic. Space hoặc TẤN CÔNG phát lệnh cho quái đang chọn. Chạm phòng trên bản đồ, hoặc chọn đích và bấm G / ĐI TỚI, để ra lệnh di chuyển. R rút quái đang chọn. Versus cho phép tối đa hai quái tấn công cùng lúc. C đổi chiến thuật AI giữa tuần tra, nghi binh và giữ vị trí. Nghi binh hỗ trợ ở hành lang đối diện, gây chập đèn hoặc hao 1,5% điện nếu cửa đóng.
+- Phe quái dùng 1–4 hoặc nút tên để chọn animatronic. Space hoặc TẤN CÔNG phát lệnh cho quái đang chọn. Chạm phòng trên bản đồ, hoặc chọn đích và bấm G / ĐI TỚI, để ra lệnh di chuyển. R rút quái đang chọn. WASD / mũi tên / joystick điều khiển quái trực tiếp. Versus cho phép tối đa ba quái tấn công cùng lúc. C đổi AI giữa tuần tra, nghi binh, tổng công kích và giữ vị trí. Nghi binh hỗ trợ gây chập đèn hoặc hao 2% điện nếu cửa đóng.
 - Trong multiplayer, Enter mở chat, V điều khiển micro, U bật hoặc tắt âm thanh, J chuyển toàn màn hình. Dùng Escape để đóng cài đặt hoặc chat đang mở. Ngoài hai bảng này, Escape hỏi rời phòng.
 - Sổ tay có ảnh nằm trong CÀI ĐẶT PHÒNG · HƯỚNG DẪN ở phòng chờ hoặc CÀI ĐẶT / HƯỚNG DẪN trong trận. Cài đặt này cũng có âm lượng và chất lượng đồ họa. Trận tiếp tục trong lúc mở sổ tay nếu cả hai còn kết nối.
 - Chơi đơn lưu tiến trình riêng. Khi khám phá, máy tính dùng WASD hoặc mũi tên, còn điện thoại dùng joystick cảm ứng 360 độ. Trên điện thoại, thả joystick để dừng và dùng nút CHẠY để đổi tốc độ.
@@ -36,17 +36,20 @@ FNAF 1 VERSUS — V40.2
 5. KỸ NĂNG VERSUS VÀ FOXY RUSH
 
 Bảo vệ
-- X · Xung phòng thủ: giảm 52% tốc độ của quái trong 7 giây, xóa nhiễu camera và đặt lại tiến độ tấn công tại cửa. Tốn 4% điện, hồi 20 giây.
-- B · Pin dự phòng: nạp 12% điện một lần mỗi trận khi điện còn từ 88% trở xuống.
+- X · Xung phòng thủ: giảm 52% tốc độ của quái trong 8 giây, xóa nhiễu camera và đặt lại tiến độ tấn công tại cửa. Tốn 4% điện, hồi 16 giây.
+- B · Pin dự phòng: nạp 18% điện một lần mỗi trận khi điện còn từ 82% trở xuống.
 - N · Mồi nhử: đẩy lùi quái đang tấn công gần cửa. Tốn 3% điện, hồi 26 giây.
-- H · Radar: hiển thị vị trí quái trong 8 giây. Tốn 2% điện, hồi 18 giây.
+- H · Radar: hiển thị tên phòng và CAM của quái trong 12 giây; chạm kết quả để mở CAM. Tốn 2% điện, hồi 18 giây.
+- Y/O: sửa cửa trái/phải 5 điểm độ bền/giây, tốn 0,25% điện/giây, cần mở cửa, hạ camera và không có quái gần. Cửa hỏng cần 20% độ bền và hết khóa 4s/6s.
 
 Animatronics
-- Bonnie: X tăng tốc và làm đèn chập chờn 5 giây. Z tăng tốc 7 giây và làm hỏng cầu chì 3 giây.
-- Chica: X rút 3% điện và tăng tốc 5 giây. Z rút 2% điện và gây nhiễu camera 3 giây.
-- Freddy: X gây nhiễu camera và tăng tốc trong 5 giây. Z tăng tốc đồng đội trong 6 giây.
+- Bonnie: X tăng tốc và làm đèn chập chờn 5 giây. Z tăng tốc 7 giây và làm hỏng cầu chì 4 giây.
+- Chica: X rút 4% điện và tăng tốc 5 giây. Z rút 3% điện và gây nhiễu camera 4 giây.
+- Freddy: X gây nhiễu camera 6 giây và tăng tốc 5 giây. Z tăng tốc đồng đội trong 7 giây.
 - Foxy: X bứt tốc 5 giây. Z bứt tốc 4 giây và làm đèn chập chờn 3 giây.
-- X hồi 22 giây, Z hồi 28 giây. Từng quái có thời gian hồi riêng. Bảng điều khiển giải thích kỹ năng của quái đang chọn.
+- X hồi 18 giây, Z hồi 24 giây (Foxy Rush: 8s/12s). Từng quái có thời gian hồi riêng. Bảng điều khiển giải thích kỹ năng của quái đang chọn.
+
+- Đập cửa: tiếng động định hướng và cảnh báo ngắn, không trực tiếp mất điện. Độ bền giảm 5/5/6/8 điểm (Bonnie/Chica/Freddy/Foxy), Foxy Rush 10 điểm; chung hồi 8s/cửa. Foxy Rush giữ siêu tốc và phá rối riêng.
 
 MỐC PHIÊN BẢN
 
@@ -54,3 +57,5 @@ MỐC PHIÊN BẢN
 - V39: đồng bộ luật cửa, đèn, camera, sửa chữa và lọc lệnh cũ trên relay.
 - V40: thêm điều phối trực tiếp theo đội hình, kỹ năng riêng của animatronics và công cụ phòng thủ cho bảo vệ. V40.1 bổ sung giải thích dưới bảng kỹ năng.
 - V40.2: dùng index.html làm trang khởi động cho website tĩnh và máy chủ Go. Khi chơi chung, dùng HTML cùng bản. Với relay, dùng máy chủ đi kèm bản đó.
+
+- V41–V41.3: xem CHANGELOG.md để biết chi tiết điều khiển, radar, sửa cửa và cân bằng mới. Relay dùng giao thức 42, cần Go tương thích.
