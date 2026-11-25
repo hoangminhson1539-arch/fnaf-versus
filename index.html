@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#05080d">
-<title>FNAF 1 · MEGA COMPLEX · VERSUS V41.5</title>
+<title>FNAF 1 · MEGA COMPLEX · VERSUS V41.6</title>
 <style>
 :root{color-scheme:dark;--bg:#05080d;--line:#33434b;--red:#ff485e;--green:#98ffbd;--yellow:#ffd078;--cyan:#9fe7f9;--muted:#a1aeb6}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -2312,6 +2312,8 @@ function office(){
  rect(x-15,y-14,dw+30,dh+27,'#10161b');rect(x,y,dw,dh,'#04080c');
  ctx.save();ctx.beginPath();ctx.rect(x,y,dw,dh);ctx.clip();
  const vx=x+dw*.60,vy=y+dh*.46;
+ // V41.6: no corridor geometry is visible without its own light.
+ if(lit&&!closed){
  poly([[x,y],[x+dw,y],[vx+28,vy-30],[vx-28,vy-30]],lit?'#666a60':'#222a30');
  poly([[x,y],[vx-28,vy-30],[vx-28,vy+72],[x,y+dh]],lit?'#7b7963':'#30373b');
  poly([[x+dw,y],[vx+28,vy-30],[vx+28,vy+72],[x+dw,y+dh]],lit?'#51584e':'#181f25');
@@ -2321,7 +2323,13 @@ function office(){
  for(let i=0;i<6;i++){const k=(i/5)**2,yy=vy+72+(y+dh-vy-72)*k;line(x,yy,x+dw,yy,lit?'#b7b3a03b':'#53616a22',1)}
  for(let i=0;i<3;i++){const k=i/3;line(x,y+dh*.60+k*75,vx-28,vy+25+k*30,lit?'#2b3333':'#0e181d',2);line(x+dw,y+dh*.60+k*75,vx+28,vy+25+k*30,lit?'#2b3333':'#0e181d',2)}
  lamp(vx,vy-39,lit,'#f8e8ba');
- if(lit)rect(x,y,dw,dh,rad(vx,vy-30,220,[[0,'#ffeac94c'],[.7,'#ffe5ad07'],[1,'#00000040']]));
+ rect(x,y,dw,dh,rad(vx,vy-30,220,[[0,'#ffeac94c'],[.7,'#ffe5ad07'],[1,'#00000040']]));
+ rect(x,y,dw,dh,rad(vx,vy,240,[[0,'#0000'],[.65,'#00000016'],[1,'#00000091']]));
+ }else if(!closed){
+  rect(x,y,dw,dh,'#000001');
+  rect(x,y,dw,dh,grad(x,y,x+dw,y,[[0,'#080b0e'],[.065,'#010203'],[.18,'#000001'],[.90,'#000001'],[1,'#050709']]));
+  rect(x,y+dh-18,dw,18,grad(x,y+dh-18,x,y+dh,[[0,'#0000'],[1,'#101316']]));
+ }
  if(actors.length&&!closed){const name=actors[0].name;if(lit){ellipse(x+dw*.58,y+dh*.88,58,10,'#0009');actor(name,x+dw*.57,y+dh*.59,76,1);}else if(showDarkDoorEyes(side,name)){if(name==='Foxy'){circle(x+dw*.5-12,y+dh*.48,3,'#f6e7af')}else eyes(x+dw*.57,y+dh*.48,25,true);}}
  if(closed){panel(x,y,dw,dh);for(let i=0;i<15;i++){const yy=y+i*21;rect(x+3,yy,dw-6,20,grad(0,yy,0,yy+20,[[0,'#788386'],[.13,'#424e56'],[.75,'#303a40'],[1,'#171f25']]));line(x+5,yy+19,x+dw-5,yy+19,'#0c151c',2);}
  for(let i=0;i<15;i++){const xx=x+3+i*12;poly([[xx,y+dh-18],[xx+7,y+dh-18],[xx+19,y+dh-4],[xx+12,y+dh-4]],i%2?'#1b2428':'#ab884c');}
@@ -2329,9 +2337,9 @@ function office(){
  // Reinforced inspection glass is drawn on the closed shutter only.
  if(closed){
  const gx=x+dw*.39,gy=y+dh*.26,gw=dw*.52,gh=dh*.24;
- rect(gx-5,gy-5,gw+10,gh+10,'#171e24');rect(gx,gy,gw,gh,grad(gx,gy,gx,gy+gh,[[0,lit?'#637371':'#252e34'],[1,lit?'#303d3d':'#0d171d']]));
+ rect(gx-5,gy-5,gw+10,gh+10,'#171e24');rect(gx,gy,gw,gh,lit?grad(gx,gy,gx,gy+gh,[[0,'#637371'],[1,'#202829']]):'#000001');
  ctx.save();ctx.beginPath();ctx.rect(gx,gy,gw,gh);ctx.clip();if(actors.length){if(lit){actor(actors[0].name,gx+gw*.52,gy+gh*.78,Math.min(gw*.49,gh*.61),1)}else if(showDarkDoorEyes(side,actors[0].name)){if(actors[0].name==='Foxy')circle(gx+gw*.44,gy+gh*.48,2.5,'#f8e7a4');else eyes(gx+gw*.5,gy+gh*.49,gw*.20,true)}}else if(lit){ctx.save();if(!left){ctx.translate(2*(gx+gw*.5),0);ctx.scale(-1,1)}txt('TRỐNG',gx+gw*.5,gy+gh*.59,10,'#dce7db','center');ctx.restore();}
- poly([[gx,gy],[gx+gw*.25,gy],[gx+gw*.75,gy+gh],[gx+gw*.50,gy+gh]],'#d8f3ed12');ctx.restore();stroke(gx,gy,gw,gh,'#909b9c',2);}
+ poly([[gx,gy],[gx+gw*.25,gy],[gx+gw*.75,gy+gh],[gx+gw*.50,gy+gh]],lit?'#d8f3ed12':'#d8f3ed03');ctx.restore();stroke(gx,gy,gw,gh,lit?'#909b9c':'#4f595d',2);}
  ctx.restore();
  // Structural rails and hardware; door graphics remain aligned to logical state.
  panel(x-11,y-10,11,dh+20);panel(x+dw,y-10,11,dh+20);panel(x-11,y-12,dw+22,12);for(let i=0;i<6;i++){bolt(x-6,y+12+i*59);bolt(x+dw+5,y+12+i*59)}
