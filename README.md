@@ -1,6 +1,10 @@
-# FNAF 1 Versus · V40.2
+# FNAF 1 Versus · V41.2
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
+
+**[Nhật ký cập nhật chi tiết — CHANGELOG.md](CHANGELOG.md)**
+
+V41.2: Radar tên phòng/CAM, bản đồ di động dễ đọc, phá cửa và sửa cửa chậm trong Versus/Foxy Rush. Dùng hai client cùng phiên bản; relay cần chạy mã Go mới (giao thức 42).
 
 Game fan-made chạy trên trình duyệt. Có chế độ một người, Co-op, đối đầu đội quái và Foxy Rush.
 
