@@ -2,6 +2,15 @@
 
 Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io/fnaf-versus/).
 
+## V41.7 — Tactical Phase Contracts
+
+- Thêm 3 giai đoạn 60 giây trong Versus và Foxy Rush. HUD hiển thị mục tiêu, phần thưởng, tiến độ và thời gian còn lại.
+- Bảo vệ: radar, sửa 15 điểm độ bền, đẩy lùi quái bằng mồi nhử; thưởng 3/4/5% điện theo giai đoạn.
+- Animatronics: 2 cú gây sát thương cửa, 2 quái khác nhau gây sát thương (Foxy Rush: 2 cú), 3 cú gây sát thương; thưởng tăng tốc và/hoặc hao điện của bảo vệ.
+- Sửa lỗi validator relay không chấp nhận AI assault. Mồi nhử tác động cả quái đang điều khiển thủ công đủ gần cửa.
+- Thưởng chỉ do host xử lý và tối đa một lần mỗi pha. Không đổi giao thức 42. Giữ chế độ solo/co-op.
+- Kiểm tra cú pháp JavaScript và 16 kiểm tra mô phỏng nhiệm vụ đạt. Chưa kiểm tra trình duyệt, thiết bị thật, build Go hoặc multiplayer đầu cuối.
+
 ## V41.6 — Pitch-dark Hallways
 
 - Hai cửa phòng trực: khi tắt đèn, hành lang ngoài cửa mở gần như đen hoàn toàn; chỉ giữ viền và ngưỡng cửa rất mờ. Không vẽ tường, sàn hay đèn hành lang khi không có ánh sáng.
