@@ -1,5 +1,7 @@
 # FNAF 1 Versus · V40.2
 
+**[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
+
 Game fan-made chạy trên trình duyệt. Có chế độ một người, Co-op, đối đầu đội quái và Foxy Rush.
 
 ## Chơi trên web
