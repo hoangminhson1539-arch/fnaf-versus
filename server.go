@@ -290,10 +290,13 @@ func handle(c *Client, m M) {
 	if t == "voice" {
 		kind := str(m, "kind")
 		sdp := str(m, "sdp")
+		msg := M{"type": "voice", "kind": kind}
+		if call := str(m, "call"); len(call) > 0 && len(call) <= 48 { msg["call"] = call }
 		if contains(kind, "ready", "bye", "retry") {
-			send(p, M{"type": "voice", "kind": kind})
+			send(p, msg)
 		} else if contains(kind, "offer", "answer") && len(sdp) > 0 && len(sdp) <= 20000 && ((kind == "offer" && c.role == "host") || (kind == "answer" && c.role == "guest")) {
-			send(p, M{"type": "voice", "kind": kind, "sdp": sdp})
+			msg["sdp"] = sdp
+			send(p, msg)
 		}
 		return
 	}
@@ -402,7 +405,7 @@ func api(w http.ResponseWriter, r *http.Request) {
 	action := strings.TrimPrefix(r.URL.Path, "/api/")
 	if action == "open" {
 		if v, ok := m["version"].(float64); !ok || v != 43 {
-			http.Error(w, "Use FNAF V44.0", 409)
+			http.Error(w, "Use FNAF V44.1", 409)
 			return
 		}
 		if len(clients) >= 128 {
@@ -661,6 +664,7 @@ func main() {
 			return
 		}
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.Header().Set("Permissions-Policy", "microphone=(self), autoplay=(self)")
 		w.Header().Set("Cache-Control", "no-store")
 		meta := "<meta name=\"fnaf-portable-server\" content=\"1\">"
 		if publicServer {
@@ -688,7 +692,7 @@ func main() {
 	}
 	port := l.Addr().(*net.TCPAddr).Port
 	local := fmt.Sprintf("http://127.0.0.1:%d/?host=1", port)
-	fmt.Println("FNAF V44.0 - SERVER READY\nKeep this window open. Allow private-network access if prompted.\nHost:", local, "\nSame Wi-Fi:", fmt.Sprintf("http://%s:%d/", lan, port), "\nOther network addresses:", strings.Join(lans, ", "), "\nScan QR or share the invite link.\nCtrl+C to stop.")
+	fmt.Println("FNAF V44.1 - SERVER READY\nKeep this window open. Allow private-network access if prompted.\nHost:", local, "\nSame Wi-Fi:", fmt.Sprintf("http://%s:%d/", lan, port), "\nOther network addresses:", strings.Join(lans, ", "), "\nScan QR or share the invite link.\nCtrl+C to stop.")
 	if !publicServer && os.Getenv("FNAF_NO_BROWSER") != "1" {
 		openBrowser(local)
 	}
