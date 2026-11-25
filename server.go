@@ -336,12 +336,16 @@ func handle(c *Client, m M) {
 			return
 		}
 		if contains(r.hostJob, "monster", "foxmonster") && contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardSkill", "guardReserve", "guardLure", "guardScan", "guardRepairLeft", "guardRepairRight", "guardPushLeft", "guardPushRight") {
-			send(p, M{"type": "command", "action": a})
+			msg := M{"type": "command", "action": a}
+			if target, ok := m["target"].(bool); ok && contains(a, "leftDoor", "rightDoor") { msg["target"] = target }
+			send(p, msg)
 			return
 		}
 		if r.hostJob == "camera" {
-			if contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair") {
-				send(p, M{"type": "command", "action": a})
+			if contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardPushLeft", "guardPushRight") {
+				msg := M{"type": "command", "action": a}
+				if target, ok := m["target"].(bool); ok && contains(a, "leftDoor", "rightDoor") { msg["target"] = target }
+				send(p, msg)
 			}
 			return
 		}
