@@ -326,7 +326,7 @@ func handle(c *Client, m M) {
 			}
 			return
 		}
-		if contains(r.hostJob, "monster", "foxmonster") && contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardSkill", "guardReserve", "guardLure", "guardScan") {
+		if contains(r.hostJob, "monster", "foxmonster") && contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardSkill", "guardReserve", "guardLure", "guardScan", "guardRepairLeft", "guardRepairRight") {
 			send(p, M{"type": "command", "action": a})
 			return
 		}
@@ -383,8 +383,8 @@ func api(w http.ResponseWriter, r *http.Request) {
 	defer mu.Unlock()
 	action := strings.TrimPrefix(r.URL.Path, "/api/")
 	if action == "open" {
-		if v, ok := m["version"].(float64); !ok || v != 41 {
-			http.Error(w, "Use FNAF V41", 409)
+		if v, ok := m["version"].(float64); !ok || v != 42 {
+			http.Error(w, "Use FNAF V41.2", 409)
 			return
 		}
 		if len(clients) >= 128 {
@@ -670,7 +670,7 @@ func main() {
 	}
 	port := l.Addr().(*net.TCPAddr).Port
 	local := fmt.Sprintf("http://127.0.0.1:%d/?host=1", port)
-	fmt.Println("FNAF V41 - SERVER READY\nKeep this window open. Allow private-network access if prompted.\nHost:", local, "\nSame Wi-Fi:", fmt.Sprintf("http://%s:%d/", lan, port), "\nOther network addresses:", strings.Join(lans, ", "), "\nScan QR or share the invite link.\nCtrl+C to stop.")
+	fmt.Println("FNAF V41.2 - SERVER READY\nKeep this window open. Allow private-network access if prompted.\nHost:", local, "\nSame Wi-Fi:", fmt.Sprintf("http://%s:%d/", lan, port), "\nOther network addresses:", strings.Join(lans, ", "), "\nScan QR or share the invite link.\nCtrl+C to stop.")
 	if !publicServer && os.Getenv("FNAF_NO_BROWSER") != "1" {
 		openBrowser(local)
 	}
