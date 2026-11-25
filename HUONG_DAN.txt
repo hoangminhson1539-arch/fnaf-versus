@@ -1,4 +1,4 @@
-FNAF 1 VERSUS — V41.5
+FNAF 1 VERSUS — V41.8
 
 1. CHƠI TRÊN WEBSITE HTTPS
 
@@ -58,6 +58,12 @@ MỐC PHIÊN BẢN
 - V40: thêm điều phối trực tiếp theo đội hình, kỹ năng riêng của animatronics và công cụ phòng thủ cho bảo vệ. V40.1 bổ sung giải thích dưới bảng kỹ năng.
 - V40.2: dùng index.html làm trang khởi động cho website tĩnh và máy chủ Go. Khi chơi chung, dùng HTML cùng bản. Với relay, dùng máy chủ đi kèm bản đó.
 
-- V41–V41.5: xem CHANGELOG.md để biết chi tiết điều khiển, radar, sửa cửa và cân bằng mới. Relay dùng giao thức 42, cần Go tương thích.
+- V41–V41.5: xem CHANGELOG.md để biết chi tiết điều khiển, radar, sửa cửa và cân bằng mới. Các bản cũ dùng giao thức 42; V41.8 dùng 43, cần cập nhật relay.
 
 - V41.5: khi tắt đèn, mắt animatronic có xác suất xuất hiện Baby 100%, Dễ 50%, Chuẩn/Khó/Hell 0%. Bật đèn vẫn quan sát quái tại cửa.
+
+
+V41.8 — THỜI LƯỢNG / ÁP LỰC
+- Chọn 3, 6, 9, 12 hoặc 15 phút ở màn tạo phòng hay phòng chờ. Mặc định 6 phút; Co-op giữ 3 phút.
+- Versus/Rush có 6 mốc tăng áp lực, mỗi mốc tương ứng một giờ game. Ba nhiệm vụ giai đoạn chia đều thời lượng ván.
+- X/N/H, sửa cửa, sửa camera và cầu chì có chi phí điện điều chỉnh theo thời lượng. HUD hiển thị thông số theo trận. Hai máy cùng V41.8; relay giao thức 43.
