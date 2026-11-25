@@ -2,6 +2,15 @@
 
 Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io/fnaf-versus/).
 
+## V41.4 — Balanced Door Pressure & Control Fixes
+
+- Tăng sát thương so với V41.3 nhưng thấp hơn V41.2: Bonnie/Chica 9, Freddy 11, Foxy Versus 13, Foxy Rush 18 điểm độ bền mỗi cú hợp lệ. Hao điện trực tiếp chỉ 0,4% (Versus) hoặc 0,8% (Rush) khi gây sát thương.
+- Hồi sát thương chung 5s/cửa cho cả đội; tiếng va đập hồi riêng 2,5s/cửa. HUD báo sát thương vừa nhận và thời gian hồi đập cửa cho phe quái. Không khóa thao tác hay gây nhiễu camera do đập cửa.
+- Cửa nguyên vẹn cần tối thiểu 12/12/10/8/6 cú hợp lệ nếu không sửa. Khóa cửa vỡ tối thiểu 5s (Versus) / 8s (Rush); cần sửa tới 25%. Tốc độ sửa vẫn 5 điểm/giây.
+- AI tổng công kích và nghi binh không tự điều động quái đang được chọn nếu quái đang rảnh; chọn quái được đồng bộ tới chủ phòng. Lệnh bị từ chối không xóa phím di chuyển đang giữ. Thời hạn lệnh hướng 0,55s và thử lại khi gửi lệnh tạm thất bại.
+- Sửa trạng thái cửa thiếu dữ liệu, ngừng sửa khi mất kết nối, chặn sửa camera từ xa lúc trận tạm dừng, xóa lệnh di chuyển cũ khi khôi phục phiên. Xung phòng thủ đặt lại cả tiến độ đập cửa và tấn công.
+- Giữ giao thức 42, radar, buff tốc độ và kỹ năng Foxy Rush. Hai người dùng cùng V41.4. Đã kiểm tra cú pháp và mô phỏng logic cửa/di chuyển; chưa kiểm thử trình duyệt, thiết bị thật hoặc multiplayer đầu cuối.
+
 ## V41.3 — Door Knock / Distraction Balance
 
 - Đập cửa ưu tiên nghi binh, tiếng va đập định hướng trái/phải và viền cảnh báo ngắn 1,6s trên HUD/nút cửa. Không tự khóa điều khiển, không trực tiếp làm hao điện hoặc gây nhiễu camera.
