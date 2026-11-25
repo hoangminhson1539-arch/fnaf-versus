@@ -1,4 +1,4 @@
-FNAF 1 VERSUS — V41.3
+FNAF 1 VERSUS — V41.4
 
 1. CHƠI TRÊN WEBSITE HTTPS
 
@@ -40,7 +40,7 @@ Bảo vệ
 - B · Pin dự phòng: nạp 18% điện một lần mỗi trận khi điện còn từ 82% trở xuống.
 - N · Mồi nhử: đẩy lùi quái đang tấn công gần cửa. Tốn 3% điện, hồi 26 giây.
 - H · Radar: hiển thị tên phòng và CAM của quái trong 12 giây; chạm kết quả để mở CAM. Tốn 2% điện, hồi 18 giây.
-- Y/O: sửa cửa trái/phải 5 điểm độ bền/giây, tốn 0,25% điện/giây, cần mở cửa, hạ camera và không có quái gần. Cửa hỏng cần 20% độ bền và hết khóa 4s/6s.
+- Y/O: sửa cửa trái/phải 5 điểm độ bền/giây, tốn 0,25% điện/giây, cần mở cửa, hạ camera và không có quái gần. Cửa hỏng cần 25% độ bền và hết khóa 5s/8s.
 
 Animatronics
 - Bonnie: X tăng tốc và làm đèn chập chờn 5 giây. Z tăng tốc 7 giây và làm hỏng cầu chì 4 giây.
@@ -49,7 +49,7 @@ Animatronics
 - Foxy: X bứt tốc 5 giây. Z bứt tốc 4 giây và làm đèn chập chờn 3 giây.
 - X hồi 18 giây, Z hồi 24 giây (Foxy Rush: 8s/12s). Từng quái có thời gian hồi riêng. Bảng điều khiển giải thích kỹ năng của quái đang chọn.
 
-- Đập cửa: tiếng động định hướng và cảnh báo ngắn, không trực tiếp mất điện. Độ bền giảm 5/5/6/8 điểm (Bonnie/Chica/Freddy/Foxy), Foxy Rush 10 điểm; chung hồi 8s/cửa. Foxy Rush giữ siêu tốc và phá rối riêng.
+- Đập cửa: tiếng động định hướng và cảnh báo ngắn. Độ bền giảm 9/9/11/13 điểm (Bonnie/Chica/Freddy/Foxy), Foxy Rush 18 điểm; chung hồi 5s/cửa. Mỗi cú gây sát thương hao 0,4% điện (Rush 0,8%). Foxy Rush giữ siêu tốc và phá rối riêng.
 
 MỐC PHIÊN BẢN
 
@@ -58,4 +58,4 @@ MỐC PHIÊN BẢN
 - V40: thêm điều phối trực tiếp theo đội hình, kỹ năng riêng của animatronics và công cụ phòng thủ cho bảo vệ. V40.1 bổ sung giải thích dưới bảng kỹ năng.
 - V40.2: dùng index.html làm trang khởi động cho website tĩnh và máy chủ Go. Khi chơi chung, dùng HTML cùng bản. Với relay, dùng máy chủ đi kèm bản đó.
 
-- V41–V41.3: xem CHANGELOG.md để biết chi tiết điều khiển, radar, sửa cửa và cân bằng mới. Relay dùng giao thức 42, cần Go tương thích.
+- V41–V41.4: xem CHANGELOG.md để biết chi tiết điều khiển, radar, sửa cửa và cân bằng mới. Relay dùng giao thức 42, cần Go tương thích.
