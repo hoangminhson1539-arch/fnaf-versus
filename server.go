@@ -154,7 +154,7 @@ func validState(m M) bool {
 		if d["order"] != nil && !contains(str(d, "order"), "Bonnie", "Chica", "Freddy", "Foxy") {
 			return false
 		}
-		if !contains(str(d, "tactic"), "patrol", "decoy", "hold") {
+		if !contains(str(d, "tactic"), "patrol", "decoy", "assault", "hold") {
 			return false
 		}
 		for _, k := range []string{"readyAt", "skillAt", "skillUntil", "guardAt", "guardUntil"} {
