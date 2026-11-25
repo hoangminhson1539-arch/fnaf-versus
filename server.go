@@ -234,7 +234,7 @@ func handle(c *Client, m M) {
 			r.guest = c
 			c.room = r
 			c.role = "guest"
-			send(c, M{"type": "room", "role": "guest", "code": r.code, "ready": true, "hostJob": r.hostJob, "duration": r.duration})
+			send(c, M{"type": "room", "role": "guest", "code": r.code, "ready": true, "hostJob": r.hostJob, "duration": r.duration, "difficulty": r.diff})
 			send(r.host, M{"type": "peer", "ready": true})
 		}
 		return
@@ -243,10 +243,11 @@ func handle(c *Client, m M) {
 	p := other(c)
 	if t == "roles" && c.role == "host" && !r.started {
 		job := str(m, "hostJob")
-		if contains(job, "guard", "camera", "duelguard", "monster", "foxguard", "foxmonster") {
+		if contains(job, "guard", "camera", "duelguard", "monster", "foxguard", "foxmonster", "fieldguard", "fieldcamera") {
 			r.hostJob = job
+			if d := str(m, "difficulty"); contains(d, "easy", "normal", "hard", "hell") { r.diff = d }
 			if m["duration"] != nil { r.duration = roomDuration(m["duration"]) }
-			send(p, M{"type": "roles", "hostJob": job, "duration": r.duration})
+			if p != nil { send(p, M{"type": "roles", "hostJob": job, "duration": r.duration, "difficulty": r.diff}) }
 		}
 		return
 	}
@@ -259,6 +260,8 @@ func handle(c *Client, m M) {
 			return
 		}
 		if m["duration"] != nil { r.duration = roomDuration(m["duration"]) }
+		if d := str(m, "difficulty"); contains(d, "easy", "normal", "hard", "hell") { r.diff = d }
+		job := str(m, "hostJob"); if contains(job, "guard", "camera", "duelguard", "monster", "foxguard", "foxmonster", "fieldguard", "fieldcamera") { r.hostJob = job }
 		r.started = true
 		send(c, M{"type": "start", "difficulty": r.diff, "hostJob": r.hostJob, "duration": r.duration})
 		send(p, M{"type": "start", "difficulty": r.diff, "hostJob": r.hostJob, "duration": r.duration})
@@ -330,6 +333,8 @@ func handle(c *Client, m M) {
 		}
 		c.commandCredit--
 		a := str(m, "action")
+		if r.hostJob == "fieldguard" && contains(a, "fieldGuide", "fieldDecoy", "fieldDoorLeft", "fieldDoorRight", "fieldScan", "fieldService") { send(p, M{"type":"command", "action":a}); return }
+		if r.hostJob == "fieldcamera" && contains(a, "fieldStop", "fieldWork", "fieldSmoke", "fieldDoorLeft", "fieldDoorRight", "fieldGo_office", "fieldGo_supply", "fieldGo_backstage", "fieldGo_kitchen", "fieldGo_dining", "fieldGo_west", "fieldGo_east", "fieldGo_pirate", "fieldGo_stage", "fieldGo_restroom") { send(p, M{"type":"command", "action":a}); return }
 		if contains(r.hostJob, "duelguard", "foxguard") {
 			if a == "tactic" && r.hostJob == "duelguard" {
 				send(p, M{"type": "command", "action": a})
@@ -344,7 +349,7 @@ func handle(c *Client, m M) {
 			send(p, msg)
 			return
 		}
-		if r.hostJob == "camera" {
+		if contains(r.hostJob, "camera", "fieldcamera") {
 			if contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardPushLeft", "guardPushRight", "powerSave", "emergencyCell") {
 				msg := M{"type": "command", "action": a}
 				if target, ok := m["target"].(bool); ok && contains(a, "leftDoor", "rightDoor") { msg["target"] = target }
@@ -352,7 +357,7 @@ func handle(c *Client, m M) {
 			}
 			return
 		}
-		if contains(a, "teamScan", "remoteService", "trackLeft", "trackRight") && r.hostJob == "guard" {
+		if contains(a, "teamScan", "remoteService", "trackLeft", "trackRight") && contains(r.hostJob, "guard", "fieldguard") {
 			send(p, M{"type": "command", "action": a})
 		} else if a == "repair" {
 			send(p, M{"type": "command", "action": "repair"})
@@ -375,6 +380,7 @@ func handle(c *Client, m M) {
 				r.rematch = map[string]bool{}
 				result := M{"type": "result", "won": won}
 				if report, ok := m["v430"].(map[string]interface{}); ok { result["v430"] = report }
+				if field, ok := m["v450"].(map[string]interface{}); ok { result["v450"] = field }
 				if validNum(m, "power", 0, 100) { result["power"] = m["power"] }
 				send(p, result)
 			}
@@ -404,8 +410,8 @@ func api(w http.ResponseWriter, r *http.Request) {
 	defer mu.Unlock()
 	action := strings.TrimPrefix(r.URL.Path, "/api/")
 	if action == "open" {
-		if v, ok := m["version"].(float64); !ok || v != 43 {
-			http.Error(w, "Use FNAF V44.1", 409)
+		if v, ok := m["version"].(float64); !ok || v != 45 {
+			http.Error(w, "Use FNAF V45.0", 409)
 			return
 		}
 		if len(clients) >= 128 {
@@ -692,7 +698,7 @@ func main() {
 	}
 	port := l.Addr().(*net.TCPAddr).Port
 	local := fmt.Sprintf("http://127.0.0.1:%d/?host=1", port)
-	fmt.Println("FNAF V44.1 - SERVER READY\nKeep this window open. Allow private-network access if prompted.\nHost:", local, "\nSame Wi-Fi:", fmt.Sprintf("http://%s:%d/", lan, port), "\nOther network addresses:", strings.Join(lans, ", "), "\nScan QR or share the invite link.\nCtrl+C to stop.")
+	fmt.Println("FNAF V45.0 - SERVER READY\nKeep this window open. Allow private-network access if prompted.\nHost:", local, "\nSame Wi-Fi:", fmt.Sprintf("http://%s:%d/", lan, port), "\nOther network addresses:", strings.Join(lans, ", "), "\nScan QR or share the invite link.\nCtrl+C to stop.")
 	if !publicServer && os.Getenv("FNAF_NO_BROWSER") != "1" {
 		openBrowser(local)
 	}
