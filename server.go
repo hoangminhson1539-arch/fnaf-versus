@@ -335,7 +335,7 @@ func handle(c *Client, m M) {
 			}
 			return
 		}
-		if contains(r.hostJob, "monster", "foxmonster") && contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardSkill", "guardReserve", "guardLure", "guardScan", "guardRepairLeft", "guardRepairRight") {
+		if contains(r.hostJob, "monster", "foxmonster") && contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardSkill", "guardReserve", "guardLure", "guardScan", "guardRepairLeft", "guardRepairRight", "guardPushLeft", "guardPushRight") {
 			send(p, M{"type": "command", "action": a})
 			return
 		}
