@@ -39,6 +39,7 @@ type Client struct {
 }
 type Room struct {
 	code, diff, hostJob string
+	duration int
 	host, guest         *Client
 	started, finished   bool
 	rematch             map[string]bool
@@ -141,15 +142,21 @@ func contains(s string, values ...string) bool {
 	}
 	return false
 }
+func roomDuration(v interface{}) int {
+ n, ok := v.(float64)
+ if ok { switch n { case 180,360,540,720,900: return int(n) } }
+ return 360
+}
 func validState(m M) bool {
 	if !contains(str(m, "phase"), "playing", "blackout", "jumpscare", "deathAftermath", "winAnim", "won", "lost") {
 		return false
 	}
-	for k, v := range map[string]float64{"secs": 360, "duration": 360, "power": 100, "foxy": 3, "jumpTimer": 100, "deathTimer": 100, "blackoutClock": 200} {
+	for k, v := range map[string]float64{"secs": 900, "duration": 900, "power": 100, "foxy": 3, "jumpTimer": 100, "deathTimer": 100, "blackoutClock": 200} {
 		if !validNum(m, k, 0, v) {
 			return false
 		}
 	}
+	if !validNum(m, "duration", 180, 900) || !validNum(m, "secs", 0, m["duration"].(float64)) { return false }
 	if d, ok := m["duel"].(map[string]interface{}); ok {
 		if d["order"] != nil && !contains(str(d, "order"), "Bonnie", "Chica", "Freddy", "Foxy") {
 			return false
@@ -213,11 +220,11 @@ func handle(c *Client, m M) {
 			if !contains(d, "easy", "normal", "hard", "hell") {
 				d = "easy"
 			}
-			r := &Room{code: k, diff: d, hostJob: "guard", host: c, rematch: map[string]bool{}}
+			r := &Room{code: k, diff: d, duration: roomDuration(m["duration"]), hostJob: "guard", host: c, rematch: map[string]bool{}}
 			rooms[k] = r
 			c.room = r
 			c.role = "host"
-			send(c, M{"type": "room", "role": "host", "code": k, "ready": false, "lan": lan, "lans": lans})
+			send(c, M{"type": "room", "role": "host", "code": k, "ready": false, "duration": r.duration, "lan": lan, "lans": lans})
 		case "join":
 			r := rooms[str(m, "code")]
 			if r == nil || r.guest != nil || r.started {
@@ -227,7 +234,7 @@ func handle(c *Client, m M) {
 			r.guest = c
 			c.room = r
 			c.role = "guest"
-			send(c, M{"type": "room", "role": "guest", "code": r.code, "ready": true, "hostJob": r.hostJob})
+			send(c, M{"type": "room", "role": "guest", "code": r.code, "ready": true, "hostJob": r.hostJob, "duration": r.duration})
 			send(r.host, M{"type": "peer", "ready": true})
 		}
 		return
@@ -238,7 +245,8 @@ func handle(c *Client, m M) {
 		job := str(m, "hostJob")
 		if contains(job, "guard", "camera", "duelguard", "monster", "foxguard", "foxmonster") {
 			r.hostJob = job
-			send(p, M{"type": "roles", "hostJob": job})
+			if m["duration"] != nil { r.duration = roomDuration(m["duration"]) }
+			send(p, M{"type": "roles", "hostJob": job, "duration": r.duration})
 		}
 		return
 	}
@@ -250,9 +258,10 @@ func handle(c *Client, m M) {
 			send(c, M{"type": "notice", "message": "Bạn chơi chưa sẵn sàng. Hãy mở lại game."})
 			return
 		}
+		if m["duration"] != nil { r.duration = roomDuration(m["duration"]) }
 		r.started = true
-		send(c, M{"type": "start", "difficulty": r.diff, "hostJob": r.hostJob})
-		send(p, M{"type": "start", "difficulty": r.diff, "hostJob": r.hostJob})
+		send(c, M{"type": "start", "difficulty": r.diff, "hostJob": r.hostJob, "duration": r.duration})
+		send(p, M{"type": "start", "difficulty": r.diff, "hostJob": r.hostJob, "duration": r.duration})
 		return
 	}
 	if t == "rematch" && r.finished {
@@ -265,8 +274,8 @@ func handle(c *Client, m M) {
 			r.latest = nil
 			r.won = false
 			r.rematch = map[string]bool{}
-			send(c, M{"type": "start", "difficulty": r.diff, "hostJob": r.hostJob})
-			send(p, M{"type": "start", "difficulty": r.diff, "hostJob": r.hostJob})
+			send(c, M{"type": "start", "difficulty": r.diff, "hostJob": r.hostJob, "duration": r.duration})
+			send(p, M{"type": "start", "difficulty": r.diff, "hostJob": r.hostJob, "duration": r.duration})
 		}
 		return
 	}
@@ -383,7 +392,7 @@ func api(w http.ResponseWriter, r *http.Request) {
 	defer mu.Unlock()
 	action := strings.TrimPrefix(r.URL.Path, "/api/")
 	if action == "open" {
-		if v, ok := m["version"].(float64); !ok || v != 42 {
+		if v, ok := m["version"].(float64); !ok || v != 43 {
 			http.Error(w, "Use FNAF V41.2", 409)
 			return
 		}
