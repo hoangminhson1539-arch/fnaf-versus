@@ -330,26 +330,26 @@ func handle(c *Client, m M) {
 		if contains(r.hostJob, "duelguard", "foxguard") {
 			if a == "tactic" && r.hostJob == "duelguard" {
 				send(p, M{"type": "command", "action": a})
-			} else if contains(a, "select", "attack", "recall", "skill", "skill2", "overdrive", "moveDining", "moveWest", "moveEast", "moveStage", "moveCove", "moveBack", "moveKitchen", "moveRest", "moveSupply", "manualN", "manualNE", "manualE", "manualSE", "manualS", "manualSW", "manualW", "manualNW", "manualStop") && contains(str(m, "bot"), "Bonnie", "Chica", "Freddy", "Foxy") && (r.hostJob != "foxguard" || str(m, "bot") == "Foxy") {
+			} else if contains(a, "select", "attack", "recall", "skill", "skill2", "overdrive", "flankLeft", "flankRight", "blackoutPulse", "moveDining", "moveWest", "moveEast", "moveStage", "moveCove", "moveBack", "moveKitchen", "moveRest", "moveSupply", "manualN", "manualNE", "manualE", "manualSE", "manualS", "manualSW", "manualW", "manualNW", "manualStop") && contains(str(m, "bot"), "Bonnie", "Chica", "Freddy", "Foxy") && (r.hostJob != "foxguard" || str(m, "bot") == "Foxy") {
 				send(p, M{"type": "command", "action": a, "bot": str(m, "bot")})
 			}
 			return
 		}
-		if contains(r.hostJob, "monster", "foxmonster") && contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardSkill", "guardReserve", "guardLure", "guardScan", "guardRepairLeft", "guardRepairRight", "guardPushLeft", "guardPushRight", "powerSave", "braceLeft", "braceRight") {
+		if contains(r.hostJob, "monster", "foxmonster") && contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardSkill", "guardReserve", "guardLure", "guardScan", "guardRepairLeft", "guardRepairRight", "guardPushLeft", "guardPushRight", "powerSave", "braceLeft", "braceRight", "patchLeft", "patchRight", "emergencyCell") {
 			msg := M{"type": "command", "action": a}
 			if target, ok := m["target"].(bool); ok && contains(a, "leftDoor", "rightDoor") { msg["target"] = target }
 			send(p, msg)
 			return
 		}
 		if r.hostJob == "camera" {
-			if contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardPushLeft", "guardPushRight", "powerSave") {
+			if contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardPushLeft", "guardPushRight", "powerSave", "emergencyCell") {
 				msg := M{"type": "command", "action": a}
 				if target, ok := m["target"].(bool); ok && contains(a, "leftDoor", "rightDoor") { msg["target"] = target }
 				send(p, msg)
 			}
 			return
 		}
-		if a == "teamScan" && r.hostJob == "guard" {
+		if contains(a, "teamScan", "remoteService", "trackLeft", "trackRight") && r.hostJob == "guard" {
 			send(p, M{"type": "command", "action": a})
 		} else if a == "repair" {
 			send(p, M{"type": "command", "action": "repair"})
@@ -402,7 +402,7 @@ func api(w http.ResponseWriter, r *http.Request) {
 	action := strings.TrimPrefix(r.URL.Path, "/api/")
 	if action == "open" {
 		if v, ok := m["version"].(float64); !ok || v != 43 {
-			http.Error(w, "Use FNAF V41.2", 409)
+			http.Error(w, "Use FNAF V44.0", 409)
 			return
 		}
 		if len(clients) >= 128 {
@@ -688,7 +688,7 @@ func main() {
 	}
 	port := l.Addr().(*net.TCPAddr).Port
 	local := fmt.Sprintf("http://127.0.0.1:%d/?host=1", port)
-	fmt.Println("FNAF V41.2 - SERVER READY\nKeep this window open. Allow private-network access if prompted.\nHost:", local, "\nSame Wi-Fi:", fmt.Sprintf("http://%s:%d/", lan, port), "\nOther network addresses:", strings.Join(lans, ", "), "\nScan QR or share the invite link.\nCtrl+C to stop.")
+	fmt.Println("FNAF V44.0 - SERVER READY\nKeep this window open. Allow private-network access if prompted.\nHost:", local, "\nSame Wi-Fi:", fmt.Sprintf("http://%s:%d/", lan, port), "\nOther network addresses:", strings.Join(lans, ", "), "\nScan QR or share the invite link.\nCtrl+C to stop.")
 	if !publicServer && os.Getenv("FNAF_NO_BROWSER") != "1" {
 		openBrowser(local)
 	}
