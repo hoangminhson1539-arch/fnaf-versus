@@ -2,6 +2,14 @@
 
 Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io/fnaf-versus/).
 
+## V41.8 — Dynamic Match Length & Hourly Pressure
+
+- Chủ phòng chọn 3/6/9/12/15 phút trước khi tạo hoặc trong phòng chờ; mặc định 6 phút. Versus và Foxy Rush áp dụng thời lượng mới, Co-op giữ 3 phút.
+- Đồng bộ thời lượng qua P2P, relay, rematch và checkpoint; relay chấp nhận thời lượng tối đa 900 giây. Giao thức 43; không ghép phòng khác phiên bản.
+- Tốc độ quái tăng 3 điểm % theo mỗi bậc thời lượng và 7 điểm % mỗi giờ game; sát thương cửa tăng 2 và 5 điểm % tương ứng. Hồi kỹ năng giảm 1,5 và 4 điểm % tương ứng. Thời gian phản ứng cửa giảm 2,5 điểm % mỗi giờ.
+- Hệ số tiêu hao điện liên tục và phần lớn chi phí kỹ năng = 180 / số giây của ván. Tốc độ sửa cửa từ 5 đến 7 điểm/giây. HUD hiển thị áp lực 1/6–6/6, phí kỹ năng và nhiệm vụ theo 1/3 thời lượng trận.
+- Kiểm tra cú pháp JavaScript, 30 tổ hợp thời lượng/giờ và 30 kiểm tra biên giai đoạn đạt; chưa biên dịch relay Go, chưa kiểm thử P2P/relay đầu cuối, chưa cân bằng qua trận chơi thật.
+
 ## V41.7 — Tactical Phase Contracts
 
 - Thêm 3 giai đoạn 60 giây trong Versus và Foxy Rush. HUD hiển thị mục tiêu, phần thưởng, tiến độ và thời gian còn lại.
