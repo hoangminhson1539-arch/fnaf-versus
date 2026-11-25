@@ -2,6 +2,12 @@
 
 Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io/fnaf-versus/).
 
+## V41.5 — Dark Door Eyes
+
+- Chuẩn (Normal): xác suất thấy mắt animatronic khi tắt đèn giảm từ 25% xuống 0%, kể cả lượt ngẫu nhiên đã lưu trước đó. Khó/Hell giữ 0%, Dễ 50%, Baby 100%.
+- Bật đèn vẫn hiển thị quái tại cửa; không thay đổi AI, âm thanh, cảnh báo, sát thương cửa, kỹ năng hay giao thức 42.
+- Cập nhật mô tả độ khó và nhãn phiên bản. Kiểm tra cú pháp và xác suất cả năm mức đạt; chưa kiểm thử giao diện thực tế.
+
 ## V41.4 — Balanced Door Pressure & Control Fixes
 
 - Tăng sát thương so với V41.3 nhưng thấp hơn V41.2: Bonnie/Chica 9, Freddy 11, Foxy Versus 13, Foxy Rush 18 điểm độ bền mỗi cú hợp lệ. Hao điện trực tiếp chỉ 0,4% (Versus) hoặc 0,8% (Rush) khi gây sát thương.
