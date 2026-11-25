@@ -330,26 +330,28 @@ func handle(c *Client, m M) {
 		if contains(r.hostJob, "duelguard", "foxguard") {
 			if a == "tactic" && r.hostJob == "duelguard" {
 				send(p, M{"type": "command", "action": a})
-			} else if contains(a, "select", "attack", "recall", "skill", "skill2", "moveDining", "moveWest", "moveEast", "moveStage", "moveCove", "moveBack", "moveKitchen", "moveRest", "moveSupply", "manualN", "manualNE", "manualE", "manualSE", "manualS", "manualSW", "manualW", "manualNW", "manualStop") && contains(str(m, "bot"), "Bonnie", "Chica", "Freddy", "Foxy") && (r.hostJob != "foxguard" || str(m, "bot") == "Foxy") {
+			} else if contains(a, "select", "attack", "recall", "skill", "skill2", "overdrive", "moveDining", "moveWest", "moveEast", "moveStage", "moveCove", "moveBack", "moveKitchen", "moveRest", "moveSupply", "manualN", "manualNE", "manualE", "manualSE", "manualS", "manualSW", "manualW", "manualNW", "manualStop") && contains(str(m, "bot"), "Bonnie", "Chica", "Freddy", "Foxy") && (r.hostJob != "foxguard" || str(m, "bot") == "Foxy") {
 				send(p, M{"type": "command", "action": a, "bot": str(m, "bot")})
 			}
 			return
 		}
-		if contains(r.hostJob, "monster", "foxmonster") && contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardSkill", "guardReserve", "guardLure", "guardScan", "guardRepairLeft", "guardRepairRight", "guardPushLeft", "guardPushRight") {
+		if contains(r.hostJob, "monster", "foxmonster") && contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardSkill", "guardReserve", "guardLure", "guardScan", "guardRepairLeft", "guardRepairRight", "guardPushLeft", "guardPushRight", "powerSave", "braceLeft", "braceRight") {
 			msg := M{"type": "command", "action": a}
 			if target, ok := m["target"].(bool); ok && contains(a, "leftDoor", "rightDoor") { msg["target"] = target }
 			send(p, msg)
 			return
 		}
 		if r.hostJob == "camera" {
-			if contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardPushLeft", "guardPushRight") {
+			if contains(a, "leftDoor", "rightDoor", "leftLight", "rightLight", "fuseRepair", "guardPushLeft", "guardPushRight", "powerSave") {
 				msg := M{"type": "command", "action": a}
 				if target, ok := m["target"].(bool); ok && contains(a, "leftDoor", "rightDoor") { msg["target"] = target }
 				send(p, msg)
 			}
 			return
 		}
-		if a == "repair" {
+		if a == "teamScan" && r.hostJob == "guard" {
+			send(p, M{"type": "command", "action": a})
+		} else if a == "repair" {
 			send(p, M{"type": "command", "action": "repair"})
 		} else if a == "watch" && contains(str(m, "cam"), "1A", "1B", "1C", "2A", "2B", "3", "4A", "4B", "5", "6", "7") {
 			if enabled, ok := m["enabled"].(bool); ok {
@@ -368,7 +370,10 @@ func handle(c *Client, m M) {
 				r.finished = true
 				r.won = won
 				r.rematch = map[string]bool{}
-				send(p, M{"type": "result", "won": won})
+				result := M{"type": "result", "won": won}
+				if report, ok := m["v430"].(map[string]interface{}); ok { result["v430"] = report }
+				if validNum(m, "power", 0, 100) { result["power"] = m["power"] }
+				send(p, result)
 			}
 		}
 	}
