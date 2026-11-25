@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: fnaf-v40
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: FNAF_PUBLIC
+        value: "1"

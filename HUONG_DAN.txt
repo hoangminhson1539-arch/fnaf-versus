@@ -1,0 +1,56 @@
+FNAF 1 VERSUS — V40.2
+
+1. CHƠI TRÊN WEBSITE HTTPS
+
+- Trên iPhone, mở website trong Safari. Trên máy tính hoặc Android, mở trong trình duyệt hỗ trợ WebRTC. Cả hai người mở cùng phiên bản game.
+- Trong menu, chọn CHƠI CÙNG BẠN > KHÁC MẠNG INTERNET. Chủ phòng bấm TẠO PHÒNG rồi gửi mã sáu ký tự, link mời hoặc mã QR. Bạn chơi mở link hoặc nhập mã và bấm VÀO PHÒNG. Chủ phòng chọn chế độ và vai, rồi bấm BẮT ĐẦU CA TRỰC khi đủ hai người.
+- GitHub Pages có thể phục vụ index.html qua HTTPS. Khi mở ở đó, giao diện dùng WebRTC P2P cho multiplayer và cần Internet để liên lạc với dịch vụ tín hiệu PeerJS. Nếu hai mạng không thiết lập được P2P, cả hai có thể mở cùng địa chỉ HTTPS của máy chủ Go đã triển khai và tạo phòng mới.
+- File HTML có thể chạy trực tiếp trong trình duyệt phù hợp. Trình xem trước của ứng dụng Tệp trên iPhone có thể không chạy JavaScript.
+
+2. CHƠI CÙNG WI-FI QUA MÁY CHỦ GO
+
+- Giải nén ZIP vào một thư mục. Windows x64 chạy START_SERVER_WINDOWS.exe. Linux x64 chạy ./START_SERVER_LINUX từ thư mục vừa giải nén. Nếu thiếu quyền chạy trên Linux, dùng chmod +x START_SERVER_LINUX. Nếu dùng mã nguồn, biên dịch server.go bằng Go rồi đặt chương trình đã biên dịch cạnh index.html trước khi chạy.
+- Trên cả hai thiết bị, mở địa chỉ Same Wi-Fi mà máy chủ in ra. Cho phép ứng dụng truy cập mạng riêng nếu Windows hỏi. Chọn CÙNG MẠNG WI-FI, tạo phòng rồi gửi link, QR hoặc mã phòng.
+- Giữ máy chủ chạy đến cuối trận. Mạng LAN dùng được khi không có Internet. Voice chat trên điện thoại cần mở qua HTTPS.
+
+3. MÁY CHỦ INTERNET VÀ VOICE CHAT
+
+- Để dùng relay khác mạng, triển khai server.go và index.html trên dịch vụ hỗ trợ Docker, chẳng hạn Render. Dùng Dockerfile và render.yaml đi kèm, đặt FNAF_PUBLIC=1 và dùng PORT do dịch vụ cấp. Mở địa chỉ HTTPS của dịch vụ để tạo hoặc vào phòng relay.
+- Relay phục vụ giao diện và truyền lệnh giữa hai người. Khi một bên mất kết nối hoặc chuyển tab, trận có thể tạm dừng. Cùng tab có thể trở lại phiên nếu dữ liệu trong tab và phiên trên máy chủ còn hiệu lực. Máy chủ giữ phiên không hoạt động khoảng 15 phút và lưu phòng trong bộ nhớ. Khởi động lại máy chủ sẽ làm mất phòng. Với P2P, nếu hệ điều hành đóng kết nối WebRTC, hai người tạo hoặc vào lại phòng.
+- Mở CHAT / VOICE rồi bật micro. Cả hai người cần cấp quyền micro và bật voice. Trong trận, V hoặc nút MICRO dùng để bật hoặc tắt tiếng. NGẮT VOICE dừng thu micro. Chat chữ dùng được khi chưa cấp quyền micro.
+- Voice cần HTTPS hoặc localhost, WebRTC và đường kết nối phù hợp giữa hai mạng. Máy chủ dùng STUN mặc định. Nếu cần TURN, cấu hình FNAF_ICE_SERVERS bằng mảng JSON các máy chủ ICE với urls và thông tin xác thực TURN ngắn hạn. Ví dụ định dạng với địa chỉ và thông tin xác thực mẫu:
+  [{"urls":"stun:stun.l.google.com:19302"},{"urls":"turns:turn.example.com:5349?transport=tcp","username":"TEMP_USER","credential":"TEMP_PASSWORD"}]
+  Trình duyệt đọc cấu hình này qua /api/config. Dịch vụ TURN và máy chủ HTTPS cần được triển khai riêng.
+
+4. CHẾ ĐỘ VÀ ĐIỀU KHIỂN
+
+- Co-op gồm bảo vệ và chuyên viên camera. Chuyên viên quan sát, báo trái bằng Q, báo phải bằng E và báo an toàn bằng T. Cả đội thắng khi sống đến 6 AM.
+- Versus là đối đầu giữa bảo vệ và đội animatronics. Bảo vệ sống đến 6 AM để thắng. Phe quái thắng nếu bắt được bảo vệ trước khi hết giờ.
+- Foxy Rush là đối đầu giữa bảo vệ và Foxy. Người chơi phe quái điều khiển Foxy. Chiến thuật AI của đội quái dùng trong Versus.
+- Bảo vệ dùng A/L cho cửa trái/phải và S/K cho đèn trái/phải. Trong Versus và Foxy Rush, hạ camera trước khi điều khiển cửa hoặc đèn. Space mở hoặc hạ camera ở vai có quyền quan sát. Khi camera mở, 1–0 và - hoặc phím mũi tên trái/phải để đổi camera. F sửa camera đang nhiễu hoặc cầu chì hỏng theo vai và tình trạng.
+- Phe quái dùng 1–4 hoặc nút tên để chọn animatronic. Space hoặc TẤN CÔNG phát lệnh cho quái đang chọn. Chạm phòng trên bản đồ, hoặc chọn đích và bấm G / ĐI TỚI, để ra lệnh di chuyển. R rút quái đang chọn. Versus cho phép tối đa hai quái tấn công cùng lúc. C đổi chiến thuật AI giữa tuần tra, nghi binh và giữ vị trí. Nghi binh hỗ trợ ở hành lang đối diện, gây chập đèn hoặc hao 1,5% điện nếu cửa đóng.
+- Trong multiplayer, Enter mở chat, V điều khiển micro, U bật hoặc tắt âm thanh, J chuyển toàn màn hình. Dùng Escape để đóng cài đặt hoặc chat đang mở. Ngoài hai bảng này, Escape hỏi rời phòng.
+- Sổ tay có ảnh nằm trong CÀI ĐẶT PHÒNG · HƯỚNG DẪN ở phòng chờ hoặc CÀI ĐẶT / HƯỚNG DẪN trong trận. Cài đặt này cũng có âm lượng và chất lượng đồ họa. Trận tiếp tục trong lúc mở sổ tay nếu cả hai còn kết nối.
+- Chơi đơn lưu tiến trình riêng. Khi khám phá, máy tính dùng WASD hoặc mũi tên, còn điện thoại dùng joystick cảm ứng 360 độ. Trên điện thoại, thả joystick để dừng và dùng nút CHẠY để đổi tốc độ.
+
+5. KỸ NĂNG VERSUS VÀ FOXY RUSH
+
+Bảo vệ
+- X · Xung phòng thủ: giảm 52% tốc độ của quái trong 7 giây, xóa nhiễu camera và đặt lại tiến độ tấn công tại cửa. Tốn 4% điện, hồi 20 giây.
+- B · Pin dự phòng: nạp 12% điện một lần mỗi trận khi điện còn từ 88% trở xuống.
+- N · Mồi nhử: đẩy lùi quái đang tấn công gần cửa. Tốn 3% điện, hồi 26 giây.
+- H · Radar: hiển thị vị trí quái trong 8 giây. Tốn 2% điện, hồi 18 giây.
+
+Animatronics
+- Bonnie: X tăng tốc và làm đèn chập chờn 5 giây. Z tăng tốc 7 giây và làm hỏng cầu chì 3 giây.
+- Chica: X rút 3% điện và tăng tốc 5 giây. Z rút 2% điện và gây nhiễu camera 3 giây.
+- Freddy: X gây nhiễu camera và tăng tốc trong 5 giây. Z tăng tốc đồng đội trong 6 giây.
+- Foxy: X bứt tốc 5 giây. Z bứt tốc 4 giây và làm đèn chập chờn 3 giây.
+- X hồi 22 giây, Z hồi 28 giây. Từng quái có thời gian hồi riêng. Bảng điều khiển giải thích kỹ năng của quái đang chọn.
+
+MỐC PHIÊN BẢN
+
+- V34–V38: thêm sổ tay theo vai, nhạc và hiệu ứng âm thanh, joystick cảm ứng, thử thách chơi đơn, đồ họa tự điều chỉnh và khôi phục phiên relay.
+- V39: đồng bộ luật cửa, đèn, camera, sửa chữa và lọc lệnh cũ trên relay.
+- V40: thêm điều phối trực tiếp theo đội hình, kỹ năng riêng của animatronics và công cụ phòng thủ cho bảo vệ. V40.1 bổ sung giải thích dưới bảng kỹ năng.
+- V40.2: dùng index.html làm trang khởi động cho website tĩnh và máy chủ Go. Khi chơi chung, dùng HTML cùng bản. Với relay, dùng máy chủ đi kèm bản đó.
