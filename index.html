@@ -1815,7 +1815,7 @@ function v412RadarActive(){return !!(net.active&&netDuel()&&netJob()==='guard'&&
 function v412RadarRows(){return worldHunters().filter(h=>(!netFox()||h.name==='Foxy')&&Number.isFinite(h.x)&&Number.isFinite(h.y)).map(h=>({name:h.name,room:roamRoom(h.x,h.y).name,cam:hunterCamera(h)}));}
 function v412RadarPaint(){const list=$('v40Scan'),overlay=$('v412CamRadar'),on=v412RadarActive(),rows=on?v412RadarRows():[];const icons={Bonnie:'🐰',Chica:'🐥',Freddy:'🐻',Foxy:'🦊'};const counts=Object.create(null);for(const row of rows)if(CAMNAME[row.cam])counts[row.cam]=(counts[row.cam]||0)+1;for(const b of [...camGrid.querySelectorAll('[data-cam]'),...$('netCams').querySelectorAll('[data-camera-quick]')]){const id=b.dataset.cam||b.dataset.cameraQuick,count=counts[id]||0;b.classList.toggle('v412-target',count>0);if(count)b.dataset.radarCount=String(count);else delete b.dataset.radarCount;}
  const html=on?'<b>📡 RADAR · '+Math.ceil(net.duel.scanUntil-state.secs)+'s</b>'+rows.map(q=>'<button type="button" data-radar-cam="'+(CAMNAME[q.cam]?q.cam:'')+'" '+(!CAMNAME[q.cam]||net.pausedNetwork?'disabled':'')+'><strong>'+(icons[q.name]||'')+' '+escapeHTML(q.name)+'</strong><span>'+escapeHTML(q.room)+' · '+(CAMNAME[q.cam]?'CAM '+q.cam:q.cam==='OFFICE'?'PHÒNG TRỰC':'ĐIỂM MÙ')+'</span></button>').join(''):net.active&&netDuel()&&netJob()==='guard'&&net.duel?.supportUntil>state.secs?'NHIỄU HÀNH LANG '+(net.duel.supportSide==='left'?'TRÁI':'PHẢI'):'';
- if(list.innerHTML!==html)list.innerHTML=html;list.classList.toggle('v412-scanning',on);
+ if(list._v412HTML!==html){list._v412HTML=html;list.innerHTML=html;}list.classList.toggle('v412-scanning',on);
  const here=rows.filter(q=>q.cam===selectedCam);overlay.hidden=!(on&&state.camera);const label=on?'📡 CAM '+selectedCam+' · '+(here.length?here.map(q=>(icons[q.name]||'')+' '+q.name).join(' · '):'KHÔNG CÓ QUÁI')+(state.effects.cameraJamUntil>state.secs?' · CAMERA NHIỄU (RADAR RIÊNG)':''):'';if(overlay.textContent!==label)overlay.textContent=label;
 }
 function hunterCamera(h){
@@ -4213,7 +4213,7 @@ function duelRefresh(){
    const a=b.dataset.v40;b.textContent=labels[a];
    const side=a==='guardRepairLeft'?'left':a==='guardRepairRight'?'right':null;b.disabled=off||(side?(d.repairSide!==side&&(d.rushDoors[side].hp>=100||state.power<=0)):a==='guardReserve'?(d.reserveUsed||state.power>82):a==='guardLure'?(t<d.lureAt||state.power<3):(t<d.scanAt||state.power<2));
   }
-  v412RadarPaint();return;
+  return;
  }
  if(netJob()!=='monster')return;
  const fox=netFox();
