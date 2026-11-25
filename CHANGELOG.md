@@ -2,6 +2,13 @@
 
 Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io/fnaf-versus/).
 
+## V41.9 — Online Door Control Hotfix
+
+- Đóng/mở cửa online qua đường xử lý riêng trên host, tự hạ camera nếu cần; không bỏ lệnh vì camera chưa đồng bộ.
+- Khách gửi lệnh rồi đợi trạng thái xác nhận từ host; chống gửi trùng trong lúc chờ, có báo thất bại và quá hạn. Nút nhanh cửa trái/phải khi đang mở camera.
+- Trong đối đầu, quái chồng ngưỡng cửa nhưng tâm vẫn ngoài hành lang được đưa lùi về điểm tiếp cận hợp lệ để cửa đóng; không đẩy quái đã qua ngưỡng về ngoài. Giữ nguyên luật hỏng cửa, hết điện, khóa khẩn.
+- Giao thức 43 giữ nguyên; kiểm tra cú pháp JavaScript và 12 tình huống mô phỏng với đối tượng giả lập đạt. Chưa kiểm thử trực tiếp trên hai thiết bị hoặc xác nhận Pages đã triển khai.
+
 ## V41.8 — Dynamic Match Length & Hourly Pressure
 
 - Chủ phòng chọn 3/6/9/12/15 phút trước khi tạo hoặc trong phòng chờ; mặc định 6 phút. Versus và Foxy Rush áp dụng thời lượng mới, Co-op giữ 3 phút.
