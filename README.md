@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V52.0 Direct Field Control, Anti-Camp & Emergency Supply
+# FNAF 1 Versus · V53.0 Field Command & Tactical Intelligence
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,16 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V53.0 — Field Command & Tactical Intelligence (26/11/2026)
+
+- Thực địa và Tiếp tế khẩn cấp: người xem camera chạm phòng trên bản đồ để đặt tuyến tối đa 3 điểm theo thứ tự, có dấu xanh đánh số trên bản đồ và cảnh chính của cả hai bảo vệ. Dấu tồn tại 35 giây, hồi đặt/xóa 1,5 giây; nút chỉ mục tiêu đặt nhiệm vụ hiện tại hoặc phòng trực. Bảo vệ tự quyết định đường di chuyển, có xác nhận riêng BV1/BV2, không bị điều khiển từ xa.
+- Cảnh báo quái: chạm quái đang hiện trên camera/bản đồ hoặc bấm Báo quái để chọn quái nhìn thấy gần đội nhất. Host xác thực camera đang hoạt động, không bị nhiễu, chỉ chấp nhận quái trong camera được chọn hoặc trong đợt quét. Đánh dấu vị trí ghi nhận (không bám theo quái) trong 9 giây, hồi chung 14 giây, đồng bộ HUD và âm thanh cho bảo vệ.
+- Hỗ trợ thao tác từ xa: tăng tốc độ thực hiện nhiệm vụ 40% trong 6 giây khi có ít nhất một bảo vệ đang thao tác; tiêu hao 1,5% điện cơ sở theo thời lượng (tối thiểu 0,65%), hồi 28 giây nhân hệ số thời lượng. Không bỏ qua yêu cầu vị trí, mốc giờ hoặc nhiệm vụ.
+- Giao diện: bảng điều phối hiển thị tuyến, thời gian còn lại, xác nhận từng bảo vệ, cảnh báo và hỗ trợ; HUD cảnh chính hiển thị thông tin cô đọng. Màu xanh cho chỉ đường, cam cho cảnh báo, xanh lá cho hỗ trợ. Sửa hướng dẫn phím thực địa và thao tác chạm trên bản đồ SVG thường xuyên cập nhật; không tính vuốt dài là chọn mục tiêu.
+- Sửa lỗi Thực địa/Tiếp tế: mồi âm thanh không được đặt sát bất kỳ bảo vệ nào và đồng bộ mồi cho cả hai; đi thẳng nếu đường không bị chắn (tránh lỗi đường rỗng cùng ô điều hướng); vô hiệu nút thao tác khi đang di chuyển; ẩn HUD/joystick ở màn kết quả. Giữ cơ chế điện và nerf Foxy V52.0.
+- Snapshot chỉ đường/cảnh báo/hồi chiêu được chuẩn hóa khi nhận, đặt lại ở ca mới. Phân quyền host và thời gian hồi chung giữa các camera. Relay hai người có whitelist lệnh mới trong server.go; cần triển khai lại relay. Tiếp tế khẩn cấp vẫn P2P.
+- Kiểm tra cú pháp JavaScript toàn bộ đạt ở cả hai commit; 25 kiểm tra logic trích hàm trong môi trường giả lập đạt: phân quyền, giới hạn tuyến và thời gian hồi, xác nhận hai bảo vệ, cảnh báo có xác thực tầm nhìn, giữ nguyên vị trí ghi nhận, hỗ trợ và lọc snapshot. Chưa thử trình duyệt/thiết bị thật, chưa biên dịch Go hay xác nhận triển khai GitHub Pages; P2P yêu cầu cùng V53.0.
 
 ### V52.0 — Direct Field Control, Anti-Camp & Emergency Supply (26/11/2026)
 
