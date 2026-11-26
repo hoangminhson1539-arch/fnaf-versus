@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V57.0 In-game Accounts & Performance
+# FNAF 1 Versus · V58.0 Foxy Rush Rebalance & Mobile Lite
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,15 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V58.0 — Foxy Rush Rebalance & Mobile Lite (26/11/2026)
+
+- Tài khoản: kết nối URL và publishable key của dự án Supabase thật của chủ game; xác minh bảng fnaf_saves đã có RLS, quyền chỉ authenticated, policy theo auth.uid và trigger revision. Không dùng secret. Game kiểm tra public auth settings, chỉ hiển thị OAuth đã bật, thông báo rõ lỗi SMTP/email/provider; giữ đăng ký email OTP/link, mật khẩu tùy chọn và hướng dẫn trong game. Chưa kiểm thử đăng nhập thật hoặc cấu hình SMTP/redirect/provider. SMTP mặc định giới hạn thành viên dự án và 2 thư/giờ; cần quản trị viên thiết lập SMTP để mở đăng ký công khai. Không tắt xác minh email.
+- Foxy Rush: hệ số tốc độ cơ sở .84→.94, sát thương .75→.87, tăng tốc kỹ năng 1.55→1.72, thời gian 3.5→3.8s, hồi 13→11.5s, gây nhiễu hồi 19→17s, hao điện gây nhiễu 1.5→1.8, va cửa .50→.65, thời gian cửa hỏng 8→9s. Giữ hệ số theo số người và chống camp cửa. Hệ số điện nền .88→1.02, phụ phí cửa .31→.35; giữ tiếp tế.
+- Nerf sửa cửa multiplayer Versus/Foxy Rush: hệ số chung 1.10→.88 (giảm 20% tốc độ), hệ số Foxy Rush 1.06→.92 ở 2 người (tổng giảm khoảng 30,6%); phí điện sửa .25→.30 Versus và .36 Foxy Rush theo hệ số thời lượng. Chờ 2s sau va đập (4s Foxy Rush) mới sửa, giữ yêu cầu mở cửa, hạ camera, tránh quái. Không đổi điện các mode còn lại.
+- Camera mobile: một vùng chơi chính trong viewport, nút ĐỘI/SOS mở bảng nhiệm vụ, kỹ năng, chat và điều khiển cửa riêng; đóng để trở lại camera. Thay 11 nút CAM bằng danh sách chọn gọn khi xem CCTV, giữ Bản đồ/CCTV, chỉ đường/chọn CAM theo phòng; chia màn chỉ PC, ba nút nhanh Báo quái/Cứu viện/Tập hợp, bỏ đồng hồ/điện trùng. Giữ panel đầy đủ trên PC.
+- Hiệu năng: Auto cảm ứng giảm DPR xuống .75/.9/1 theo mức 18/24/30 FPS, mục tiêu tối đa 650k pixel; bỏ lớp trang trí khí quyển ở Auto cảm ứng, tránh dựng map phụ khi CCTV và bảng đội đóng, không dựng danh sách đội ẩn; giảm tần suất HUD thực địa trên cảm ứng và lúc mất mạng. Không đổi logic thời gian mô phỏng.
+- Sửa lỗi hiển thị dấu cộng/trừ hao điện, lỗi bố cục camera lặp/tràn trên mobile, tránh cập nhật layout đã đóng; tăng rõ ràng thông báo lỗi đăng nhập. Kiểm tra cú pháp toàn bộ JS và 61 kiểm tra logic trích hàm trên bản cuối đạt (5 thời lượng thực tế, 2–4 người, sửa cửa, DPR, provider). Chưa thử thực tế iPhone/PC, đo FPS, gameplay đa thiết bị, OTP/OAuth hay xác nhận GitHub Pages. P2P cần cùng V58.0; server.go không đổi. Nhật ký trong game, README và CHANGELOG đã cập nhật.
 
 ### V57.0 — In-game Accounts & Performance (26/11/2026)
 
@@ -165,7 +174,7 @@ Game fan-made chạy trên trình duyệt. Có chế độ một người và 5 
 
 ## Tài khoản và lưu online
 
-V55.0 đã tích hợp giao diện tài khoản và lưu tiến trình qua Supabase, nhưng dịch vụ chưa kích hoạt. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
+V58.0 đã kết nối dự án Supabase thật và kiểm tra RLS; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
 
 ## Chơi trên web
 
