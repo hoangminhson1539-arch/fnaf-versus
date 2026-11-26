@@ -4,6 +4,14 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V60.0 — Focused Gameplay & Adaptive Performance (26/11/2026)
+
+- Nội dung chơi đơn: thêm Mạch điện luân phiên (mỗi giờ đổi cửa quá tải trái/phải, đóng cửa bên đó hao thêm 0,20% điện/giây; thưởng 170 xu) và Camera giới hạn (ngân sách CCTV bằng 25% thời lượng ca, tự tắt và khóa khi hết ngân sách; thưởng 180 xu). Dùng đồng hồ, cửa, âm thanh và camera hiện có, không thêm tài nguyên hay nút mới. Giữ cơ chế gian lận và lưu camWatched hiện có. Tổng 25 thử thách; menu đề xuất 6 thử thách, 19 thử thách cũ còn lại trong mục mở rộng.
+- Menu: ưu tiên chơi đơn, multiplayer, tiếp tục, tài khoản và cài đặt; chuyển độ khó vào mục thu gọn, chuyển phím tắt và nhật ký vào mục tiến trình/hướng dẫn. Sửa số lượng thử thách hiển thị và mô tả mở boss. Không xóa tiến trình, thử thách hay vật phẩm đã có.
+- Multiplayer: chế độ chiến thuật gọn chỉ hiện hai kỹ năng chính theo vai trò (bảo vệ: tiết kiệm/pin khẩn; camera: quét đội/khôi phục hệ thống; quái: cường hóa/tích áp), pin đã dùng sẽ ẩn. Nút Thêm kỹ năng mở toàn bộ kỹ năng cũ; giữ nút cửa, sửa cửa, điều khiển quái và điều phối thực địa. Nút kỹ năng giữ DOM ổn định khi thời gian hồi thay đổi, giảm mất thao tác do dựng lại nút. Không đổi cân bằng Foxy Rush V58.0 hay luật multiplayer.
+- Hiệu năng: HUD thông thường trên cảm ứng cập nhật 150 ms thay vì 100 ms, HUD multiplayer 200 ms (vẫn cập nhật ngay khi thao tác yêu cầu); chỉ dựng tiêu đề/danh sách chọn camera khi CAM thay đổi; bỏ tính toán mô tả chiến thuật đang ẩn. Auto đánh giá mỗi 1,5 giây thay vì 2,5 giây, giảm FPS/DPR khi chi phí render cao hoặc tỷ lệ khung lấy mẫu chậm vượt 25%; cần 3 cửa sổ ổn định để tăng chất lượng. Giữ giới hạn FPS và thời gian mô phỏng cũ.
+- Kiểm thử: cú pháp toàn bộ script đạt; 68 kiểm tra hàm/điều kiện/cấu trúc ở commit nội dung, 36 kiểm tra hàm Auto ở commit tối ưu đạt. Chưa đo FPS thật, chơi thử trình duyệt/đa thiết bị, kiểm thử luồng OTP/OAuth hoặc xác nhận triển khai GitHub Pages. P2P yêu cầu cùng V60.0; relay Go không thay đổi. Không bảo đảm mượt mọi lúc trên mọi máy.
+
 ## V59.0 — Stability & Mobile Recovery (26/11/2026)
 
 - Multiplayer: tách bước gửi snapshot của host, render và HUD thành các vùng bắt lỗi độc lập; gửi trạng thái trước render để lỗi đồ họa không làm mất bước đồng bộ. Giới hạn log lỗi riêng từng vùng 2 giây. Không sửa giao thức relay Go; P2P sử dụng mã phòng V59.0 riêng, tất cả máy phải cập nhật cùng phiên bản.
