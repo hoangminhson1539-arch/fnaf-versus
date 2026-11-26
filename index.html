@@ -1168,10 +1168,10 @@ function stopFoley(){for(const src of foleyVoices){try{src.stop()}catch(e){}}fol
   if(v34Volume('sfxVolume',75)===0)saved.settings.sfxVolume=75;
   if(saved.settings.musicStyle==='off')saved.settings.musicStyle='adaptive';
   if(net.backup)v39KeepPreferences();else saveStorage();
-  v473Queue('cue','connected');const p=unlockFoley(true,true);v42AudioStatus();p.then(()=>v42AudioStatus());
+  for(const el of document.querySelectorAll('[data-v34-volume],[data-v35-volume]')){const key=el.dataset.v34Volume||el.dataset.v35Volume;if(key==='musicVolume'||key==='sfxVolume')el.value=v34Volume(key,key==='musicVolume'?35:75);}for(const [id,key] of [['v34musicOut','musicVolume'],['v35MusicValue','musicVolume'],['v34sfxOut','sfxVolume'],['v35SfxValue','sfxVolume']])if($(id))$(id).textContent=v34Volume(key,key==='musicVolume'?35:75)+'%';for(const el of document.querySelectorAll('[data-v34-style]'))el.value=saved.settings.musicStyle;v473Queue('cue','connected');const p=unlockFoley(true,true);v42AudioStatus();p.then(ok=>{v42AudioStatus();const el=$('v34AudioStatus');if(el)el.textContent=ok?'Âm thanh đã khôi phục · nghe tín hiệu thử.':'Trình duyệt chưa mở âm thanh · kiểm tra âm lượng máy và chạm lại.';});
  }
  for(const event of ['pointerdown','pointerup','touchend','click','keydown'])document.addEventListener(event,e=>{
-  if(e.isTrusted===false||e.target?.closest?.('[data-action="sound"],[data-v34-preview="master"],#v42AudioRecover,#v473AudioRepair,[data-v473-recover]'))return;
+  if(e.isTrusted===false||e.type==='keydown'&&e.key?.toLowerCase()==='u'||e.target?.closest?.('[data-action="sound"],[data-v34-preview="master"],#v42AudioRecover,#v473AudioRepair,[data-v473-recover]'))return;
   if(v473Blocked())unlockFoley(true);
  },{capture:true,passive:true});
  function v473ResumeVisible(){if(document.hidden||!soundEnabled)return;v473Clock=null;v34FrameAt=-1e9;v37AudioAt=-1e9;unlockFoley(false);}
