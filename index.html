@@ -3098,7 +3098,7 @@ async function netPeerConnect(create){
   const bots=net.hostJob==='duelguard'?partyBots(sock.slots,seat):null;
   if(bots&&(m.action==='tactic'?seat!==sock.slots[1]:!bots.includes(m.bot)))return;
   // All Foxy Rush defenders share the office and can perform valid guard actions.
-  const now=Date.now();const receipt=v50DoorAction(m.action)&&v50RequestId(m.request)&&typeof m.target==='boolean';if(receipt&&m.request<=(v.doorRequest||0))return;if(now-v.cmd<35&&m.action!=='manualStop'&&m.action!=='watch'&&!receipt)return;if(receipt&&now-(v.doorAt||0)<70){sendTo(v.conn,{type:'doorAck',round,request:m.request,side:['leftDoor','fieldDoorLeft'].includes(m.action)?'left':'right',ok:false,actual:state.doors[['leftDoor','fieldDoorLeft'].includes(m.action)?'left':'right'],text:'THAO TÁC QUÁ NHANH · THỬ LẠI'});return;}if(receipt)v.doorAt=now;v.cmd=now;if(receipt)v.doorRequest=m.request;
+  const now=Date.now();const receipt=v50DoorAction(m.action)&&v50RequestId(m.request)&&typeof m.target==='boolean';if(receipt&&m.request<=(v.doorRequest||0))return;if(receipt)v.doorRequest=m.request;if(now-v.cmd<35&&m.action!=='manualStop'&&m.action!=='watch'&&!receipt)return;if(receipt&&now-(v.doorAt||0)<70){sendTo(v.conn,{type:'doorAck',round,request:m.request,side:['leftDoor','fieldDoorLeft'].includes(m.action)?'left':'right',ok:false,actual:state.doors[['leftDoor','fieldDoorLeft'].includes(m.action)?'left':'right'],text:'THAO TÁC QUÁ NHANH · THỬ LẠI'});return;}if(receipt)v.doorAt=now;v.cmd=now;
   const execute=()=>{if(!receipt){local(m);return;}const side=['leftDoor','fieldDoorLeft'].includes(m.action)?'left':'right';const before=net.doorNotice?.id;local(m);const n=net.doorNotice;const ok=n?.id!==before&&n?.side===side?n.ok===true:state.doors[side]===m.target;sendTo(v.conn,{type:'doorAck',round,request:m.request,side,ok,actual:state.doors[side],text:n?.id!==before&&n?.side===side?n.text:ok?'ĐÃ XÁC NHẬN':'LỆNH CỬA BỊ TỪ CHỐI'});};
   if(!multiViews()){execute();return;}
   const view=views.get(seat)||{enabled:false,cam:'1A'};
@@ -4716,7 +4716,7 @@ function v419RequestDoor(action){
  if(!netSend({type:'command',action,target:v419Pending[side].target,request:v419Pending[side].request})){delete v419Pending[side];v419StatusText('CHƯA GỬI ĐƯỢC LỆNH CỬA · KIỂM TRA MẠNG');updateUI(true);return;}
  v419LowerCamera();v419StatusText('CỬA '+v419Side(side)+' · ĐANG CHỜ XÁC NHẬN');updateUI(true);
 }
-function v50ReadDoorAck(m){const p=v419Pending[m.side];if(!p||p.request!==m.request)return;delete v419Pending[m.side];v419StatusText(m.text);if(netField())v450Msg(m.text);}
+function v50ReadDoorAck(m){const p=v419Pending[m.side];if(!p||p.request!==m.request)return;delete v419Pending[m.side];v419StatusText(m.text);if(netField())v450Msg(m.text);updateUI(true);}
 function v419ReadDoor(m){
  if(netJob()!=='guard')return;
  const n=m.doorNotice;
@@ -4777,7 +4777,7 @@ function v430Action(actor,action,bot){
  if(V440_EXTRA.includes(action))return v440Action(actor,action,bot);
  if(action==='circuitReset'){const cost=v50TacticalCost(action);if(t<a.circuitAt||state.fuseUntil<=t||state.power<cost)return false;state.power-=cost;state.fuseUntil=0;a.circuitAt=t+36*c;v430Stat('guardSkills');v430Log('Khởi động lại cầu chì');}
  else if(action==='signalBoost'){const cost=v50TacticalCost(action);if(t<a.boostAt||!net.watch||state.effects.cameraJamUntil<=t||state.power<cost)return false;state.power-=cost;state.effects.cameraJamUntil=0;a.boostAt=t+34*c;v430Stat('guardSkills');v430Log('Camera phục hồi tín hiệu');}
- else if(action==='pressureCharge'){const u=net.duel?.units?.[bot];if(t<a.chargeAt||!u||u.mode==='attack'||u.mode==='retreat'||u.mode==='manual'||a.pressure>55)return false;a.pressure=Math.min(100,a.pressure+12);a.chargeAt=t+40*c;v430Stat('monsterSkills');v430Log(bot+' tích lũy áp lực');}
+ else if(action==='pressureCharge'){const u=net.duel?.units?.[bot];if(t<a.chargeAt||!V40_NAMES.includes(bot)||netFox()&&bot!=='Foxy'||!u||t<u.readyAt||u.mode==='attack'||u.mode==='retreat'||u.mode==='manual'||a.pressure>55)return false;a.pressure=Math.min(100,a.pressure+12);a.chargeAt=t+40*c;v430Stat('monsterSkills');v430Log(bot+' tích lũy áp lực');}
  else if(action==='powerSave'){if(t<a.economyAt||state.doors.left||state.doors.right)return false;a.economyAt=t+42*c;a.economyUntil=t+16;v430Stat('guardSkills');v430Log('Bảo vệ bật tiết kiệm điện');}
  else if(action==='braceLeft'||action==='braceRight'){const side=action==='braceLeft'?'left':'right',cost=v430BraceCost();if(t<a.braceAt||state.power<cost||v411Broken(side))return false;state.power-=cost;a.braceAt=t+32*c;a[action]=t+12;v430Stat('guardSkills');v430Log('Gia cố cửa '+(side==='left'?'trái':'phải'));}
  else if(action==='teamScan'){const cost=v430TeamCost();if(t<a.teamScanAt||state.power<cost||!net.watch||state.effects.cameraJamUntil>t)return false;state.power-=cost;a.teamScanAt=t+26*c;a.teamScanUntil=t+10;v430Stat('guardSkills');v430Log('Camera quét toàn khu vực');v440CoopEvent('scan');}
@@ -4916,7 +4916,7 @@ function v430Paint(){
  const secs=x=>Math.max(0,Math.ceil(x-t)),items=[];
  if(job==='guard'){items.push(['circuitReset','⚡ KHỞI ĐỘNG CẦU CHÌ',a.circuitAt,v50TacticalCost('circuitReset'),state.fuseUntil<=t]);items.push(['powerSave','🔋 TIẾT KIỆM',a.economyAt,0,state.doors.left||state.doors.right]);if(netDuel()){items.push(['braceLeft','🛡 GIA CỐ TRÁI',a.braceAt,v430BraceCost(),v411Broken('left')],['braceRight','🛡 GIA CỐ PHẢI',a.braceAt,v430BraceCost(),v411Broken('right')]);}}
  else if(job==='camera'){items.push(['signalBoost','📶 PHỤC HỒI CAMERA',a.boostAt,v50TacticalCost('signalBoost'),!net.watch||state.effects.cameraJamUntil<=t]);items.push(['teamScan','📡 QUÉT ĐỘI',a.teamScanAt,v430TeamCost(),!net.watch||state.effects.cameraJamUntil>t]);}
- else if(monster){const u=net.duel?.units?.[netFox()?'Foxy':v40Pick];items.push(['pressureCharge','⚡ TÍCH ÁP +12',a.chargeAt,0,!u||['attack','retreat','manual'].includes(u.mode)||a.pressure>55]);items.push(['overdrive','💥 ĐÒN CƯỜNG HÓA',a.overdriveAt,35,!u||u.mode==='retreat'||t<u.readyAt]);}
+ else if(monster){const u=net.duel?.units?.[netFox()?'Foxy':v40Pick];items.push(['pressureCharge','⚡ TÍCH ÁP +12',a.chargeAt,0,!u||t<u.readyAt||['attack','retreat','manual'].includes(u.mode)||a.pressure>55]);items.push(['overdrive','💥 ĐÒN CƯỜNG HÓA',a.overdriveAt,35,!u||u.mode==='retreat'||t<u.readyAt]);}
  items.push(...v440ExtraItems(job,netFox()?'Foxy':v40Pick));const actionBox=$('v430Actions'),html=items.map(([id,label,at,cost,blocked])=>'<button type="button" data-v430="'+id+'" '+(off||secs(at)||blocked||value<cost?'disabled':'')+'>'+label+' · '+(secs(at)?secs(at)+'s':cost===0?'MIỄN PHÍ':v418Fmt(cost)+(monster?' AP':'%'))+'</button>').join('');
  if(actionBox._html!==html){actionBox._html=html;actionBox.innerHTML=html;}
  let status=monster?'X/Z: '+v430SkillCost('skill')+'/'+v430SkillCost('skill2')+' AP. Cường hóa: tăng tốc 4s, +25% sát thương cú đánh kế trong 10s.':'Mốc tiếp tế kế: '+(p.hour<5?'+'+v418Fmt(v423Supply(p.hour+1,p.duration))+'%':'đã hoàn tất')+' · Tiết kiệm: '+(secs(a.economyUntil)?secs(a.economyUntil)+'s (chỉ khi hai cửa mở)':'giảm hao 35% trong 16s khi hai cửa mở');
