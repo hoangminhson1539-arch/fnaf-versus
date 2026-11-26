@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V58.0 Foxy Rush Rebalance & Mobile Lite
+# FNAF 1 Versus · V59.0 Stability & Mobile Recovery
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,14 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V59.0 — Stability & Mobile Recovery (26/11/2026)
+
+- Multiplayer: tách bước gửi snapshot của host, render và HUD thành các vùng bắt lỗi độc lập; gửi trạng thái trước render để lỗi đồ họa không làm mất bước đồng bộ. Giới hạn log lỗi riêng từng vùng 2 giây. Không sửa giao thức relay Go; P2P sử dụng mã phòng V59.0 riêng, tất cả máy phải cập nhật cùng phiên bản.
+- Mobile: không dựng lại dải 11 camera bị ẩn; không cập nhật danh sách nút đội/nhiệm vụ khi bảng đội đang đóng, vẫn cập nhật nút thao tác nhanh; khi mở bảng sẽ cập nhật lại. Sửa nhãn chất lượng Auto thành 18–60 FPS. Không thay đổi tốc độ mô phỏng.
+- Tài khoản: giữ OTP đang nhập và tiêu điểm khi form được vẽ lại nếu vẫn cùng email yêu cầu mã; không lưu mã vào localStorage/sessionStorage. Giữ trạng thái lỗi kiểm tra dịch vụ khi chưa có kết quả, giới hạn kiểm tra lại sau lỗi 10 giây, kiểm tra thành công được cache 60 giây. Không thay cấu hình SMTP/OAuth/RLS.
+- Giữ nguyên cân bằng V58.0, bao gồm sức mạnh Foxy Rush, hao điện và tốc độ sửa cửa.
+- Kiểm tra trước commit: cú pháp toàn bộ script JavaScript đạt; 7 kiểm tra thực thi hàm cô lập lỗi/log và 5 kiểm tra cấu trúc mã đạt. Chưa kiểm thử trên trình duyệt/điện thoại thật, FPS, gameplay đa thiết bị, OTP/OAuth hoặc xác nhận triển khai Pages. Không khẳng định toàn bộ lỗi đã hết.
 
 ### V58.0 — Foxy Rush Rebalance & Mobile Lite (26/11/2026)
 
@@ -174,7 +182,7 @@ Game fan-made chạy trên trình duyệt. Có chế độ một người và 5 
 
 ## Tài khoản và lưu online
 
-V58.0 đã kết nối dự án Supabase thật và kiểm tra RLS; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
+V59.0 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
 
 ## Chơi trên web
 
