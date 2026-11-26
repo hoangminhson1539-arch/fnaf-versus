@@ -333,8 +333,18 @@ func handle(c *Client, m M) {
 		}
 		c.commandCredit--
 		a := str(m, "action")
-		if r.hostJob == "fieldguard" && contains(a, "fieldGuide", "fieldDecoy", "fieldDoorLeft", "fieldDoorRight", "fieldScan", "fieldService") { send(p, M{"type":"command", "action":a}); return }
-		if r.hostJob == "fieldcamera" && contains(a, "fieldStop", "fieldWork", "fieldSmoke", "fieldDoorLeft", "fieldDoorRight", "fieldGo_office", "fieldGo_supply", "fieldGo_backstage", "fieldGo_kitchen", "fieldGo_dining", "fieldGo_west", "fieldGo_east", "fieldGo_pirate", "fieldGo_stage", "fieldGo_restroom") { send(p, M{"type":"command", "action":a}); return }
+		if r.hostJob == "fieldguard" && contains(a, "fieldGuide", "fieldDecoy", "fieldDoorLeft", "fieldDoorRight", "fieldScan", "fieldService") {
+			msg := M{"type":"command", "action":a}
+			if target, ok := m["target"].(bool); ok && contains(a, "fieldDoorLeft", "fieldDoorRight") { msg["target"] = target }
+			send(p, msg)
+			return
+		}
+		if r.hostJob == "fieldcamera" && contains(a, "fieldStop", "fieldWork", "fieldSmoke", "fieldDoorLeft", "fieldDoorRight", "fieldGo_office", "fieldGo_supply", "fieldGo_backstage", "fieldGo_kitchen", "fieldGo_dining", "fieldGo_west", "fieldGo_east", "fieldGo_pirate", "fieldGo_stage", "fieldGo_restroom") {
+			msg := M{"type":"command", "action":a}
+			if target, ok := m["target"].(bool); ok && contains(a, "fieldDoorLeft", "fieldDoorRight") { msg["target"] = target }
+			send(p, msg)
+			return
+		}
 		if contains(r.hostJob, "duelguard", "foxguard") {
 			if a == "tactic" && r.hostJob == "duelguard" {
 				send(p, M{"type": "command", "action": a})
@@ -411,7 +421,7 @@ func api(w http.ResponseWriter, r *http.Request) {
 	action := strings.TrimPrefix(r.URL.Path, "/api/")
 	if action == "open" {
 		if v, ok := m["version"].(float64); !ok || v != 45 {
-			http.Error(w, "Use FNAF V45.0", 409)
+			http.Error(w, "Use FNAF V46.0", 409)
 			return
 		}
 		if len(clients) >= 128 {
@@ -698,7 +708,7 @@ func main() {
 	}
 	port := l.Addr().(*net.TCPAddr).Port
 	local := fmt.Sprintf("http://127.0.0.1:%d/?host=1", port)
-	fmt.Println("FNAF V45.0 - SERVER READY\nKeep this window open. Allow private-network access if prompted.\nHost:", local, "\nSame Wi-Fi:", fmt.Sprintf("http://%s:%d/", lan, port), "\nOther network addresses:", strings.Join(lans, ", "), "\nScan QR or share the invite link.\nCtrl+C to stop.")
+	fmt.Println("FNAF V46.0 - SERVER READY\nKeep this window open. Allow private-network access if prompted.\nHost:", local, "\nSame Wi-Fi:", fmt.Sprintf("http://%s:%d/", lan, port), "\nOther network addresses:", strings.Join(lans, ", "), "\nScan QR or share the invite link.\nCtrl+C to stop.")
 	if !publicServer && os.Getenv("FNAF_NO_BROWSER") != "1" {
 		openBrowser(local)
 	}
