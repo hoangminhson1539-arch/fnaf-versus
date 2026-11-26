@@ -2977,7 +2977,7 @@ async function netPeerConnect(create){
  if(create){net.roomDiff=diff;net.roomDuration=v418Duration($('netDuration')?.value||360);}
  if(!/^[A-Z0-9]{6}$/.test(code)){netMessage('Nhập đúng mã phòng 6 ký tự.');return;}
  let peer=null,upstream=null,closed=false,started=false,finished=false,timer=0,beatTimer=0,lastHost=0,hostForeground=true,rematches=new Set();
- const clients=new Map(),reserved=new Set(),readySeats=new Set();let round=0,sendSeq=0,recvSeq=0,configKey='',resumeToken='',lostAt=null,retryTimer=0,reconnectAttempt=0,peerOpened=false;
+ const clients=new Map(),reserved=new Set(),readySeats=new Set();let round=0,sendSeq=0,recvSeq=0,configKey='',resumeToken='',lostAt=null,retryTimer=0,reconnectAttempt=0,peerOpened=false,terminating=false;
  let groupHealthy=true;
  const sock={p2p:true,readyState:0,playerCount:1,capacity:4,slots:[0],seat:0,readySeats:[],canStart:false,recovering:false,
  visibility(hidden=document.hidden){if(!hidden&&peer?.disconnected&&!peer.destroyed){try{peer.reconnect();}catch(_){}}if(!hidden&&!create&&lostAt!==null)scheduleReconnect(0);heartbeat(hidden);},
@@ -2985,7 +2985,7 @@ async function netPeerConnect(create){
  close(){if(closed)return;if(!create&&upstream?.open)sendTo(upstream,{type:'leave'});closed=true;this.readyState=3;clearTimeout(timer);clearTimeout(retryTimer);clearInterval(beatTimer);for(const c of clients.values()){try{c.conn?.close();}catch(_){}}clients.clear();try{upstream?.close();}catch(_){}try{peer?.destroy();}catch(_){}},
  send(raw){if(closed)return false;let m;try{m=JSON.parse(raw);}catch(_){return false;}
  if(m.type==='chat'){if(!validChat(m)||this.recovering)return false;if(create)return broadcast({type:'chat',text:'P1: '+m.text.trim().slice(0,235)});return sendTo(upstream,m);}
- if(m.type==='voice'){if(!validVoice(m,this.seat))return false;const packet=cleanVoice(m,this.seat);return create?sendTo(clients.get(packet.to)?.conn,packet):sendTo(upstream,packet);}
+ if(m.type==='voice'){if(!validVoice(m,this.seat)||(!create&&this.recovering))return false;const packet=cleanVoice(m,this.seat);return create?sendTo(clients.get(packet.to)?.conn,packet):sendTo(upstream,packet);}
  if(create){
   if(m.type==='roles'&&!started){publish();return true;}
   if(m.type==='start'&&!started&&clients.size){return start();}
@@ -2994,8 +2994,8 @@ async function netPeerConnect(create){
   if(['state','signal'].includes(m.type)&&started&&!finished)return broadcast({...m,round,seq:++sendSeq});
   return false;
  }
- if(m.type==='ready'&&!started)return typeof m.ready==='boolean'&&sendTo(upstream,m);
- if(['command','signal','rematch'].includes(m.type))return sendTo(upstream,{...m,round});
+ if(m.type==='ready'&&!started&&!this.recovering)return typeof m.ready==='boolean'&&sendTo(upstream,m);
+ if(['command','signal','rematch'].includes(m.type)&&!this.recovering)return sendTo(upstream,{...m,round});
  return false;
  }};
  net.ws=sock;netMessage('Đang kết nối… Giữ trình duyệt mở.');
@@ -3040,7 +3040,7 @@ async function netPeerConnect(create){
   if(count===need)setTimeout(()=>{if(current()&&finished&&rematches.size===clients.size+1&&!start()){rematches.clear();const reset={type:'rematch',round,count:0,need,reset:true};broadcast(reset);local(reset);}},180);
  }
  function heartbeat(hidden=document.hidden){
-  if(!current())return;
+  if(!current()||terminating)return;
   const now=Date.now(),m={type:'heartbeat',foreground:!hidden,stamp:now};
   if(create){
    for(const [seat,v] of clients)if(v.lostAt!==null&&now-v.lostAt>=V49_GRACE){expireSeat(seat);if(!current())return;}
@@ -3048,13 +3048,13 @@ async function netPeerConnect(create){
    if(started&&!finished)netHealth(groupHealthy,hidden?'Ứng dụng đang ở nền':!ok?(sock.recovering?'Đang giữ chỗ · tự nối lại tối đa 30 giây':'Chờ thành viên trở lại game'):'');
   }else{
    if(lostAt!==null){if(now-lostAt>=V49_GRACE){fail('Hết thời gian tự nối lại phòng.');return;}if(!hidden)scheduleReconnect();}sendTo(upstream,m);
-   if(started&&!finished)netHealth(now-lastHost<5500&&hostForeground&&groupHealthy&&!hidden,hidden?'Ứng dụng đang ở nền':!hostForeground?'Chủ phòng đang ở nền':!groupHealthy?'Chờ thành viên khác kết nối lại':'Chờ tín hiệu chủ phòng');
+   if(started&&!finished)netHealth(lostAt===null&&now-lastHost<5500&&hostForeground&&groupHealthy&&!hidden,hidden?'Ứng dụng đang ở nền':!hostForeground?'Chủ phòng đang ở nền':!groupHealthy?'Chờ thành viên khác kết nối lại':'Chờ tín hiệu chủ phòng');
   }
  }
  function validMessage(m){return m&&typeof m==='object'&&!Array.isArray(m)&&typeof m.type==='string';}
  function guestIncoming(m){
   if(!current()||!validMessage(m))return;
-  if(m.type==='reject'){fail(String(m.message||'Không thể vào phòng.'));return;}
+  if(m.type==='reject'){if(lostAt!==null&&m.retry===true){if(upstream)guestLost(upstream);return;}fail(String(m.message||'Không thể vào phòng.'));return;}
   if(m.type==='resume'){if(lostAt===null||m.seat!==sock.seat||m.round!==round)return;lostAt=null;reconnectAttempt=0;sock.recovering=false;sock.readyState=1;clearTimeout(retryTimer);retryTimer=0;lastHost=Date.now();hostForeground=true;groupHealthy=false;netMessage('Đã nối lại · đang đồng bộ');heartbeat();v471Roster();return;}
   if(m.type==='heartbeat'){lastHost=Date.now();hostForeground=m.foreground!==false;groupHealthy=m.groupHealthy!==false;sendTo(upstream,{type:'pong',stamp:m.stamp});if(started&&!finished)netHealth(hostForeground&&groupHealthy&&!document.hidden,!hostForeground?'Chủ phòng đang ở nền':!groupHealthy?'Chờ thành viên khác kết nối lại':document.hidden?'Ứng dụng đang ở nền':'');return;}
   if(m.type==='pong'){const t=Date.now()-Number(m.stamp);if(t>=0&&t<60000)net.latency=Math.round(t);return;}
@@ -3075,7 +3075,7 @@ async function netPeerConnect(create){
   try{local(m);}catch(_){fail('Dữ liệu phòng không hợp lệ. Vào lại phòng.');}
  }
  function hostIncoming(seat,m){
-  if(!current()||!validMessage(m))return;
+  if(!current()||terminating||!validMessage(m))return;
   const v=clients.get(seat);if(!v)return;
   if(m.type==='leave'){expireSeat(seat);return;}
   if(m.type==='heartbeat'){v.last=Date.now();const previous=v.foreground;v.foreground=m.foreground!==false;sendTo(v.conn,{type:'pong',stamp:m.stamp});if(started&&!finished&&previous!==v.foreground)heartbeat();return;}
@@ -3115,18 +3115,18 @@ async function netPeerConnect(create){
   c.on('open',ready);if(c.open)ready();
   if(recover)setTimeout(()=>{if(current()&&lostAt!==null&&upstream===c)guestLost(c);},6500);
  }
- function reject(c,message){const run=()=>{sendTo(c,{type:'reject',message});setTimeout(()=>{try{c.close();}catch(_){}},250);};c.on('open',run);if(c.open)run();}
+ function reject(c,message,retry=false){const run=()=>{sendTo(c,{type:'reject',message,retry});setTimeout(()=>{try{c.close();}catch(_){}},250);};c.on('open',run);if(c.open)run();}
  function expireSeat(seat){
   const v=clients.get(seat);if(!v)return;clients.delete(seat);readySeats.delete(seat);
   try{v.conn?.close();}catch(_){}
-  if(started){broadcast({type:'closed'});local({type:'closed'});}else publish();
+  if(started){if(terminating)return;terminating=true;groupHealthy=false;netHealth(false,'Thành viên rời phòng');broadcast({type:'closed'});setTimeout(()=>{if(current())local({type:'closed'});},300);}else publish();
  }
  function bindHost(c){
-  if(!current()||!create){c.close();return;}
+  if(!current()||!create||terminating){c.close();return;}
   const token=c.metadata?.resume,existing=v49FindSeat(clients,c.peer,token,Date.now());
-  if(token&&existing===null){reject(c,'Không thể khôi phục chỗ cũ.');return;}
+  if(token&&existing===null){const old=[...clients.values()].find(v=>v.id===c.peer&&v.token===token);reject(c,'Không thể khôi phục chỗ cũ.',!!old?.conn?.open);return;}
   const seat=existing??[1,2,3].find(n=>n<sock.capacity&&!clients.has(n)&&!reserved.has(n));
-  if(existing===null&&(started||seat==null)||reserved.has(seat)){reject(c,started?'Trận đã bắt đầu. Hãy chờ trận sau.':'Phòng đã đủ người.');return;}
+  if(existing===null&&(started||seat==null)||reserved.has(seat)){reject(c,started?'Trận đã bắt đầu. Hãy chờ trận sau.':'Phòng đã đủ người.',existing!==null);return;}
   reserved.add(seat);let opened=false;
   const expiry=setTimeout(()=>{reserved.delete(seat);try{c.close();}catch(_){}},10000);
   const ready=()=>{if(opened||!current())return;clearTimeout(expiry);reserved.delete(seat);
@@ -3134,7 +3134,7 @@ async function netPeerConnect(create){
    if(started||seat>=sock.capacity||clients.has(seat)){reject(c,'Phòng đã thay đổi. Vui lòng vào lại.');return;}
    opened=true;const secret=v49Token();clients.set(seat,{conn:c,id:c.peer,token:secret,lostAt:null,last:Date.now(),foreground:true,chat:0,cmd:0});sendTo(c,{type:'room',role:'guest',code,seat,token:secret,ready:true,hostJob:net.hostJob,duration:net.roomDuration,difficulty:net.roomDiff});publish();
   };
-  const leave=()=>{clearTimeout(expiry);reserved.delete(seat);if(!opened||!current()||clients.get(seat)?.conn!==c)return;const v=clients.get(seat);v.conn=null;v.lostAt=Date.now();v.foreground=false;readySeats.delete(seat);sock.recovering=true;groupHealthy=false;if(started&&!finished)netHealth(false,'Đang giữ chỗ P'+(seat+1)+' · 30 giây');else publish();heartbeat();};
+  const leave=()=>{clearTimeout(expiry);reserved.delete(seat);if(!opened||!current()||terminating||clients.get(seat)?.conn!==c)return;const v=clients.get(seat);v.conn=null;v.lostAt=Date.now();v.foreground=false;readySeats.delete(seat);sock.recovering=true;groupHealthy=false;if(started&&!finished)netHealth(false,'Đang giữ chỗ P'+(seat+1)+' · 30 giây');publish();heartbeat();};
   c.on('open',ready);c.on('data',m=>{if(clients.get(seat)?.conn===c)hostIncoming(seat,m);});c.on('close',leave);c.on('error',()=>{leave();try{c.close();}catch(_){}});if(c.open)ready();
  }
  try{
