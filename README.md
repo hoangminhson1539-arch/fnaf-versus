@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V49.0 Reconnect & Squad Intelligence
+# FNAF 1 Versus · V50.0 Command Center & Tactical Expansion
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,16 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V50.0 — Command Center & Tactical Expansion (26/11/2026)
+
+- Xác nhận lệnh cửa riêng theo người gửi, mã lệnh và ca trực; bỏ lệnh trùng, giới hạn thao tác quá nhanh; hỗ trợ cửa thường và cửa Thực địa P2P. Không dùng thông báo cửa của người khác để xác nhận lệnh đang chờ. Sửa nút mở cửa bị vô hiệu hóa khi cửa hỏng nhưng còn đóng; giảm âm thanh cửa lặp.
+- Phát hiện kênh P2P còn báo mở nhưng không truyền heartbeat trong 12 giây khi hai phía ở foreground, thử tạo lại kênh bằng hệ thống giữ chỗ 30 giây. Không tự tạo nhiều kết nối khôi phục cùng lúc. Không đảm bảo khôi phục nếu đóng tab hoặc mất chủ phòng.
+- Bảng TÍN HIỆU ĐỘI thu gọn cho Co-op và Thực địa P2P: trái, phải, an toàn, tiết kiệm điện, sửa hệ thống, về phòng; hiện P1–P4 gửi tín hiệu, hạn chế spam. Relay giữ ba tín hiệu cũ.
+- Ba kỹ năng chiến thuật multiplayer: khởi động cầu chì (2,5% điện cơ bản, hồi 36s), phục hồi camera (3%, hồi 34s), tích áp +12 AP khi quái không tấn công/điều khiển tay/rút lui và áp lực không quá 55 (hồi 40s). Chi phí/hồi chiêu áp dụng hệ số thời lượng; quyền quái và cooldown vẫn kiểm tra ở host.
+- Thực địa: túi tiếp tế phụ một lần tại khu vệ sinh từ 3 AM, tối đa +4% điện và +1 khói (tối đa 2 khói), cần đứng gần, không đang di chuyển/làm nhiệm vụ. Không tăng số nhiệm vụ bắt buộc. Chỉnh thống kê pin khẩn cấp theo lượng thực nhận.
+- Giải phóng track đầu ra audio thay thế khi đổi đường phát. Giữ bố cục ngang, voice 4 người, tutorial đêm 1, cân bằng pin/Foxy Rush trước đó.
+- Kiểm tra JavaScript cuối đạt; 38 kiểm tra mô phỏng P2P 4 người/biên heartbeat và mã lệnh, 23 kiểm tra logic kỹ năng/túi tiếp tế đạt trước lần tinh chỉnh cuối về chống lặp và điều kiện quái. Chưa thử trên thiết bị thật. P2P yêu cầu đồng phiên bản V50.0; relay vẫn hai người.
 
 ### V49.0 — Reconnect & Squad Intelligence (26/11/2026)
 
