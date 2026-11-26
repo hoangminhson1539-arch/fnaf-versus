@@ -345,6 +345,8 @@ func handle(c *Client, m M) {
 			send(p, msg)
 			return
 		}
+		// Expedition accepts only dedicated field commands and camera watch.
+		if r.hostJob == "fieldcamera" || (r.hostJob == "fieldguard" && a != "watch") { return }
 		if contains(r.hostJob, "duelguard", "foxguard") {
 			if a == "tactic" && r.hostJob == "duelguard" {
 				send(p, M{"type": "command", "action": a})
