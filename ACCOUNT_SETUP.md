@@ -1,27 +1,23 @@
-# Kích hoạt tài khoản FNAF Versus V55.0
+# Kích hoạt tài khoản FNAF Versus V56.0 — 3 bước
 
-Hiện tích hợp đã có trong game nhưng CHƯA có dự án Supabase được cấp quyền. Không thể đăng nhập thật hoặc lưu cloud cho tới khi quản trị viên cấu hình. Game offline và multiplayer không phụ thuộc vào dịch vụ này.
+Chỉ quản trị viên cần làm một lần. Người chơi không cần tự tạo project hay cấu hình gì. Sau kích hoạt, một nút Google/Discord/Apple/GitHub hoặc một địa chỉ email là đủ để đăng ký hoặc đăng nhập. Hiện chưa cấu hình Supabase nên tính năng online chưa hoạt động; chơi khách vẫn bình thường.
 
-## 1. Supabase
-- Tạo project tại https://supabase.com/dashboard.
-- SQL Editor: chạy `supabase/cloud_saves.sql`. Bảng fnaf_saves dùng khóa user_id tham chiếu auth.users, chỉ chủ tài khoản đọc/ghi bằng RLS. Không dùng cho leaderboard hoặc xác minh thành tích chống gian lận.
-- Authentication → URL Configuration: Site URL và Redirect URLs thêm chính xác `https://hoangminhson1539-arch.github.io/fnaf-versus/`. Nếu triển khai domain khác thì thêm đúng URL đó.
-- Authentication → Providers: bật Email; giữ xác nhận email, cấu hình SMTP và giới hạn gửi email theo nhu cầu.
-- Mở từng nhà cung cấp muốn hỗ trợ: Google, Discord, Apple, GitHub. Tạo OAuth application trong console của nhà cung cấp, đặt callback theo URL hiện trong dashboard Supabase (thường là `https://<project-ref>.supabase.co/auth/v1/callback`), nhập client ID và secret vào Supabase, không đưa secret lên GitHub. Apple Web cần cấu hình Apple Developer/Services ID và secret hợp lệ, có thể cần tài khoản Developer và gia hạn secret.
-- Tài liệu: https://supabase.com/docs/guides/auth/social-sign-in ; https://supabase.com/docs/guides/auth/redirect-urls
+## Bước 1 — Tạo Supabase
+1. Mở https://supabase.com/dashboard và tạo project.
+2. SQL Editor → New query → dán nội dung [cloud_saves.sql](supabase/cloud_saves.sql) → Run.
+3. Authentication → URL Configuration: đặt Site URL và thêm Redirect URL chính xác: https://hoangminhson1539-arch.github.io/fnaf-versus/ . Nếu dùng domain khác, thêm URL tương ứng.
 
-## 2. Kết nối game
-Trong index.html tìm V55_AUTH_CONFIG, thay url bằng Project URL HTTPS và publishableKey bằng khóa công khai bắt đầu sb_publishable_. Chỉ giữ tên các provider đã bật trong providers. KHÔNG bao giờ dùng service_role, sb_secret_, OAuth secret hoặc mật khẩu trong GitHub. Commit thay đổi. SDK Supabase JS 2.49.4 tải từ CDN khi mở tài khoản hoặc có callback; nếu mạng chặn thì game khách vẫn hoạt động.
+## Bước 2 — Kích hoạt email trước (nhanh nhất)
+- Authentication → Providers → Email: bật đăng ký và đăng nhập email. Giữ xác minh email. Dùng mẫu email Magic Link có ConfirmationURL mặc định, cấu hình SMTP khi cần.
+- Trong index.html tìm V55_AUTH_CONFIG. Điền Project URL và khóa công khai sb_publishable_... từ dashboard. Chỉ để danh sách providers là [] nếu chưa bật đăng nhập xã hội. Không dùng khóa service_role, sb_secret_ hoặc OAuth secret.
+- Commit lên GitHub. Người chơi vào Tài khoản → nhập email → Gửi link đăng nhập → mở link trên cùng trình duyệt. Tài khoản mới tự được tạo, không cần mật khẩu. Có tùy chọn mật khẩu cũ.
 
-## 3. Sử dụng
-Menu → Tài khoản & lưu online → đăng ký email/mật khẩu hoặc đăng nhập nhà cung cấp. Xác nhận email nếu được yêu cầu. Khi đã đăng nhập, bấm Kiểm tra bản lưu / Lưu lên online / Tải tiến trình. Mỗi thao tác lưu/tải yêu cầu xác nhận; không tự tải/ghi đè. Tải tiến trình bỏ ca đang dở, giữ thiết lập cục bộ, sao lưu tiến trình trước khi tải vào localStorage (fnaf_v55_before_cloud). Tài khoản chỉ lưu tiến trình, xu, nâng cấp, thành tích, hồ sơ cốt truyện, nhiệm vụ và tối đa 12 trận gần đây; không lưu phiên multiplayer, ca đang dở, mic/chat hay cài đặt cá nhân. Đăng xuất không xóa tiến trình offline; thiết bị dùng chung cần chú ý không tải tiến trình của người khác lên tài khoản của mình. Không có tự đồng bộ hay gộp tiến trình. Game client-side nên dữ liệu cloud không chứng minh thành tích hợp lệ.
+## Bước 3 — Tùy chọn Google/Discord/Apple/GitHub
+Khi cần từng nút, tạo OAuth application ở nhà cung cấp, dùng callback URL do Supabase hiển thị, nhập client ID và secret vào Supabase; bật provider và thêm tên tương ứng vào providers trong V55_AUTH_CONFIG. Apple có thể cần Apple Developer/Services ID và gia hạn secret. Không đưa secret lên GitHub.
+Tài liệu: https://supabase.com/docs/guides/auth/social-sign-in và https://supabase.com/docs/guides/auth/redirect-urls.
 
-## 4. Kiểm thử trước khi công bố
-- Email: đăng ký, xác nhận, đăng nhập, quên/đổi mật khẩu, đăng xuất.
-- Từng OAuth: callback trên Chrome/Safari, cả máy tính và điện thoại; provider chưa bật không được quảng bá hoạt động.
-- Tài khoản A và B: không thể đọc hoặc ghi bản lưu của nhau; anon không đọc được. Hai tab cạnh tranh revision, chỉ một ghi thành công.
-- Hai thiết bị cùng tài khoản: lưu ở A, tải ở B; kiểm tra xu/đêm/thành tích, xác nhận hủy không thay đổi dữ liệu.
-- Thử lỗi CDN, offline, mất kết nối, token hết hạn, hết dung lượng localStorage; chơi khách vẫn chạy.
-- Kiểm tra lại camera thực địa, split view, thao tác chạm và P2P sau khi GitHub Pages triển khai.
-
-Không công bố đăng nhập hoạt động thực tế nếu chưa hoàn thành cấu hình và kiểm thử trên dịch vụ thật.
+## Sử dụng và kiểm tra
+- Bản lưu online: Lưu/Tải tiến trình có xác nhận, không tự ghi đè. Lưu đêm, xu, vật phẩm, thành tích, nhiệm vụ, hồ sơ, 12 trận gần nhất; không lưu ca dở, chat/voice hay thiết lập máy. Đăng xuất giữ dữ liệu offline. Tải cloud sao lưu cục bộ trước khi thay tiến trình.
+- Kiểm tra email magic link trên cùng trình duyệt, callback OAuth, đăng xuất, hai tài khoản không đọc/ghi dữ liệu nhau, hai thiết bị cạnh tranh revision, mất mạng/CDN và hết dung lượng localStorage.
+- SQL RLS chỉ cho chủ tài khoản đọc/ghi. Không dùng cloud save client-side làm chứng cứ thành tích chống gian lận.
+- Chưa thử đăng nhập hoặc cơ sở dữ liệu thật. Không công bố hoạt động trước khi hoàn tất cấu hình và kiểm thử.
