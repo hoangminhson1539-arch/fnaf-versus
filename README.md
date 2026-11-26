@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V54.0 Field Command Center & Emergency Response
+# FNAF 1 Versus · V55.0 Cloud Accounts & Tactical Camera Overhaul
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,16 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V55.0 — Cloud Accounts & Tactical Camera Overhaul (26/11/2026)
+
+- Menu chính có Tài khoản & lưu online, Nhật ký cập nhật trong game (V51–V55, link lịch sử đầy đủ). Chơi khách và lưu offline vẫn độc lập; không yêu cầu đăng nhập để chơi.
+- Tích hợp Supabase Auth cho email/mật khẩu, xác nhận email, quên/đổi mật khẩu, Google, Discord, Apple và GitHub. Dùng PKCE và SDK chỉ tải khi mở tài khoản hoặc nhận callback. **Chưa kích hoạt dịch vụ**: cần project Supabase, publishable key, OAuth provider credentials và redirect URL do quản trị viên thiết lập. Không có tài khoản giả, không lưu mật khẩu hoặc khóa bí mật trong repo.
+- Giao diện kiểm tra/lưu/tải cloud theo tài khoản; xác nhận ghi đè, lưu phiên bản và kiểm tra revision để tránh hai thiết bị ghi đồng thời. Lưu đêm đã mở, xu, vật phẩm, nâng cấp, thành tích, hồ sơ, nhiệm vụ và tối đa 12 trận; không lưu ca đang dở, cấu hình máy, chat/voice. Không tự gộp/tự đồng bộ; đăng xuất giữ tiến trình offline, cần chú ý thiết bị dùng chung. Tải cloud có sao lưu cục bộ trước khi thay tiến trình.
+- Thêm supabase/cloud_saves.sql với RLS chỉ cho chủ tài khoản đọc/ghi, giới hạn payload và trigger revision; ACCOUNT_SETUP.md hướng dẫn thiết lập và kiểm thử. Chưa chạy SQL trên dịch vụ thật hoặc thử OAuth.
+- Camera thực địa/Tiếp tế khẩn cấp: bản đồ, CCTV và chia màn hình (CCTV với bản đồ nhỏ), thanh cảnh báo tín hiệu/quái/điện/giờ, thanh thao tác nhanh báo quái, xung cứu viện, tập hợp, cửa trái/phải. Nhóm nút Tất cả/Điều phối/Hỗ trợ/Cửa; giao diện ngang gọn hơn. Không đổi cân bằng kỹ năng V54.
+- Sửa chọn camera theo quái khi chạm marker, giữ nút điều khiển/camera ổn định khi cooldown và trạng thái quái cập nhật để tránh mất thao tác, xử lý trạng thái account khi chuyển màn, kiểm tra session trước khi cập nhật trạng thái lưu, phục hồi tiến trình và lịch sử cục bộ nếu tải cloud ghi thất bại.
+- Kiểm tra cú pháp toàn bộ JavaScript đạt trên hai commit; 23 kiểm tra logic trích hàm trên bản cuối đạt (lọc tiến trình, giới hạn, schema, lọc lịch sử, phân nhóm kỹ năng). Chưa kiểm thử giao diện thực tế, mạng P2P, SQL/RLS hoặc đăng nhập thật. GitHub Pages chưa xác nhận triển khai; P2P cần cùng V55.0. Không thay server.go vì không thêm lệnh mạng, account tách riêng Supabase.
 
 ### V54.0 — Field Command Center & Emergency Response (26/11/2026)
 
@@ -133,6 +143,10 @@ V41.7: Versus và Foxy Rush có 3 giai đoạn 60 giây với nhiệm vụ phụ
 V41.6: Hành lang hai cửa tối sâu khi tắt đèn. Chuẩn/Khó/Hell không thấy mắt quái khi tắt đèn. Đập cửa có sát thương vừa phải, hồi chung 5s/cửa và hao điện nhẹ; sửa lỗi điều khiển, AI và khôi phục kết nối. Giữ radar tên phòng/CAM, bản đồ di động và sửa cửa chậm. Dùng hai client cùng phiên bản; relay giao thức 42.
 
 Game fan-made chạy trên trình duyệt. Có chế độ một người và 5 chế độ multiplayer: Co-op, Versus, Foxy Rush, Thực địa và Tiếp tế khẩn cấp (P2P).
+
+## Tài khoản và lưu online
+
+V55.0 đã tích hợp giao diện tài khoản và lưu tiến trình qua Supabase, nhưng dịch vụ chưa kích hoạt. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
 
 ## Chơi trên web
 
