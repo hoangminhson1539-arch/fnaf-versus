@@ -2930,7 +2930,7 @@ async function pump(){if(sending||closed||!localOK||suspended||document.hidden||
 async function poll(){if(closed||polling)return;polling=true;const began=performance.now();let delay=net.active?12:45;const requestedResync=resync||!localOK||net.pausedNetwork;resync=false;try{const m=await api('poll',{token,ack,foreground:!suspended&&!document.hidden,wait:suspended||document.hidden?0:net.active?450:1000,resync:requestedResync});if(closed)return;localOK=true;failedAt=0;failCount=0;peerOK=m.peerOnline!==false||!net.ready;foregroundPeer=m.peerForeground!==false||!net.ready;const sample=Math.max(0,performance.now()-began-(Number(m.waited)||0));net.latency=Math.round(net.latency==null?sample:net.latency*.7+sample*.3);for(const item of m.messages||[]){if(closed)break;sock.onmessage?.({data:JSON.stringify(item)});}ack=m.batch||0;if(m.snapshot&&net.active&&net.role==='guest')sock.onmessage?.({data:JSON.stringify(m.snapshot)});if(m.finished===true&&net.active&&!net.resultShown){netRestoreResult(!!m.won);v35SaveRoom();}if((m.messages||[]).some(x=>['room','roles','peer','start','result','rematch','command'].includes(x.type)))v35SaveRoom();status();pump();}catch(e){if(closed)return;if(e.fatal){fail();return;}localOK=false;resync=true;failCount++;status();if(!failedAt)failedAt=Date.now();if(Date.now()-failedAt>895000){fail();return;}delay=Math.min(4000,350*2**Math.min(failCount,4))+Math.random()*200;}finally{polling=false;if(!closed)timer=setTimeout(poll,suspended||document.hidden?Math.max(delay,3000):delay);}}
 if(resume){sock.readyState=1;setTimeout(()=>{if(!closed){sock.onopen?.();poll();}},0);}else api('open',{version:45}).then(m=>{token=m.token;if(closed){api('close',{token}).catch(()=>{});return;}sock.readyState=1;sock.onopen?.();poll();}).catch(e=>{fail();if(e.versionMismatch)netMessage('Máy chủ và game không cùng phiên bản. Hãy mở game tương thích với máy chủ.');});return sock;}
 let netTransport='p2p', netMode='internet';
-function netHealth(ok,reason=''){const old=net.pausedNetwork;if(!ok&&net.active&&!old){v419Pending={};v41Reset(false);if(net.role==='host'){v41StopAll();if(netField()&&state.v450){state.v450.path=[];state.v450.route=[];state.v450.target='';state.v450.working=false;state.v450.work=0;}}}net.pausedNetwork=!ok;net.waitReason=reason;if(net.active&&old!==net.pausedNetwork){frameLast=performance.now();netStatus();if(ok&&state.phase==='playing'){v419Pending={};net.last=0;updateUI(true);if(net.role==='guest'&&canNetCamera())netSend({type:'command',action:'watch',enabled:net.watch,cam:net.cam});if(netDuel()&&netJob()==='monster'){if(net.role==='host')duelCommand('select',v40Pick);else netSend({type:'command',action:'select',bot:v40Pick});}}}else if(net.active)netStatus();}
+function netHealth(ok,reason=''){const old=net.pausedNetwork;if(!ok&&net.active&&!old){v419Pending={};v41Reset(false);if(net.role==='host'){v41StopAll();if(netField()&&state.v450&&!net.ws?.p2p){state.v450.path=[];state.v450.route=[];state.v450.target='';state.v450.working=false;state.v450.work=0;}}}net.pausedNetwork=!ok;net.waitReason=reason;if(net.active&&old!==net.pausedNetwork){frameLast=performance.now();netStatus();if(ok&&state.phase==='playing'){v419Pending={};net.last=0;updateUI(true);if(net.role==='guest'&&canNetCamera())netSend({type:'command',action:'watch',enabled:net.watch,cam:net.cam});if(netDuel()&&netJob()==='monster'){if(net.role==='host')duelCommand('select',v40Pick);else netSend({type:'command',action:'select',bot:v40Pick});}}}else if(net.active)netStatus();}
 // V40: visibility is handled by the unified listener below.
 window.addEventListener('offline',()=>{if(net.active)netHealth(false,'Mất mạng · đang chờ kết nối');});window.addEventListener('online',()=>net.ws?.visibility?.());
 
@@ -2967,6 +2967,7 @@ function v48SnapshotValid(m,duration){
  return !!m&&Number.isFinite(m.secs)&&m.secs>=0&&m.secs<=duration+.1&&m.duration===duration&&Number.isFinite(m.power)&&m.power>=0&&m.power<=100&&['playing','blackout','jumpscare','deathAftermath','winAnim','won','lost'].includes(m.phase)&&['doors','lights'].every(k=>m[k]&&['left','right'].every(side=>typeof m[k][side]==='boolean'))&&m.effects&&['cameraJamUntil','ghostUntil','flickerUntil'].every(k=>Number.isFinite(m.effects[k]))&&Array.isArray(m.hunters)&&m.hunters.length===4&&new Set(m.hunters.map(h=>h?.name)).size===4&&m.hunters.every(h=>h&&['Bonnie','Chica','Freddy','Foxy'].includes(h.name)&&Number.isFinite(h.x)&&Number.isFinite(h.y)&&h.x>=0&&h.x<=2050&&h.y>=0&&h.y<=1090);
 }
 const V49_GRACE=30000;
+function v49AggregateViews(views){const active=[...views.values()].filter(v=>v.enabled);return {enabled:active.length>0,cam:active[0]?.cam||'1A',count:active.length};}
 function v49Token(){const bytes=new Uint8Array(16);crypto.getRandomValues(bytes);return Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');}
 function v49FindSeat(clients,id,token,now){if(typeof id!=='string'||typeof token!=='string'||!/^[a-f0-9]{32}$/.test(token))return null;for(const [seat,v] of clients)if(v.id===id&&v.token===token&&!v.conn?.open&&v.lostAt!==null&&now-v.lostAt<V49_GRACE)return seat;return null;}
 async function netPeerConnect(create){
@@ -2977,9 +2978,9 @@ async function netPeerConnect(create){
  if(create){net.roomDiff=diff;net.roomDuration=v418Duration($('netDuration')?.value||360);}
  if(!/^[A-Z0-9]{6}$/.test(code)){netMessage('Nhập đúng mã phòng 6 ký tự.');return;}
  let peer=null,upstream=null,closed=false,started=false,finished=false,timer=0,beatTimer=0,lastHost=0,hostForeground=true,rematches=new Set();
- const clients=new Map(),reserved=new Set(),readySeats=new Set();let round=0,sendSeq=0,recvSeq=0,configKey='',resumeToken='',lostAt=null,retryTimer=0,reconnectAttempt=0,peerOpened=false,terminating=false;
+ const clients=new Map(),reserved=new Set(),readySeats=new Set();let round=0,sendSeq=0,recvSeq=0,configKey='',resumeToken='',lostAt=null,retryTimer=0,reconnectAttempt=0,peerOpened=false,terminating=false,configRevision=0;const views=new Map();
  let groupHealthy=true;
- const sock={p2p:true,readyState:0,playerCount:1,capacity:4,slots:[0],seat:0,readySeats:[],canStart:false,recovering:false,
+ const sock={p2p:true,readyState:0,playerCount:1,capacity:4,slots:[0],seat:0,readySeats:[],canStart:false,recovering:false,configRevision:0,
  visibility(hidden=document.hidden){if(!hidden&&peer?.disconnected&&!peer.destroyed){try{peer.reconnect();}catch(_){}}if(!hidden&&!create&&lostAt!==null)scheduleReconnect(0);heartbeat(hidden);},
  setCapacity(n){if(!create||started||![2,3,4].includes(n)||n<Math.max(...this.slots,...reserved)+1||n<clients.size+1)return false;this.capacity=n;publish();return true;},
  close(){if(closed)return;if(!create&&upstream?.open)sendTo(upstream,{type:'leave'});closed=true;this.readyState=3;clearTimeout(timer);clearTimeout(retryTimer);clearInterval(beatTimer);for(const c of clients.values()){try{c.conn?.close();}catch(_){}}clients.clear();try{upstream?.close();}catch(_){}try{peer?.destroy();}catch(_){}},
@@ -2994,7 +2995,7 @@ async function netPeerConnect(create){
   if(['state','signal'].includes(m.type)&&started&&!finished)return broadcast({...m,round,seq:++sendSeq});
   return false;
  }
- if(m.type==='ready'&&!started&&!this.recovering)return typeof m.ready==='boolean'&&sendTo(upstream,m);
+ if(m.type==='ready'&&!started&&!this.recovering)return typeof m.ready==='boolean'&&sendTo(upstream,{...m,revision:this.configRevision});
  if(['command','signal','rematch'].includes(m.type)&&!this.recovering)return sendTo(upstream,{...m,round});
  return false;
  }};
@@ -3010,15 +3011,15 @@ async function netPeerConnect(create){
  function applyParty(m){
   if(!Array.isArray(m.slots)||m.slots.length<1||m.slots.length>4||m.slots[0]!==0||m.slots.some((n,i,a)=>!Number.isInteger(n)||n<0||n>3||a.indexOf(n)!==i)||![2,3,4].includes(m.capacity)||Math.max(...m.slots)>=m.capacity)return;
   if(!m.slots.includes(sock.seat))return;
-  sock.slots=m.slots.slice();sock.capacity=m.capacity;sock.playerCount=m.slots.length;sock.readySeats=Array.isArray(m.ready)?m.ready.filter(n=>n!==0&&sock.slots.includes(n)):[];sock.recoveringSeats=Array.isArray(m.recovering)?m.recovering.filter(n=>sock.slots.includes(n)):[];sock.canStart=v48Ready(sock.slots,sock.readySeats)&&!sock.recoveringSeats.length;
+  sock.slots=m.slots.slice();sock.capacity=m.capacity;sock.playerCount=m.slots.length;sock.readySeats=Array.isArray(m.ready)?m.ready.filter(n=>n!==0&&sock.slots.includes(n)):[];sock.configRevision=Number.isSafeInteger(m.revision)?m.revision:0;sock.recoveringSeats=Array.isArray(m.recovering)?m.recovering.filter(n=>sock.slots.includes(n)):[];sock.canStart=v48Ready(sock.slots,sock.readySeats)&&!sock.recoveringSeats.length;
   net.ready=sock.playerCount>=2;
   v471Roster();
   if(net.code&&!net.active)netRoom();
  }
  function publish(){
   const slots=[0,...[...clients.keys()].sort((a,b)=>a-b)];
-  const key=[net.hostJob,net.roomDuration,net.roomDiff,sock.capacity,slots.join(',')].join('|');if(configKey&&key!==configKey&&!started)readySeats.clear();configKey=key;
-  const party={type:'party',slots,capacity:sock.capacity,ready:[...readySeats].filter(n=>slots.includes(n)),recovering:[...clients].filter(([,v])=>!v.conn?.open).map(([n])=>n)};
+  const key=[net.hostJob,net.roomDuration,net.roomDiff,sock.capacity,slots.join(',')].join('|');if(key!==configKey){if(!started)readySeats.clear();configRevision++;configKey=key;}
+  const party={type:'party',slots,capacity:sock.capacity,revision:configRevision,ready:[...readySeats].filter(n=>slots.includes(n)),recovering:[...clients].filter(([,v])=>!v.conn?.open).map(([n])=>n)};
   broadcast(party);applyParty(party);
   broadcast({type:'roles',hostJob:net.hostJob,duration:net.roomDuration,difficulty:net.roomDiff});
  }
@@ -3028,9 +3029,9 @@ async function netPeerConnect(create){
   if(reserved.size||document.hidden||[...clients.values()].some(v=>!v.conn?.open||!v.foreground||Date.now()-v.last>5500)){netMessage('Chờ mọi thành viên kết nối và trở lại game rồi bắt đầu.');return false;}
   if(clients.size>1&&net.hostJob==='foxguard'){net.hostJob='foxmonster';}
   if(clients.size>1&&['camera','fieldcamera','monster'].includes(net.hostJob)){net.hostJob=({camera:'guard',fieldcamera:'fieldguard',monster:'duelguard'})[net.hostJob];}
-  started=true;finished=false;rematches.clear();round++;sendSeq=0;recvSeq=0;publish();
+  started=true;finished=false;rematches.clear();round++;sendSeq=0;recvSeq=0;views.clear();if(multiViews())for(const seat of clients.keys())views.set(seat,{enabled:['guard','fieldguard'].includes(net.hostJob),cam:'1A'});publish();
   const m={type:'start',round,difficulty:net.roomDiff||diff,hostJob:net.hostJob||'guard',duration:net.roomDuration};
-  broadcast(m);local(m);heartbeat();return true;
+  broadcast(m);local(m);if(multiViews())applyViews();heartbeat();return true;
  }
  function rematch(seat){
   if(!finished||(!clients.has(seat)&&seat!==0))return;
@@ -3074,6 +3075,8 @@ async function netPeerConnect(create){
   if(m.type==='state'&&(!started||finished||!Number.isFinite(m.secs)||!Number.isFinite(m.power)||!Array.isArray(m.hunters)||m.hunters.length!==4||!m.doors||!m.lights||!m.effects))return;
   try{local(m);}catch(_){fail('Dữ liệu phòng không hợp lệ. Vào lại phòng.');}
  }
+ function multiViews(){return clients.size>1&&['guard','fieldguard','foxmonster'].includes(net.hostJob);}
+ function applyViews(){if(!multiViews())return;const a=v49AggregateViews(views);net.watch=a.enabled;net.cam=a.cam;sock.cameraCount=a.count;}
  function hostIncoming(seat,m){
   if(!current()||terminating||!validMessage(m))return;
   const v=clients.get(seat);if(!v)return;
@@ -3082,7 +3085,7 @@ async function netPeerConnect(create){
   if(m.type==='pong'){const t=Date.now()-Number(m.stamp);if(t>=0&&t<60000)net.latency=Math.round(t);return;}
   if(m.type==='chat'){if(!validChat(m)||Date.now()-v.chat<350)return;v.chat=Date.now();const clean={type:'chat',text:'P'+(seat+1)+': '+m.text.trim().slice(0,235)};local(clean);broadcast(clean,v.conn);return;}
   if(m.type==='voice'){if(!validVoice(m,seat))return;const packet=cleanVoice(m,seat);if(packet.to===0)local(packet);else sendTo(clients.get(packet.to)?.conn,packet);return;}
-  if(m.type==='ready'&&!started&&typeof m.ready==='boolean'){if(m.ready)readySeats.add(seat);else readySeats.delete(seat);publish();return;}
+  if(m.type==='ready'&&!started&&typeof m.ready==='boolean'&&m.revision===configRevision){if(m.ready)readySeats.add(seat);else readySeats.delete(seat);publish();return;}
   if(m.type==='rematch'){if(m.round===round)rematch(seat);return;}
   if(!started||finished||m.round!==round||!groupHealthy||!v.foreground||document.hidden)return;
   if(m.type==='signal'&&['left','right','ok'].includes(m.signal)){local(m);broadcast({...m,round,seq:++sendSeq},v.conn);return;}
@@ -3090,7 +3093,14 @@ async function netPeerConnect(create){
   const bots=net.hostJob==='duelguard'?partyBots(sock.slots,seat):null;
   if(bots&&(m.action==='tactic'?seat!==sock.slots[1]:!bots.includes(m.bot)))return;
   // All Foxy Rush defenders share the office and can perform valid guard actions.
-  const now=Date.now();if(now-v.cmd<35&&m.action!=='manualStop')return;v.cmd=now;local(m);
+  const now=Date.now();if(now-v.cmd<35&&m.action!=='manualStop'&&m.action!=='watch')return;v.cmd=now;
+  if(!multiViews()){local(m);return;}
+  const view=views.get(seat)||{enabled:false,cam:'1A'};
+  if(m.action==='watch'){if(!Object.hasOwn(CAMNAME,m.cam)||typeof m.enabled!=='boolean')return;view.enabled=m.enabled;view.cam=m.cam;views.set(seat,view);if(net.hostJob==='foxmonster'&&view.enabled){state.lights.left=false;state.lights.right=false;}applyViews();net.last=0;netStatus();return;}
+  // Evaluate camera-dependent actions against the sender's camera, not another player's selection.
+  net.watch=view.enabled;net.cam=view.cam;
+  try{local(m);}finally{if(net.hostJob==='foxmonster'&&['leftDoor','rightDoor'].includes(m.action))view.enabled=false;views.set(seat,view);applyViews();}
+
  }
  function scheduleReconnect(delay=1200){
   if(!current()||create||lostAt===null||retryTimer||document.hidden||!peer)return;
@@ -3117,7 +3127,7 @@ async function netPeerConnect(create){
  }
  function reject(c,message,retry=false){const run=()=>{sendTo(c,{type:'reject',message,retry});setTimeout(()=>{try{c.close();}catch(_){}},250);};c.on('open',run);if(c.open)run();}
  function expireSeat(seat){
-  const v=clients.get(seat);if(!v)return;clients.delete(seat);readySeats.delete(seat);
+  const v=clients.get(seat);if(!v)return;clients.delete(seat);readySeats.delete(seat);views.delete(seat);
   try{v.conn?.close();}catch(_){}
   if(started){if(terminating)return;terminating=true;groupHealthy=false;netHealth(false,'Thành viên rời phòng');broadcast({type:'closed'});setTimeout(()=>{if(current())local({type:'closed'});},300);}else publish();
  }
