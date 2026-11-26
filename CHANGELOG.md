@@ -4,6 +4,23 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V47.1 Party Voice — Preview (26/11/2026)
+
+### Tính năng mới
+- Voice P2P mở rộng từ 2 lên 2–4 người bằng WebRTC mesh: mỗi máy dùng một luồng micro được người dùng cấp quyền và tối đa ba kết nối âm thanh riêng. Phòng 4 người có sáu cặp kết nối.
+- Host định tuyến tín hiệu voice theo vị trí người gửi/nhận, xác thực vị trí và giới hạn SDP, không phát tín hiệu đàm phán của một cặp sang các thành viên khác. Âm thanh truyền qua WebRTC giữa các cặp, không qua kênh dữ liệu gameplay.
+- Hiển thị trạng thái kết nối voice từng người, chỉnh âm lượng chung, tắt tiếng micro, nút bật nghe khi autoplay bị chặn và hỗ trợ cấu hình STUN/TURN. Theo dõi ICE và thử kết nối lại khi kết nối lỗi.
+
+### Sửa lỗi
+- Không còn tự ngắt voice khi thành viên thứ ba hoặc thứ tư vào phòng. Dọn kết nối âm thanh của thành viên rời phòng, bảo toàn các kết nối còn lại trong lobby.
+- Heartbeat của host báo trạng thái toàn nhóm; khách cũng tạm dừng gameplay khi một thành viên ở nền hoặc mất tín hiệu. Foxy Rush cho các bảo vệ chia sẻ bàn trực sử dụng các lệnh hợp lệ, bỏ giới hạn trái/phải không nhất quán.
+- Mã phòng P2P V47.1 riêng để tránh trộn giao thức voice V47.0. Relay giữ voice 2 người và giao thức cũ.
+- Cập nhật nhãn phiên bản và hướng dẫn trong lobby.
+
+### Kiểm thử và giới hạn
+- Kiểm tra cú pháp toàn bộ JavaScript: đạt. Mô phỏng bốn máy với SDP/ICE giả lập: 29 kiểm tra đạt, gồm 6 cặp kết nối/12 đầu WebRTC, ngắt voice, dọn thành viên rời phòng và dọn toàn bộ kết nối. Đây không phải thử nghiệm âm thanh thực tế.
+- Chưa kiểm thử WebRTC thật, âm thanh thực, Safari/iPhone, NAT nghiêm ngặt hoặc TURN thực trên bốn thiết bị. Micro cần HTTPS hoặc localhost và quyền truy cập; trình duyệt, mạng và hệ điều hành có thể chặn voice hoặc ngắt khi chạy nền. Chưa merge main/triển khai Pages. Không xác nhận đã sửa hết lỗi toàn bộ game.
+
 ## V47.0 Party — Preview (26/11/2026)
 
 - P2P: mở rộng phòng từ 2 lên 2–4 người; chủ phòng chọn sức chứa, lobby hiển thị từng vị trí, trạng thái kết nối và số người thực tế. Mã phòng V47 riêng, không ghép với V46.
