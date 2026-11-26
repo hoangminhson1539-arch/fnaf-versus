@@ -4,6 +4,15 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V49.0 — Reconnect & Squad Intelligence (26/11/2026)
+
+- Tự nối lại kênh dữ liệu P2P của khách trong cùng tab tối đa 30 giây; giữ nguyên vị trí, vai trò và mã ca, tạm dừng cả đội khi đang chơi. Xác thực yêu cầu nối lại bằng Peer ID và token ngẫu nhiên 128 bit riêng của chỗ; không lưu token vào bộ nhớ lâu dài. Nếu hết hạn, kết thúc ca và thông báo cho các thành viên còn lại trước khi đóng kết nối. Không hỗ trợ khôi phục sau khi đóng/tải lại tab hoặc mất chủ phòng.
+- Xác nhận sẵn sàng theo phiên bản cấu hình lobby, loại bỏ xác nhận cũ sau khi đổi thời lượng/độ khó/đội hình. Sửa lỗi thông báo kết thúc ca bị mất do đóng kênh quá sớm; lưu kết quả ca hiện tại để gửi lại cho khách vừa khôi phục.
+- Co-op, Thực địa và Foxy Rush P2P 3–4 người: quản lý trạng thái và lựa chọn camera theo từng khách, giữ camera chung hoạt động nếu còn người xem, xử lý kỹ năng phụ thuộc camera theo lựa chọn của người gửi. Chia sẻ điện, cửa và hồi chiêu theo luật hiện tại.
+- Giữ đường đi và tiến độ thao tác thực địa khi tạm dừng mạng P2P; không tiến hành nhiệm vụ trong thời gian tạm dừng. Giữ hệ thống điện, cân bằng Foxy Rush và trợ giúp đêm 1 đã có.
+- HUD đội hình nhỏ hiển thị P1–P4 và chỗ đang khôi phục; cập nhật thông báo trong lobby, cài đặt, và trận đấu cho nhóm nhiều người. Sửa cập nhật trạng thái phát voice từ kết nối cũ và thử phát lại audio bị tạm dừng.
+- Kiểm tra cú pháp toàn bộ JavaScript đạt. 27 kiểm tra tích hợp giả lập 4 người đạt cho phiên bản trước tinh chỉnh HUD/kết quả/voice: xác nhận cấu hình, camera độc lập, ngắt kênh, tạm dừng, nối lại đúng vị trí, đồng bộ sau nối lại, hết hạn và xác thực token. Cú pháp bản cuối đạt. Chưa thử WebRTC, mic, đồ họa và gameplay trên thiết bị thật. P2P yêu cầu cả nhóm V49.0; relay vẫn hai người, không áp dụng cơ chế giữ chỗ mới.
+
 ## V48.0 — Party & Tactical Overhaul (26/11/2026)
 
 - Phòng P2P 2–4 người có xác nhận sẵn sàng từng thành viên; chủ phòng chỉ bắt đầu khi mọi khách đã xác nhận. Đổi chế độ, độ khó, thời lượng, sức chứa hoặc đội hình sẽ yêu cầu xác nhận lại. Hiển thị vai trò dự kiến của phòng 3–4 người và thêm preset Chiến thuật 9 phút.
