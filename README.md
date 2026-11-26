@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V55.0 Cloud Accounts & Tactical Camera Overhaul
+# FNAF 1 Versus · V56.0 One-tap Accounts & Smooth Play
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,16 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V56.0 — One-tap Accounts & Smooth Play (26/11/2026)
+
+- Safari iPhone/Android: chặn chọn chữ, menu nhấn giữ và kéo văn bản trong khu chơi; xóa vùng chọn cũ khi chạm, giữ khả năng nhập/chọn chữ trong chat, cài đặt và tài khoản. Thu gọn joystick/HUD, giảm chiều cao cảnh dọc và cho phép cuộn bảng bên dưới. Nút khôi phục âm thanh nổi không che game multiplayer (vẫn có nút trong bảng điều khiển).
+- Camera thực địa: dùng grid hàng rõ ràng, cố định thanh thao tác nhanh và camera sát đáy, giữ khoảng trống giữa màn CCTV; chia màn giữ bản đồ trong vùng riêng, bỏ dòng trạng thái trùng, giảm kích thước thông báo tạm dừng.
+- Hiệu năng: bỏ render canvas khi đang xem bản đồ lớn; giới hạn render nền/tạm dừng 8 FPS; DPR tự động tối đa 1,25 trên cảm ứng, 1,5 trên PC ở mức cao nhất của Auto, giảm theo tải và giới hạn pixel canvas mục tiêu 1,6 triệu; vẫn cho phép chọn chất lượng thủ công. Không đổi tốc độ mô phỏng. Điều tiết HUD thực địa 125 ms (350 ms khi tạm dừng), giảm cập nhật UI từ snapshot thường, giữ cập nhật cửa/pha ngay; giảm tính lặp tầm nhìn và không thay SVG khi đang chạm. Giữ nút hành động phản hồi ngay.
+- Multiplayer: tăng ngưỡng heartbeat khỏe từ 5,5 lên 8 giây và dùng pong cập nhật thời điểm kết nối, giữ ngưỡng ngắt 12 giây; bỏ snapshot trạng thái khi hàng đợi P2P quá lớn, không bỏ lệnh điều khiển/kết quả; loại route cũ khi tạo snapshot. Khi người chơi thực sự ở nền vẫn tạm dừng để giữ đồng bộ, không hứa chạy nền iOS.
+- Sửa lỗi biến s chưa khai báo trong updateFoxy ở nhánh va cửa và đi thực địa; chọn camera khi đang tắt gửi một lệnh bật đúng camera thay vì hai lệnh. Giữ thông tin nhập email khi UI cập nhật, giới hạn chờ tải SDK 15 giây, xử lý lỗi callback, xóa trạng thái recovery khi đổi người dùng, không vẽ lại form theo token refresh.
+- Tài khoản: ưu tiên đăng ký/đăng nhập chung bằng link email không mật khẩu (tự tạo tài khoản khi lần đầu), OAuth một nút, mật khẩu tùy chọn thu gọn; chờ 60 giây giữa lần yêu cầu link thành công. Cấu hình Supabase vẫn bắt buộc, chưa kích hoạt; ACCOUNT_SETUP.md rút gọn còn ba bước, email trước và OAuth tùy chọn. Giữ nguyên bảo mật RLS và xác nhận lưu/tải.
+- Kiểm tra cú pháp JavaScript toàn bộ đạt; 27 kiểm tra logic (DPR, backpressure, heartbeat, snapshot, khóa chọn chữ) và 2 kiểm tra nhánh Foxy đạt trên các commit. Chưa thử trình duyệt thật, đo FPS thực tế, P2P đa thiết bị, OAuth hay xác nhận triển khai Pages. Cần tất cả người chơi P2P dùng V56.0. Không sửa server.go vì không thay lệnh relay. Cập nhật nhật ký trong game, README và CHANGELOG.
 
 ### V55.0 — Cloud Accounts & Tactical Camera Overhaul (26/11/2026)
 
