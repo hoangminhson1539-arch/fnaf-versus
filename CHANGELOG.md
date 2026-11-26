@@ -4,6 +4,15 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V57.0 — In-game Accounts & Performance (26/11/2026)
+
+- Tài khoản: nhập email → gửi mã → nhập OTP 6 số trực tiếp trong game; lần đầu tự tạo tài khoản qua Supabase, giữ link email và OAuth làm phương án thay thế. Kiểm tra mã, giới hạn thử lại 3 giây và gửi lại 60 giây, xác minh đúng email đã yêu cầu, hỗ trợ bàn phím OTP/Enter, nhớ email đang xác minh trong sessionStorage tối đa 10 phút khi tải lại. Không lưu mã hoặc mật khẩu trong bộ nhớ lưu trữ. Đăng xuất chỉ phiên thiết bị hiện tại.
+- Hướng dẫn tài khoản, lưu/tải tiến trình, kích hoạt dịch vụ và tối ưu hiệu năng có ngay trong game. Chưa có cấu hình Supabase thật; cần quản trị viên kích hoạt một lần, đặt mẫu Magic Link có Token 6 số và cấu hình SMTP/provider khi cần. ACCOUNT_SETUP.md cập nhật. Người chơi không tự cấu hình backend; không có tài khoản giả.
+- Hiệu năng thực địa: cache lớp phòng tĩnh của SVG, cập nhật lớp dấu động riêng, không dựng lại phòng mỗi lần vị trí thay đổi. Giữ map khi đang nhấn; dấu không tương tác không chặn chọn phòng. Culling cửa, tường, nhãn phòng và vật thể nằm ngoài khung nhìn có khoảng đệm; không đổi collision, AI hay luật chơi.
+- Chất lượng Auto tính thêm chi phí mô phỏng trước lúc render, giảm hiệu ứng nhiễu ở mức tải thấp; joystick cache kích thước khi kéo, không đo layout mỗi lần di chuyển. Giữ tối ưu V56.
+- Giao diện: trường nhập 16px hạn chế zoom tự động Safari, OTP riêng, nút tài khoản lớn; camera gọn trên màn hình dọc và ngang thấp, ẩn thanh hành động trùng trên ngang dưới 420px (vẫn có ở sidebar), giới hạn tràn nội dung.
+- Kiểm tra cú pháp toàn bộ JavaScript đạt; 22 kiểm tra logic trích hàm (OTP, vùng culling, cache và cập nhật lớp bản đồ) đạt. Chưa kiểm thử trình duyệt thực tế, FPS, OAuth/OTP thật hoặc triển khai Pages; P2P yêu cầu cùng V57.0. Không đổi server.go. Cập nhật changelog trong game, README và CHANGELOG.
+
 ## V56.0 — One-tap Accounts & Smooth Play (26/11/2026)
 
 - Safari iPhone/Android: chặn chọn chữ, menu nhấn giữ và kéo văn bản trong khu chơi; xóa vùng chọn cũ khi chạm, giữ khả năng nhập/chọn chữ trong chat, cài đặt và tài khoản. Thu gọn joystick/HUD, giảm chiều cao cảnh dọc và cho phép cuộn bảng bên dưới. Nút khôi phục âm thanh nổi không che game multiplayer (vẫn có nút trong bảng điều khiển).
