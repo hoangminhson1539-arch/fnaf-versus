@@ -333,13 +333,13 @@ func handle(c *Client, m M) {
 		}
 		c.commandCredit--
 		a := str(m, "action")
-		if r.hostJob == "fieldguard" && contains(a, "fieldGuide", "fieldDecoy", "fieldDoorLeft", "fieldDoorRight", "fieldScan", "fieldService") {
+		if r.hostJob == "fieldguard" && contains(a, "fieldClearMarks", "fieldWarn", "fieldBoost", "fieldMark_office", "fieldMark_supply", "fieldMark_backstage", "fieldMark_kitchen", "fieldMark_dining", "fieldMark_west", "fieldMark_east", "fieldMark_pirate", "fieldMark_stage", "fieldMark_restroom", "fieldWarn_Bonnie", "fieldWarn_Chica", "fieldWarn_Freddy", "fieldWarn_Foxy", "fieldGuide", "fieldDecoy", "fieldDoorLeft", "fieldDoorRight", "fieldScan", "fieldService") {
 			msg := M{"type":"command", "action":a}
 			if target, ok := m["target"].(bool); ok && contains(a, "fieldDoorLeft", "fieldDoorRight") { msg["target"] = target }
 			send(p, msg)
 			return
 		}
-		if r.hostJob == "fieldcamera" && contains(a, "manualN", "manualNE", "manualE", "manualSE", "manualS", "manualSW", "manualW", "manualNW", "manualStop", "fieldCache", "fieldStop", "fieldWork", "fieldSmoke", "fieldDoorLeft", "fieldDoorRight", "fieldGo_office", "fieldGo_supply", "fieldGo_backstage", "fieldGo_kitchen", "fieldGo_dining", "fieldGo_west", "fieldGo_east", "fieldGo_pirate", "fieldGo_stage", "fieldGo_restroom") {
+		if r.hostJob == "fieldcamera" && contains(a, "fieldAck", "manualN", "manualNE", "manualE", "manualSE", "manualS", "manualSW", "manualW", "manualNW", "manualStop", "fieldCache", "fieldStop", "fieldWork", "fieldSmoke", "fieldDoorLeft", "fieldDoorRight", "fieldGo_office", "fieldGo_supply", "fieldGo_backstage", "fieldGo_kitchen", "fieldGo_dining", "fieldGo_west", "fieldGo_east", "fieldGo_pirate", "fieldGo_stage", "fieldGo_restroom") {
 			msg := M{"type":"command", "action":a}
 			if target, ok := m["target"].(bool); ok && contains(a, "fieldDoorLeft", "fieldDoorRight") { msg["target"] = target }
 			send(p, msg)
