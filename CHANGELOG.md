@@ -4,6 +4,14 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V59.0 — Stability & Mobile Recovery (26/11/2026)
+
+- Multiplayer: tách bước gửi snapshot của host, render và HUD thành các vùng bắt lỗi độc lập; gửi trạng thái trước render để lỗi đồ họa không làm mất bước đồng bộ. Giới hạn log lỗi riêng từng vùng 2 giây. Không sửa giao thức relay Go; P2P sử dụng mã phòng V59.0 riêng, tất cả máy phải cập nhật cùng phiên bản.
+- Mobile: không dựng lại dải 11 camera bị ẩn; không cập nhật danh sách nút đội/nhiệm vụ khi bảng đội đang đóng, vẫn cập nhật nút thao tác nhanh; khi mở bảng sẽ cập nhật lại. Sửa nhãn chất lượng Auto thành 18–60 FPS. Không thay đổi tốc độ mô phỏng.
+- Tài khoản: giữ OTP đang nhập và tiêu điểm khi form được vẽ lại nếu vẫn cùng email yêu cầu mã; không lưu mã vào localStorage/sessionStorage. Giữ trạng thái lỗi kiểm tra dịch vụ khi chưa có kết quả, giới hạn kiểm tra lại sau lỗi 10 giây, kiểm tra thành công được cache 60 giây. Không thay cấu hình SMTP/OAuth/RLS.
+- Giữ nguyên cân bằng V58.0, bao gồm sức mạnh Foxy Rush, hao điện và tốc độ sửa cửa.
+- Kiểm tra trước commit: cú pháp toàn bộ script JavaScript đạt; 7 kiểm tra thực thi hàm cô lập lỗi/log và 5 kiểm tra cấu trúc mã đạt. Chưa kiểm thử trên trình duyệt/điện thoại thật, FPS, gameplay đa thiết bị, OTP/OAuth hoặc xác nhận triển khai Pages. Không khẳng định toàn bộ lỗi đã hết.
+
 ## V58.0 — Foxy Rush Rebalance & Mobile Lite (26/11/2026)
 
 - Tài khoản: kết nối URL và publishable key của dự án Supabase thật của chủ game; xác minh bảng fnaf_saves đã có RLS, quyền chỉ authenticated, policy theo auth.uid và trigger revision. Không dùng secret. Game kiểm tra public auth settings, chỉ hiển thị OAuth đã bật, thông báo rõ lỗi SMTP/email/provider; giữ đăng ký email OTP/link, mật khẩu tùy chọn và hướng dẫn trong game. Chưa kiểm thử đăng nhập thật hoặc cấu hình SMTP/redirect/provider. SMTP mặc định giới hạn thành viên dự án và 2 thư/giờ; cần quản trị viên thiết lập SMTP để mở đăng ký công khai. Không tắt xác minh email.
