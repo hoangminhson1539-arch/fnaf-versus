@@ -4,6 +4,17 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V54.0 — Field Command Center & Emergency Response (26/11/2026)
+
+- Thiết kế trung tâm điều phối mới cho người xem camera trong Thực địa và Tiếp tế khẩn cấp: bản đồ chiến thuật lớn trên sân chơi, chuyển giữa bản đồ và CCTV, thanh chọn nhanh camera, hiển thị tín hiệu/mất kết nối, công tắc bật/tắt camera để tiết kiệm điện. Hai công cụ tương tác bản đồ riêng: chỉ đường và chọn camera theo phòng; tránh đặt điểm ngoài ý muốn. Bố cục PC và điện thoại ngang, có điều chỉnh cho màn hình dọc.
+- Bảng theo dõi đội: từng bảo vệ có vị trí phòng, trạng thái an toàn/cảnh giác/truy đuổi, giáp, khói, trạng thái di chuyển hoặc tiến độ thao tác, mốc đường đã tới. Danh sách ba nhiệm vụ và mốc giờ mở; nhật ký điều phối 8 sự kiện gần nhất. Camera hiển thị tiến độ của bảo vệ đang thao tác, kể cả BV2.
+- Theo dõi tuyến chỉ đường riêng cho BV1/BV2; tự ghi nhận khi tới cách mốc tối đa 35 đơn vị. Nút Đi mốc tiếp để tự tìm đường theo tuyến đã nhận; bảo vệ tự quyết định di chuyển. Đổi tuyến đặt lại tiến độ. HUD hiện mốc kế tiếp và khoảng cách.
+- SOS/Báo an toàn: từng bảo vệ có hồi chung 10 giây, tín hiệu vị trí phòng tồn tại 15 giây, camera xác nhận riêng từng người. SOS đánh dấu trên bản đồ và phát âm thanh cho người xem camera; nút SOS/Mốc tiếp ngay trên cảnh chơi. Không ép di chuyển hoặc cấp vật phẩm.
+- Tập hợp: chỉ đường về phòng trực, hiệu lực 45 giây, hồi 25 giây; đồng bộ cho cả hai bảo vệ. Xung cứu viện: làm choáng một quái trong CAM đang chọn, cách ít nhất một bảo vệ không quá 180 đơn vị, trong 2,5 giây; tiêu hao 3% điện cơ sở theo thời lượng (tối thiểu 1,2%), hồi 42 giây nhân hệ số thời lượng. Không áp dụng khi camera tắt/nhiễu, thiếu điện, quái đang choáng/rút lui hoặc ngoài phạm vi. Giữ hệ thống cảnh báo và hỗ trợ thao tác V53.
+- Sửa lỗi snapshot lấy nhầm vị trí chính khi BV2 đang thực hiện hành động gây gửi trạng thái ngay; chặn vẽ HUD giữa lúc hoán đổi trạng thái BV2. Đồng bộ hướng khi tự tìm đường, trạng thái AI và thời gian choáng của quái; giới hạn di chuyển thực địa trong các phòng hợp lệ; giữ mục tiêu chạm bản đồ khi SVG cập nhật và hủy thao tác nếu mất pointer capture. Tương thích cấu trúc checkpoint cũ của hệ thống điều phối.
+- Relay hai người: thêm whitelist SOS, xác nhận, đi mốc, tập hợp, xung cứu viện; phải triển khai lại server.go để sử dụng. Tiếp tế khẩn cấp vẫn P2P; các máy P2P cần cùng V54.0. Giữ cân bằng điện và Foxy Rush V52.0.
+- Kiểm tra cú pháp toàn bộ JavaScript đạt ở hai commit; 27 kiểm tra logic trích hàm trong môi trường giả lập trên blob cuối đạt, gồm quyền/cooldown SOS, xác nhận hai người, tuyến/mốc, tập hợp, điều kiện xung cứu viện, giới hạn nhật ký, lọc snapshot và lỗi hoán đổi BV2. Chưa chạy thử trình duyệt, gameplay đa thiết bị, biên dịch Go hoặc xác nhận triển khai GitHub Pages. Không khẳng định mọi lỗi đã hết.
+
 ## V53.0 — Field Command & Tactical Intelligence (26/11/2026)
 
 - Thực địa và Tiếp tế khẩn cấp: người xem camera chạm phòng trên bản đồ để đặt tuyến tối đa 3 điểm theo thứ tự, có dấu xanh đánh số trên bản đồ và cảnh chính của cả hai bảo vệ. Dấu tồn tại 35 giây, hồi đặt/xóa 1,5 giây; nút chỉ mục tiêu đặt nhiệm vụ hiện tại hoặc phòng trực. Bảo vệ tự quyết định đường di chuyển, có xác nhận riêng BV1/BV2, không bị điều khiển từ xa.
