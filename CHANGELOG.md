@@ -4,6 +4,16 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V50.0 — Command Center & Tactical Expansion (26/11/2026)
+
+- Xác nhận lệnh cửa riêng theo người gửi, mã lệnh và ca trực; bỏ lệnh trùng, giới hạn thao tác quá nhanh; hỗ trợ cửa thường và cửa Thực địa P2P. Không dùng thông báo cửa của người khác để xác nhận lệnh đang chờ. Sửa nút mở cửa bị vô hiệu hóa khi cửa hỏng nhưng còn đóng; giảm âm thanh cửa lặp.
+- Phát hiện kênh P2P còn báo mở nhưng không truyền heartbeat trong 12 giây khi hai phía ở foreground, thử tạo lại kênh bằng hệ thống giữ chỗ 30 giây. Không tự tạo nhiều kết nối khôi phục cùng lúc. Không đảm bảo khôi phục nếu đóng tab hoặc mất chủ phòng.
+- Bảng TÍN HIỆU ĐỘI thu gọn cho Co-op và Thực địa P2P: trái, phải, an toàn, tiết kiệm điện, sửa hệ thống, về phòng; hiện P1–P4 gửi tín hiệu, hạn chế spam. Relay giữ ba tín hiệu cũ.
+- Ba kỹ năng chiến thuật multiplayer: khởi động cầu chì (2,5% điện cơ bản, hồi 36s), phục hồi camera (3%, hồi 34s), tích áp +12 AP khi quái không tấn công/điều khiển tay/rút lui và áp lực không quá 55 (hồi 40s). Chi phí/hồi chiêu áp dụng hệ số thời lượng; quyền quái và cooldown vẫn kiểm tra ở host.
+- Thực địa: túi tiếp tế phụ một lần tại khu vệ sinh từ 3 AM, tối đa +4% điện và +1 khói (tối đa 2 khói), cần đứng gần, không đang di chuyển/làm nhiệm vụ. Không tăng số nhiệm vụ bắt buộc. Chỉnh thống kê pin khẩn cấp theo lượng thực nhận.
+- Giải phóng track đầu ra audio thay thế khi đổi đường phát. Giữ bố cục ngang, voice 4 người, tutorial đêm 1, cân bằng pin/Foxy Rush trước đó.
+- Kiểm tra JavaScript cuối đạt; 38 kiểm tra mô phỏng P2P 4 người/biên heartbeat và mã lệnh, 23 kiểm tra logic kỹ năng/túi tiếp tế đạt trước lần tinh chỉnh cuối về chống lặp và điều kiện quái. Chưa thử trên thiết bị thật. P2P yêu cầu đồng phiên bản V50.0; relay vẫn hai người.
+
 ## V49.0 — Reconnect & Squad Intelligence (26/11/2026)
 
 - Tự nối lại kênh dữ liệu P2P của khách trong cùng tab tối đa 30 giây; giữ nguyên vị trí, vai trò và mã ca, tạm dừng cả đội khi đang chơi. Xác thực yêu cầu nối lại bằng Peer ID và token ngẫu nhiên 128 bit riêng của chỗ; không lưu token vào bộ nhớ lâu dài. Nếu hết hạn, kết thúc ca và thông báo cho các thành viên còn lại trước khi đóng kết nối. Không hỗ trợ khôi phục sau khi đóng/tải lại tab hoặc mất chủ phòng.
