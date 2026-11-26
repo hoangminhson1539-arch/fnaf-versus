@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V50.0 Command Center & Tactical Expansion
+# FNAF 1 Versus · V52.0 Direct Field Control, Anti-Camp & Emergency Supply
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,24 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V52.0 — Direct Field Control, Anti-Camp & Emergency Supply (26/11/2026)
+
+- Thực địa: WASD/phím mũi tên và joystick cảm ứng 8 hướng; tốc độ 145 đơn vị/s, chuẩn hóa đường chéo, dùng va chạm hiện hữu. Lệnh điều khiển làm hủy đường tự động và thao tác đang thực hiện, tự hết hạn sau 0,5 giây; gửi lại mỗi 125ms khi giữ. Dừng khi thả, mất tiêu điểm hoặc tạm dừng mạng. F/Space thao tác, X dùng khói, R về phòng. Bổ sung whitelist relay hai người cho điều khiển bảo vệ và túi tiếp tế. Relay cần triển khai lại server.go; chưa xác nhận đã triển khai.
+- Thực địa: HUD khu vực, số giáp/khói, cảnh giác, nhiệm vụ; joystick và bốn nút nhanh trên cảnh chính; bảng nhiệm vụ mới, viền trạng thái, thanh bên thu gọn. Desktop tối đa 1280px, thanh bên 245–290px trên màn hình đủ lớn; có bố cục riêng cho điện thoại ngang. Đồng bộ hướng, trạng thái di chuyển, giáp và khói; ngăn thao tác nhiệm vụ tiếp tục nhầm mục tiêu khi đồng đội hoàn thành trước.
+- Mode multiplayer P2P mới **Tiếp tế khẩn cấp**: 2–4 người, 75% điện xuất phát, 1 khói/bảo vệ; ba nhiệm vụ lần lượt ở vệ sinh, sân khấu, Pirate Cove, mở tại 12 AM, 1 AM, 3 AM, thưởng tối đa 6/7/9% điện; về phòng trước 6 AM. Dùng chung cơ chế một hoặc hai bảo vệ và camera điều phối. Không có mode này trên relay.
+- Điện: tăng hệ số tiêu hao multiplayer Co-op 0,93→1,04; Versus 0,90→1,01; Thực địa 0,90→1,02, trước hệ số thời lượng; giảm tiếp tế giờ và bonus thời lượng ngoài Foxy Rush. Solo tăng tiêu hao cơ sở 5%, không thay đổi cheat noDrain. Giữ nguyên công thức điện và tiếp tế giờ Foxy Rush; mức sát thương điện từ Foxy giảm theo nerf kỹ năng.
+- Anti-camp: trong bán kính 85 đơn vị quanh cửa, quái người chơi tích thời gian khi cửa đóng hoặc đứng chờ/di chuyển khi cửa mở; buộc rút sau 5,5s (Foxy Rush 3,8s), không reset chỉ vì đổi lệnh. Tấn công thực sự qua cửa mở vẫn hợp lệ. AI có giới hạn đứng gần cửa đóng. Phe quái Versus/Foxy Rush phải quay tới gần điểm xuất phát và chờ hồi trước khi ra lệnh tiếp.
+- Foxy Rush: giảm hệ số tốc độ 0,94→0,84 (phòng 2 người), sát thương 0,875→0,75; giảm tốc độ/thời lượng tăng tốc và sát thương điện; tăng hồi chiêu, thời gian rút lui và cửa sổ phản ứng bảo vệ, áp dụng hệ số riêng cho phòng 3–4 người.
+- Kiểm tra cú pháp toàn bộ JavaScript đạt trước commit 746a48e5037a26acefc0ef7479ce1776e8636d4d; đọc lại blob và chạy 68 kiểm tra logic trích hàm với môi trường giả lập: đạt (điện theo 5 thời lượng, giữ nguyên công thức điện Foxy Rush, hệ số nerf, di chuyển và hết hạn, phân quyền, mode tiếp tế, anti-camp). Chưa chạy thử gameplay P2P/relay, chưa biên dịch Go, chưa kiểm tra thực tế Safari/iPhone và các kích thước màn hình. P2P yêu cầu cùng V52.0.
+
+### V51.0 — Field Patrol Duo & Compact Desktop (26/11/2026)
+
+- Thực địa P2P: phòng 2 người có 1 bảo vệ và 1 camera; phòng 3–4 người tự phân 2 bảo vệ và 1–2 camera. Bảo vệ thứ hai có vị trí, tuyến đường, thao tác nhiệm vụ, trạng thái nguy hiểm, 1 khói và 1 giáp riêng. Nhiệm vụ, điện, cửa và tiếp tế phụ dùng chung. Chủ phòng xử lý lệnh theo seat của kết nối; quái chọn bảo vệ gần hơn. Cả hai bảo vệ phải về phòng trực để thắng.
+- Tái sử dụng cảnh khám phá tự do của chế độ thường cho góc nhìn bảo vệ thực địa: nhân vật, vật cản, ánh sáng, tuyến đi, đồng đội và mục tiêu. Chạm vào phòng trên cảnh chính hoặc bản đồ để đi; điều phối viên giữ góc camera. Không bổ sung điều khiển di chuyển tự do WASD trong bản này.
+- Chuyển bảng bản đồ/nhiệm vụ khỏi lớp phủ cảnh sang thanh điều khiển; thu gọn nút trùng, bản đồ tỷ lệ cố định, giới hạn chiều rộng desktop 1440px và thanh bên 260–320px trên màn hình đủ lớn. Giữ khả năng cuộn thanh bên khi chơi ngang trên điện thoại.
+- Sửa kiểm tra vùng cửa để tránh đóng cửa khi một trong hai bảo vệ ở ngưỡng cửa; khói và tiến độ đường đi của bảo vệ thứ hai được đưa vào snapshot.
+- Đã đọc lại index.html từ GitHub sau commit 9b4a7bf91fcf45704b6b41c67f3582b40a67db91 và kiểm tra cú pháp JavaScript toàn bộ script: đạt. 19 kiểm tra logic với các hàm trích từ mã đã commit và môi trường giả lập: đạt (phân vai phòng 2–4 người, vị trí riêng, chia sẻ nhiệm vụ/tiếp tế, snapshot, khôi phục ngữ cảnh khi lỗi, điều kiện thắng, kiểm tra ngưỡng cửa, relay). Chưa chạy thử gameplay multiplayer, WebRTC hoặc đo bố cục trên thiết bị thật; không xác nhận đã sửa toàn bộ lỗi giao diện. Phân đội tự động theo số người, chưa có tùy chọn 1/2 độc lập ở lobby. P2P dùng mã phiên bản V51.0; relay vẫn hai người.
 
 ### V50.0 — Command Center & Tactical Expansion (26/11/2026)
 
@@ -93,7 +111,7 @@ V41.7: Versus và Foxy Rush có 3 giai đoạn 60 giây với nhiệm vụ phụ
 
 V41.6: Hành lang hai cửa tối sâu khi tắt đèn. Chuẩn/Khó/Hell không thấy mắt quái khi tắt đèn. Đập cửa có sát thương vừa phải, hồi chung 5s/cửa và hao điện nhẹ; sửa lỗi điều khiển, AI và khôi phục kết nối. Giữ radar tên phòng/CAM, bản đồ di động và sửa cửa chậm. Dùng hai client cùng phiên bản; relay giao thức 42.
 
-Game fan-made chạy trên trình duyệt. Có chế độ một người, Co-op, Versus, Foxy Rush và Thực địa.
+Game fan-made chạy trên trình duyệt. Có chế độ một người và 5 chế độ multiplayer: Co-op, Versus, Foxy Rush, Thực địa và Tiếp tế khẩn cấp (P2P).
 
 ## Chơi trên web
 
