@@ -2,6 +2,36 @@
 
 Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io/fnaf-versus/).
 
+**Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
+
+## V47.1 Party Voice — Preview (26/11/2026)
+
+### Tính năng mới
+- Voice P2P mở rộng từ 2 lên 2–4 người bằng WebRTC mesh: mỗi máy dùng một luồng micro được người dùng cấp quyền và tối đa ba kết nối âm thanh riêng. Phòng 4 người có sáu cặp kết nối.
+- Host định tuyến tín hiệu voice theo vị trí người gửi/nhận, xác thực vị trí và giới hạn SDP, không phát tín hiệu đàm phán của một cặp sang các thành viên khác. Âm thanh truyền qua WebRTC giữa các cặp, không qua kênh dữ liệu gameplay.
+- Hiển thị trạng thái kết nối voice từng người, chỉnh âm lượng chung, tắt tiếng micro, nút bật nghe khi autoplay bị chặn và hỗ trợ cấu hình STUN/TURN. Theo dõi ICE và thử kết nối lại khi kết nối lỗi.
+
+### Sửa lỗi
+- Không còn tự ngắt voice khi thành viên thứ ba hoặc thứ tư vào phòng. Dọn kết nối âm thanh của thành viên rời phòng, bảo toàn các kết nối còn lại trong lobby.
+- Heartbeat của host báo trạng thái toàn nhóm; khách cũng tạm dừng gameplay khi một thành viên ở nền hoặc mất tín hiệu. Foxy Rush cho các bảo vệ chia sẻ bàn trực sử dụng các lệnh hợp lệ, bỏ giới hạn trái/phải không nhất quán.
+- Mã phòng P2P V47.1 riêng để tránh trộn giao thức voice V47.0. Relay giữ voice 2 người và giao thức cũ.
+- Cập nhật nhãn phiên bản và hướng dẫn trong lobby.
+
+### Kiểm thử và giới hạn
+- Kiểm tra cú pháp toàn bộ JavaScript: đạt. Mô phỏng bốn máy với SDP/ICE giả lập: 29 kiểm tra đạt, gồm 6 cặp kết nối/12 đầu WebRTC, ngắt voice, dọn thành viên rời phòng và dọn toàn bộ kết nối. Đây không phải thử nghiệm âm thanh thực tế.
+- Chưa kiểm thử WebRTC thật, âm thanh thực, Safari/iPhone, NAT nghiêm ngặt hoặc TURN thực trên bốn thiết bị. Micro cần HTTPS hoặc localhost và quyền truy cập; trình duyệt, mạng và hệ điều hành có thể chặn voice hoặc ngắt khi chạy nền. Chưa merge main/triển khai Pages. Không xác nhận đã sửa hết lỗi toàn bộ game.
+
+## V47.0 Party — Preview (26/11/2026)
+
+- P2P: mở rộng phòng từ 2 lên 2–4 người; chủ phòng chọn sức chứa, lobby hiển thị từng vị trí, trạng thái kết nối và số người thực tế. Mã phòng V47 riêng, không ghép với V46.
+- Versus 3–4 người: chủ phòng là bảo vệ; các khách được chia quyền điều khiển Bonnie, Chica, Freddy và Foxy. Kiểm tra quyền gửi lệnh trên host, hạn chế spam lệnh và tránh AI tự điều động quái đã phân công.
+- Co-op/Thực địa: một bảo vệ và nhiều người hỗ trợ camera chung. Foxy Rush: một Foxy và nhiều người chia sẻ bàn trực, không phải nhiều nhân vật bảo vệ độc lập.
+- Thêm bốn preset ca trực: Khẩn cấp 3 phút, Tiêu chuẩn 6 phút, Cầm cự 12 phút, Ác mộng 15 phút; giữ chọn thời lượng/độ khó riêng.
+- Chat chữ chuyển tiếp trong phòng, nhãn người gửi, chơi lại khi tất cả thành viên đồng ý, kiểm tra phòng đầy và từ chối vào giữa trận.
+- Host duy trì trạng thái trận; heartbeat theo từng kết nối, tạm dừng khi thành viên mất tín hiệu/ở nền. Nếu kênh P2P thực sự đóng giữa trận thì kết thúc phòng.
+- Giới hạn: voice và relay vẫn chỉ hỗ trợ hai người; phòng nhóm dùng chat chữ. Chưa có voice nhóm, nhân vật bảo vệ độc lập, hay vào lại trận đã mất kênh.
+- Kiểm tra: bốn tổ hợp phân quyền vị trí (2, 3, 4 người và vị trí không liên tục) được kiểm tra logic; chưa chạy trình duyệt, kiểm thử WebRTC thật trên 4 thiết bị hoặc xác nhận cân bằng. Nhánh preview `v47-party`, chưa merge main hoặc triển khai Pages.
+
 ## V41.9 — Online Door Control Hotfix
 
 - Đóng/mở cửa online qua đường xử lý riêng trên host, tự hạ camera nếu cần; không bỏ lệnh vì camera chưa đồng bộ.
