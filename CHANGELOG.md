@@ -4,6 +4,14 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V51.0 — Field Patrol Duo & Compact Desktop (26/11/2026)
+
+- Thực địa P2P: phòng 2 người có 1 bảo vệ và 1 camera; phòng 3–4 người tự phân 2 bảo vệ và 1–2 camera. Bảo vệ thứ hai có vị trí, tuyến đường, thao tác nhiệm vụ, trạng thái nguy hiểm, 1 khói và 1 giáp riêng. Nhiệm vụ, điện, cửa và tiếp tế phụ dùng chung. Chủ phòng xử lý lệnh theo seat của kết nối; quái chọn bảo vệ gần hơn. Cả hai bảo vệ phải về phòng trực để thắng.
+- Tái sử dụng cảnh khám phá tự do của chế độ thường cho góc nhìn bảo vệ thực địa: nhân vật, vật cản, ánh sáng, tuyến đi, đồng đội và mục tiêu. Chạm vào phòng trên cảnh chính hoặc bản đồ để đi; điều phối viên giữ góc camera. Không bổ sung điều khiển di chuyển tự do WASD trong bản này.
+- Chuyển bảng bản đồ/nhiệm vụ khỏi lớp phủ cảnh sang thanh điều khiển; thu gọn nút trùng, bản đồ tỷ lệ cố định, giới hạn chiều rộng desktop 1440px và thanh bên 260–320px trên màn hình đủ lớn. Giữ khả năng cuộn thanh bên khi chơi ngang trên điện thoại.
+- Sửa kiểm tra vùng cửa để tránh đóng cửa khi một trong hai bảo vệ ở ngưỡng cửa; khói và tiến độ đường đi của bảo vệ thứ hai được đưa vào snapshot.
+- Đã đọc lại index.html từ GitHub sau commit 9b4a7bf91fcf45704b6b41c67f3582b40a67db91 và kiểm tra cú pháp JavaScript toàn bộ script: đạt. Chưa chạy thử gameplay multiplayer, WebRTC hoặc đo bố cục trên thiết bị thật; không xác nhận đã sửa toàn bộ lỗi giao diện. Phân đội tự động theo số người, chưa có tùy chọn 1/2 độc lập ở lobby. P2P dùng mã phiên bản V51.0; relay vẫn hai người.
+
 ## V50.0 — Command Center & Tactical Expansion (26/11/2026)
 
 - Xác nhận lệnh cửa riêng theo người gửi, mã lệnh và ca trực; bỏ lệnh trùng, giới hạn thao tác quá nhanh; hỗ trợ cửa thường và cửa Thực địa P2P. Không dùng thông báo cửa của người khác để xác nhận lệnh đang chờ. Sửa nút mở cửa bị vô hiệu hóa khi cửa hỏng nhưng còn đóng; giảm âm thanh cửa lặp.
