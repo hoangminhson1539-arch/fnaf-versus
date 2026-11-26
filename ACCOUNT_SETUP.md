@@ -1,23 +1,17 @@
-# Kích hoạt tài khoản FNAF Versus V57.0 — 3 bước
+# Tài khoản FNAF Versus V58.0
 
-Chỉ quản trị viên cần làm một lần. Người chơi không cần tự tạo project hay cấu hình gì. Sau kích hoạt, một nút Google/Discord/Apple/GitHub hoặc một địa chỉ email và mã xác minh 6 số là đủ để đăng ký hoặc đăng nhập ngay trong game. Hiện chưa cấu hình Supabase nên tính năng online chưa hoạt động; chơi khách vẫn bình thường.
+**Đã kết nối dự án Supabase của chủ game.** Bảng public.fnaf_saves đã tồn tại, có RLS chỉ cho chủ tài khoản đọc/ghi, quyền authenticated và trigger revision; anon không có quyền đọc. Game dùng URL và publishable key công khai, không dùng service role/secret.
 
-## Bước 1 — Tạo Supabase
-1. Mở https://supabase.com/dashboard và tạo project.
-2. SQL Editor → New query → dán nội dung [cloud_saves.sql](supabase/cloud_saves.sql) → Run.
-3. Authentication → URL Configuration: đặt Site URL và thêm Redirect URL chính xác: https://hoangminhson1539-arch.github.io/fnaf-versus/ . Nếu dùng domain khác, thêm URL tương ứng.
+## Người chơi
+Menu → Tài khoản & lưu online → nhập email, gửi mã, xác minh mã 6 số trong game (hoặc mở link bằng cùng trình duyệt nếu thư chỉ có link). Có lựa chọn email/mật khẩu. Các nút Google/Discord/Apple/GitHub chỉ xuất hiện nếu máy chủ xác thực báo provider đã bật. Sau khi đăng nhập, chọn Lưu lên online hoặc Tải tiến trình; xác nhận trước khi ghi đè. Chơi khách không cần tài khoản.
 
-## Bước 2 — Kích hoạt email trước (nhanh nhất)
-- Authentication → Providers → Email: bật đăng ký và đăng nhập email. Giữ xác minh email. Authentication → Email Templates → Magic Link: thêm mã `{{ .Token }}` vào nội dung email, ví dụ `Mã đăng nhập FNAF: {{ .Token }}`. Có thể giữ `{{ .ConfirmationURL }}` làm phương án dự phòng. Cấu hình SMTP khi cần.
-- Trong index.html tìm V55_AUTH_CONFIG. Điền Project URL và khóa công khai sb_publishable_... từ dashboard. Chỉ để danh sách providers là [] nếu chưa bật đăng nhập xã hội. Không dùng khóa service_role, sb_secret_ hoặc OAuth secret.
-- Commit lên GitHub. Người chơi vào Tài khoản → nhập email → Gửi mã đăng nhập → nhập mã 6 số trong game. Nếu thư chỉ có link thì mở link bằng cùng trình duyệt. Tài khoản mới tự được tạo, không cần mật khẩu. Có tùy chọn mật khẩu cũ.
+## Quản trị viên: phần còn lại để mở đăng ký công khai
+- Dashboard dự án: https://supabase.com/dashboard/project/thsrdwldepzoprvpcaym
+- Authentication → URL Configuration: đặt Site URL và Redirect URL đúng https://hoangminhson1539-arch.github.io/fnaf-versus/ .
+- Authentication → Email/SMTP: cấu hình máy chủ SMTP riêng nếu muốn gửi thư cho tất cả người chơi; SMTP mặc định của Supabase giới hạn địa chỉ thành viên dự án và 2 thư/giờ. Không tắt xác minh email để né giới hạn. Tài liệu: https://supabase.com/docs/guides/auth/auth-smtp
+- Email Templates → Magic Link: thêm mã {{ .Token }} khi SMTP/gói dịch vụ cho phép chỉnh mẫu; có thể giữ {{ .ConfirmationURL }}. Nếu chưa chỉnh mẫu, dùng link mặc định.
+- OAuth: bật từng provider trong Authentication và tạo OAuth app, đặt callback theo Supabase, nhập client ID/secret tại dashboard. Không commit secret. Không cần sửa code để nút hiện sau khi provider bật; game đọc /auth/v1/settings. Tài liệu: https://supabase.com/docs/guides/auth/social-sign-in
 
-## Bước 3 — Tùy chọn Google/Discord/Apple/GitHub
-Khi cần từng nút, tạo OAuth application ở nhà cung cấp, dùng callback URL do Supabase hiển thị, nhập client ID và secret vào Supabase; bật provider và thêm tên tương ứng vào providers trong V55_AUTH_CONFIG. Apple có thể cần Apple Developer/Services ID và gia hạn secret. Không đưa secret lên GitHub.
-Tài liệu: https://supabase.com/docs/guides/auth/social-sign-in và https://supabase.com/docs/guides/auth/redirect-urls.
+## Lưu trữ và kiểm thử
+Lưu đêm, xu, vật phẩm, thành tích, nhiệm vụ, hồ sơ, 12 trận gần nhất; không lưu ca đang dở, chat/voice hay thiết lập máy. Đăng xuất giữ tiến trình offline. Tải cloud sao lưu cục bộ trước khi thay thế. RLS đã kiểm tra trên DB thật; chưa kiểm thử email/OTP/OAuth, gửi email SMTP, callback hoặc lưu/tải qua hai thiết bị. Kiểm tra toàn bộ trước khi công bố đăng ký công khai. Một cảnh báo advisor hiện hữu về quyền gọi hàm rls_auto_enable nằm ngoài bảng lưu game; cần rà soát riêng: https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable .
 
-## Sử dụng và kiểm tra
-- Bản lưu online: Lưu/Tải tiến trình có xác nhận, không tự ghi đè. Lưu đêm, xu, vật phẩm, thành tích, nhiệm vụ, hồ sơ, 12 trận gần nhất; không lưu ca dở, chat/voice hay thiết lập máy. Đăng xuất giữ dữ liệu offline. Tải cloud sao lưu cục bộ trước khi thay tiến trình.
-- Kiểm tra gửi mã, nhập mã OTP 6 số trong game, mã sai/hết hạn, gửi lại, đổi email, email magic link trên cùng trình duyệt, callback OAuth, đăng xuất, hai tài khoản không đọc/ghi dữ liệu nhau, hai thiết bị cạnh tranh revision, mất mạng/CDN và hết dung lượng localStorage.
-- SQL RLS chỉ cho chủ tài khoản đọc/ghi. Không dùng cloud save client-side làm chứng cứ thành tích chống gian lận.
-- Chưa thử đăng nhập hoặc cơ sở dữ liệu thật. Không công bố hoạt động trước khi hoàn tất cấu hình và kiểm thử.
