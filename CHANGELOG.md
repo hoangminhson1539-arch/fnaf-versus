@@ -4,6 +4,14 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V62.0 — Fair Repair & Power (27/11/2026)
+
+- Versus / Foxy Rush: giảm hệ số tốc độ sửa chung .88 → .68; hệ số sửa Foxy .92 → .85 ở 2 người (vẫn giảm .04 mỗi người thêm); bonus giờ bảo trì 15% → 8%. Mỗi lượt sửa tối đa 30 điểm độ bền Versus / 25 Foxy; hồi chung hai cửa 8s / 10s sau khi kết thúc hoặc bị ngắt. Không tự tiếp tục khi quái rời đi; đổi cửa giữa lượt sẽ hủy lượt và kích hoạt hồi. Chờ 4s / 6s sau va đập, cấm sửa khi cửa còn trong thời gian hỏng, camera bật hoặc quái cách điểm cửa dưới 100 / 115 đơn vị. Kiểm tra host và camera nhiều người. HUD hiện tiến độ và thời gian hồi; chặn nút khi chưa đủ điều kiện.
+- Chi phí sửa: 0,17% / 0,20% điện cho mỗi điểm độ bền (trận 3 phút, Versus / Foxy), nhân max(0,55; sqrt(180/thời lượng giây)). Không vượt 100% độ bền, không âm điện. Vá nhanh giảm 20 → 12 / 8 điểm, chi phí max(2%; 4,5% / 5% × sqrt(180/thời lượng)), hồi 55s / 65s nhân hệ số thời lượng; dùng chung khóa sửa, không vá khi đang sửa, cửa chưa hết thời gian hỏng, quái ở gần hoặc camera bật.
+- Điện multiplayer: phụ phí mỗi cửa Versus .29 → .25, Foxy .35 → .30 trước hệ số thời lượng; hệ số hao nền 3 phút Versus 1.00, Foxy 1.02, Co-op/Thực địa 1.00, Tiếp tế khẩn cấp .96; giảm .006 mỗi bậc thời lượng. Tiếp tế Foxy giảm bonus theo bậc .75 → .60, giữ tiếp tế theo giờ và pin dự phòng. Giữ độ khó, kỹ năng phe quái và cân bằng chơi đơn. Không giảm tốc độ mô phỏng.
+- Sửa khai thác vật thể thực địa: thiết bị nhiệm vụ của mode tương ứng chỉ cấp thưởng qua nhiệm vụ, không nhận thưởng phụ trước/sau khi hoàn thành. Giữ tương tác với vật thể khác và đi khẽ V61.0.
+- Kiểm thử: cú pháp toàn bộ JavaScript đạt; 317 kiểm tra hàm/điều kiện giả lập trên cân bằng, chi phí, giới hạn sửa, hủy khi mất an toàn, hồi chung, 5 thời lượng, 5 mode, 2–4 người ở đối đầu; 16 kiểm tra phân loại thiết bị nhiệm vụ đạt. Chưa thử gameplay thật, tỷ lệ thắng, FPS hoặc xác nhận Pages triển khai. P2P cần cùng V62.0; server.go không đổi từ V61.0.
+
 ## V61.0 — Field Interaction & Stealth (27/11/2026)
 
 - Thực địa và Tiếp tế khẩn cấp: tương tác với 43 vật thể trong 10 khu vực multiplayer hiện có. Chạm vật thể ở xa để đi đến; khi đủ gần và không bị tường/cửa chắn, chạm lại để dùng. Nút Tương tác hoặc F/Space chọn nhiệm vụ gần nhất đang mở, nếu không thì dùng vật thể gần nhất; joystick và các nút điều khiển cũ giữ nguyên.
