@@ -5007,7 +5007,9 @@ function v61NearObject(x,y,limit=69){let best=null,d=limit;for(const o of V61_OB
 function v61Spent(a,id){return a.objectUsed?.includes(id);}
 function v61ObjectRead(raw){return Array.isArray(raw)?[...new Set(raw.filter(id=>typeof id==='string'&&Object.hasOwn(V61_OBJECT_BY_ID,id)))].slice(0,V61_OBJECTS.length):[];}
 function v61CooldownRead(raw){const out={};if(raw&&typeof raw==='object')for(const o of V61_OBJECTS)if(Number.isFinite(raw[o.id]))out[o.id]=Math.max(0,Math.min(1000,raw[o.id]));return out;}
+function v62TaskDevice(id){const ids=v52Rescue()?['coins','stage','foxy']:['generator','fuse','kitchen'];return ids.includes(id);}
 function v61UseObject(o){const a=v450Data(),r=state.roam,t=state.secs;if(!o||!Object.hasOwn(V61_OBJECT_BY_ID,o.id)||Math.hypot(r.x-o.x,r.y-o.y)>73||!roamLineClear(r.x,r.y,o.x,o.y)){v450Msg('Đến gần vật thể qua lối đi hợp lệ.');return false;}if(a.working||a.path.length||a.manualUntil>t||r.moving){v450Msg('Dừng di chuyển để tương tác.');return false;}const id=o.id,task=v450Next();if(task&&task.room===o.room&&v450Near(task)&&t>=state.duration*task.unlock&&['generator','fuse','kitchen','coins','stage','foxy'].includes(id))return v450Action('guard','fieldWork');
+ if(v62TaskDevice(id)){v450Msg('Thiết bị nhiệm vụ · chờ mở hoặc đã hoàn thành');return false;}
  if(['leftInside','rightInside','leftDoor','rightDoor'].includes(id)){const side=id.startsWith('left')?'left':'right';const ok=v419ApplyDoor(side+'Door',!state.doors[side]);v450Msg(ok?'Đã điều khiển cửa '+v419Side(side):'Cửa bị chặn, hỏng hoặc thiếu điện.');return ok;}
  if((a.objectAt[id]||0)>t){v450Msg(o.name+' · hồi '+Math.ceil(a.objectAt[id]-t)+'s');return false;}
  const once=['generator','kitchen','coins','locker','smokeCrate','medkit','firstAid','charger','circuit1','circuit2'];
