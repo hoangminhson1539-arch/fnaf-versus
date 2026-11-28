@@ -4,6 +4,12 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V62.3 — Báo mở đầu & âm thanh (28/11/2026)
+
+- Rà soát cả hai tờ báo mở đầu: chuẩn hóa dấu câu, cách ghi giờ 00:00–06:00 và tiền lương 120 USD/tuần; chỉnh câu chữ về tuyển dụng, lời khai nhân chứng và tin báo mất tích. Giữ nguyên nội dung cốt truyện.
+- Tắt nhạc nền ở cả hai trang báo, kể cả khi người chơi chạm màn hình kích hoạt Web Audio. Chặn lập lịch nhạc và đặt âm lượng bus nhạc bằng 0 trong trạng thái news-opening; khôi phục nhạc theo cài đặt khi đóng/bỏ qua báo. Không sửa âm lượng lưu hoặc tắt hiệu ứng âm thanh.
+- Giữ gameplay và giao thức P2P v620. Kiểm tra cú pháp JavaScript và 53 điều kiện logic đạt; chưa nghe thử trên trình duyệt/điện thoại thật hoặc xác nhận Pages triển khai.
+
 ## V62.2 — Hồ sơ mất tích (28/11/2026)
 
 - Thêm tờ The Daily News thứ hai ngay sau báo tuyển dụng, kể về các vụ mất tích bí ẩn quanh Freddy Fazbear's Pizza, lời kể của nhân chứng và cuộc điều tra chưa có kết luận. Giữ bí mật về thủ phạm và khu vực bí mật.
