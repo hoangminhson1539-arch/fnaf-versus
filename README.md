@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V62.1 Night 2 Call
+# FNAF 1 Versus · V62.2 Missing Persons
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,12 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V62.2 — Hồ sơ mất tích (28/11/2026)
+
+- Thêm tờ The Daily News thứ hai ngay sau báo tuyển dụng, kể về các vụ mất tích bí ẩn quanh Freddy Fazbear's Pizza, lời kể của nhân chứng và cuộc điều tra chưa có kết luận. Giữ bí mật về thủ phạm và khu vực bí mật.
+- Minh họa lối sau nhà hàng bằng SVG màu báo cũ, không tải ảnh ngoài; giữ kiểu báo và bố cục thích ứng PC/điện thoại. Chạm hoặc Enter/Space lật báo, Esc bỏ qua, hỗ trợ cuộn và cập nhật tiêu đề trợ năng. Giữ kết nối link mời và khôi phục phiên cũ.
+- Không thay đổi gameplay, tiến trình lưu hoặc giao thức P2P v620; kiểm tra cú pháp và 11 điều kiện logic chuyển trang đạt. Chưa kiểm tra trực tiếp trình duyệt/điện thoại hoặc xác nhận GitHub Pages triển khai.
 
 ### V62.1 — Cuộc gọi Đêm 2 (28/11/2026)
 
@@ -214,7 +220,7 @@ Game fan-made chạy trên trình duyệt. Có chế độ một người và 5 
 
 ## Tài khoản và lưu online
 
-V62.1 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
+V62.2 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
 
 ## Chơi trên web
 
