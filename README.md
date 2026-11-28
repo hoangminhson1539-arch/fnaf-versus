@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V62.5 Freddy & Chica AI
+# FNAF 1 Versus · V63.0 Secret Rooms & Devices
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,14 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V63.0 — Secret Rooms & Devices (28/11/2026)
+
+- 20 phòng khu mở rộng có thiết bị chuyên biệt thay cho năm nhóm phần thưởng lặp: phân quyền/điều hành, phát tín hiệu, hồ sơ B, chẩn đoán robot, màn hình bảo trì, tiêu âm, hiệu chỉnh robot, linh kiện, điện B, trạm nghỉ, máy chủ, lối thoát số 2, vật tư, điều khiển 02, ống tiêu âm, bảo trì B, nhật ký ngầm, ắc quy ngầm, bản đồ liên kết. Giữ 9 điểm bí mật gốc, máy chiếu và tủ cứu hộ.
+- Chuỗi nhiệm vụ tùy chọn: sổ phân quyền → bàn điều hành → hồ sơ B + nhật ký ngầm → máy chủ → điều khiển 02 → đủ 3 thẻ an ninh → lối thoát 2. Không thay thế lối thoát gốc, không bỏ qua điều kiện ending hiện có, không cấp quyền xem camera bí mật. Chỉ đường theo mục tiêu đang theo dõi, tự hướng đến thẻ còn thiếu; hiện công dụng khi đến gần.
+- Thiết bị khu mở rộng dùng tối đa một lần mỗi ca; điện bổ sung giới hạn 8% + 6%, một số thiết bị tốn điện; vật tư đang đầy và hệ thống không lỗi thì không tiêu lượt tương ứng. Chặn nhận lại vật phẩm một lần bằng tương tác trực tiếp, lưu ngay khi dùng thiết bị mới. Khi khôi phục save trước V63, đặt lại riêng trạng thái exp01–20 để dùng chức năng mới; không reset tiến trình khác.
+- Phạm vi: khám phá chơi đơn thông thường, không sửa gameplay boss, ca buổi sáng hoặc multiplayer thực địa/Rescue (vẫn giới hạn khu vực V61). Giữ nhạc mở đầu, cân bằng V62.5 và P2P v620.
+- Kiểm tra cú pháp và 153 điều kiện logic đạt, gồm tìm đường thực bằng graph/collision từ phòng trực đến cả 20 thiết bị khi hai cửa mở, giới hạn sử dụng, khóa nhiệm vụ và điều kiện thoát. Chưa chơi thử đầy đủ trong trình duyệt/điện thoại, chưa xác nhận tỷ lệ thắng hoặc triển khai Pages.
 
 ### V62.5 — Freddy & Chica AI (28/11/2026)
 
@@ -239,7 +247,7 @@ Game fan-made chạy trên trình duyệt. Có chế độ một người và 5 
 
 ## Tài khoản và lưu online
 
-V62.5 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
+V63.0 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
 
 ## Chơi trên web
 
