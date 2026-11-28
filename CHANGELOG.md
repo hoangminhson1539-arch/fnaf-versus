@@ -4,6 +4,12 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V62.4 — Font tiếng Việt trên báo (28/11/2026)
+
+- Rà soát ảnh lỗi: dấu tiếng Việt bị rời khỏi chữ như CẦN, MẤT, tuần. Văn bản HTML đã ở dạng Unicode NFC, không có dấu tổ hợp rời; nghi ngờ lỗi dựng glyph của font serif hoặc lớp transform/tracking trên trình duyệt.
+- Dùng Arial/Segoe UI/system-ui cho toàn bộ nội dung tiếng Việt của hai tờ báo, bỏ letter-spacing bất thường, bỏ xoay báo và animation transform, giảm độ đậm giả lập, tăng khoảng cách dòng; đánh dấu lang=vi, giữ masthead tiếng Anh dạng serif.
+- Giữ nguyên nội dung V62.3, nhạc nền tắt khi đọc báo, gameplay và P2P v620. Kiểm tra cú pháp và 15 điều kiện Unicode/CSS đạt; chưa xác nhận render thực tế trên thiết bị gây lỗi hoặc GitHub Pages triển khai.
+
 ## V62.3 — Báo mở đầu & âm thanh (28/11/2026)
 
 - Rà soát cả hai tờ báo mở đầu: chuẩn hóa dấu câu, cách ghi giờ 00:00–06:00 và tiền lương 120 USD/tuần; chỉnh câu chữ về tuyển dụng, lời khai nhân chứng và tin báo mất tích. Giữ nguyên nội dung cốt truyện.
