@@ -4,6 +4,12 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V62.1 — Cuộc gọi Đêm 2 (28/11/2026)
+
+- Bổ sung 4 câu thoại của Minh ở cuối Đêm 2: các khu bí mật đóng khi nhà hàng đón khách ban ngày, mở về đêm; có camera riêng nhưng cả bảo vệ lẫn Minh không có quyền xem; Minh không biết mục đích sử dụng. Không tiết lộ thêm cốt truyện.
+- Phát tại các mốc 170, 188, 206, 224 giây của ca 240 giây, tự co giãn theo thời lượng ca; mỗi đoạn hiện 9 giây. Giữ 4 đoạn cũ, giữ mã lưu nhật ký đã nghe (n2:0–7), không dừng gameplay. Đọc lại qua nhật ký cuộc gọi.
+- Chỉ cập nhật nội dung cốt truyện, giữ gameplay V62.0 và giao thức P2P v620. Kiểm tra cú pháp JavaScript và 24 điều kiện lịch phát/nhật ký/tương thích đạt; chưa kiểm tra hiển thị thực tế trên điện thoại hoặc xác nhận Pages triển khai.
+
 ## V62.0 — Fair Repair & Power (27/11/2026)
 
 - Versus / Foxy Rush: giảm hệ số tốc độ sửa chung .88 → .68; hệ số sửa Foxy .92 → .85 ở 2 người (vẫn giảm .04 mỗi người thêm); bonus giờ bảo trì 15% → 8%. Mỗi lượt sửa tối đa 30 điểm độ bền Versus / 25 Foxy; hồi chung hai cửa 8s / 10s sau khi kết thúc hoặc bị ngắt. Không tự tiếp tục khi quái rời đi; đổi cửa giữa lượt sẽ hủy lượt và kích hoạt hồi. Chờ 4s / 6s sau va đập, cấm sửa khi cửa còn trong thời gian hỏng, camera bật hoặc quái cách điểm cửa dưới 100 / 115 đơn vị. Kiểm tra host và camera nhiều người. HUD hiện tiến độ và thời gian hồi; chặn nút khi chưa đủ điều kiện.
