@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V62.2 Missing Persons
+# FNAF 1 Versus · V62.3 Intro Audio
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,12 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V62.3 — Báo mở đầu & âm thanh (28/11/2026)
+
+- Rà soát cả hai tờ báo mở đầu: chuẩn hóa dấu câu, cách ghi giờ 00:00–06:00 và tiền lương 120 USD/tuần; chỉnh câu chữ về tuyển dụng, lời khai nhân chứng và tin báo mất tích. Giữ nguyên nội dung cốt truyện.
+- Tắt nhạc nền ở cả hai trang báo, kể cả khi người chơi chạm màn hình kích hoạt Web Audio. Chặn lập lịch nhạc và đặt âm lượng bus nhạc bằng 0 trong trạng thái news-opening; khôi phục nhạc theo cài đặt khi đóng/bỏ qua báo. Không sửa âm lượng lưu hoặc tắt hiệu ứng âm thanh.
+- Giữ gameplay và giao thức P2P v620. Kiểm tra cú pháp JavaScript và 53 điều kiện logic đạt; chưa nghe thử trên trình duyệt/điện thoại thật hoặc xác nhận Pages triển khai.
 
 ### V62.2 — Hồ sơ mất tích (28/11/2026)
 
@@ -220,7 +226,7 @@ Game fan-made chạy trên trình duyệt. Có chế độ một người và 5 
 
 ## Tài khoản và lưu online
 
-V62.2 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
+V62.3 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
 
 ## Chơi trên web
 
