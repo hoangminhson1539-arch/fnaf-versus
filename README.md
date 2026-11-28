@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V62.3 Intro Audio
+# FNAF 1 Versus · V62.4 Vietnamese Typography
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,12 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V62.4 — Font tiếng Việt trên báo (28/11/2026)
+
+- Rà soát ảnh lỗi: dấu tiếng Việt bị rời khỏi chữ như CẦN, MẤT, tuần. Văn bản HTML đã ở dạng Unicode NFC, không có dấu tổ hợp rời; nghi ngờ lỗi dựng glyph của font serif hoặc lớp transform/tracking trên trình duyệt.
+- Dùng Arial/Segoe UI/system-ui cho toàn bộ nội dung tiếng Việt của hai tờ báo, bỏ letter-spacing bất thường, bỏ xoay báo và animation transform, giảm độ đậm giả lập, tăng khoảng cách dòng; đánh dấu lang=vi, giữ masthead tiếng Anh dạng serif.
+- Giữ nguyên nội dung V62.3, nhạc nền tắt khi đọc báo, gameplay và P2P v620. Kiểm tra cú pháp và 15 điều kiện Unicode/CSS đạt; chưa xác nhận render thực tế trên thiết bị gây lỗi hoặc GitHub Pages triển khai.
 
 ### V62.3 — Báo mở đầu & âm thanh (28/11/2026)
 
@@ -226,7 +232,7 @@ Game fan-made chạy trên trình duyệt. Có chế độ một người và 5 
 
 ## Tài khoản và lưu online
 
-V62.3 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
+V62.4 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
 
 ## Chơi trên web
 
