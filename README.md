@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V62.4 Vietnamese Typography
+# FNAF 1 Versus · V62.5 Freddy & Chica AI
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,13 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V62.5 — Freddy & Chica AI (28/11/2026)
+
+- Chơi đơn / Co-op / Thực địa khi trực tại bàn: ở Đêm 1 ca 240s, Chica bắt đầu tiến cửa sau 17,5s thay vì 25s; Freddy sau 42s thay vì 83s. Thời gian chờ của hai quái điều chỉnh theo đêm và thời lượng; tốc độ cơ sở Chica 21 → 25, Freddy 17 → 23. Rút lui tự nhiên sau bị chặn: Chica 7–10s, Freddy 6–9s thay vì 9–14s (giữ rút lui cũ ở Baby). Không đổi hệ số tốc độ bàn trực Bonnie/Foxy.
+- Khám phá: tốc độ cơ sở Chica 82 → 86, Freddy 73 → 79; thính giác 121 → 130 và 150 → 158. Giữ cơ chế đi khẽ, khói, giáp và phản ứng cửa.
+- Versus: tốc độ cơ sở Chica 62 → 67, Freddy 52 → 60; AI tổng công kích và nghi binh chọn đồng đội đủ điều kiện ít được sử dụng gần đây, không giành quyền điều khiển của người chơi. Chica/Freddy chờ hết hồi sát thương chung 5s trước khi đập cửa thay vì rút lui ngay khi không được tính đòn; chống camp với hai quái đang tiến cửa bắt đầu trong phạm vi 34 thay vì 85. Giữ sát thương mỗi đòn, điện, sửa cửa, chế độ Foxy Rush và giao thức P2P v620.
+- Kiểm tra cú pháp và 260 điều kiện logic về hồ sơ AI, thời lượng, lựa chọn đồng đội, quyền điều khiển và giữ tính năng cũ đạt; chưa đo số lần tấn công, tỷ lệ thắng hoặc chơi thử thực tế. Chưa xác nhận GitHub Pages triển khai.
 
 ### V62.4 — Font tiếng Việt trên báo (28/11/2026)
 
@@ -232,7 +239,7 @@ Game fan-made chạy trên trình duyệt. Có chế độ một người và 5 
 
 ## Tài khoản và lưu online
 
-V62.4 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
+V62.5 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
 
 ## Chơi trên web
 
