@@ -4,6 +4,12 @@ Mã nguồn chính: `main`. [Chơi game](https://hoangminhson1539-arch.github.io
 
 **Quy trình bắt buộc:** Mỗi lần cập nhật game, phải cập nhật file `CHANGELOG.md` trên GitHub cùng phiên bản mã nguồn. Ghi rõ phiên bản, ngày, tính năng mới, sửa lỗi, thay đổi cân bằng, giới hạn và kết quả kiểm thử thực tế; không ghi tính năng chưa triển khai là đã hoàn thành.
 
+## V62.2 — Hồ sơ mất tích (28/11/2026)
+
+- Thêm tờ The Daily News thứ hai ngay sau báo tuyển dụng, kể về các vụ mất tích bí ẩn quanh Freddy Fazbear's Pizza, lời kể của nhân chứng và cuộc điều tra chưa có kết luận. Giữ bí mật về thủ phạm và khu vực bí mật.
+- Minh họa lối sau nhà hàng bằng SVG màu báo cũ, không tải ảnh ngoài; giữ kiểu báo và bố cục thích ứng PC/điện thoại. Chạm hoặc Enter/Space lật báo, Esc bỏ qua, hỗ trợ cuộn và cập nhật tiêu đề trợ năng. Giữ kết nối link mời và khôi phục phiên cũ.
+- Không thay đổi gameplay, tiến trình lưu hoặc giao thức P2P v620; kiểm tra cú pháp và 11 điều kiện logic chuyển trang đạt. Chưa kiểm tra trực tiếp trình duyệt/điện thoại hoặc xác nhận GitHub Pages triển khai.
+
 ## V62.1 — Cuộc gọi Đêm 2 (28/11/2026)
 
 - Bổ sung 4 câu thoại của Minh ở cuối Đêm 2: các khu bí mật đóng khi nhà hàng đón khách ban ngày, mở về đêm; có camera riêng nhưng cả bảo vệ lẫn Minh không có quyền xem; Minh không biết mục đích sử dụng. Không tiết lộ thêm cốt truyện.
