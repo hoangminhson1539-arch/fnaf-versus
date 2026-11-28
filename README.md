@@ -1,4 +1,4 @@
-# FNAF 1 Versus · V62.0 Fair Repair & Power
+# FNAF 1 Versus · V62.1 Night 2 Call
 
 **[Chơi ngay trên trình duyệt](https://hoangminhson1539-arch.github.io/fnaf-versus/)**
 
@@ -7,6 +7,12 @@
 ## Nhật ký cập nhật trên README
 
 > Quy trình bắt buộc: mỗi lần cập nhật game phải đồng bộ phiên bản, mục changelog mới nhất trong README.md và lịch sử đầy đủ trong CHANGELOG.md; nêu tính năng, sửa lỗi, cân bằng, kiểm thử và giới hạn thực tế.
+
+### V62.1 — Cuộc gọi Đêm 2 (28/11/2026)
+
+- Bổ sung 4 câu thoại của Minh ở cuối Đêm 2: các khu bí mật đóng khi nhà hàng đón khách ban ngày, mở về đêm; có camera riêng nhưng cả bảo vệ lẫn Minh không có quyền xem; Minh không biết mục đích sử dụng. Không tiết lộ thêm cốt truyện.
+- Phát tại các mốc 170, 188, 206, 224 giây của ca 240 giây, tự co giãn theo thời lượng ca; mỗi đoạn hiện 9 giây. Giữ 4 đoạn cũ, giữ mã lưu nhật ký đã nghe (n2:0–7), không dừng gameplay. Đọc lại qua nhật ký cuộc gọi.
+- Chỉ cập nhật nội dung cốt truyện, giữ gameplay V62.0 và giao thức P2P v620. Kiểm tra cú pháp JavaScript và 24 điều kiện lịch phát/nhật ký/tương thích đạt; chưa kiểm tra hiển thị thực tế trên điện thoại hoặc xác nhận Pages triển khai.
 
 ### V62.0 — Fair Repair & Power (27/11/2026)
 
@@ -208,7 +214,7 @@ Game fan-made chạy trên trình duyệt. Có chế độ một người và 5 
 
 ## Tài khoản và lưu online
 
-V62.0 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
+V62.1 giữ kết nối Supabase và RLS từ V58.0; cần xác minh SMTP/OAuth trước khi mở đăng ký công khai. Xem [hướng dẫn cấu hình tài khoản](ACCOUNT_SETUP.md) và [SQL bảo mật dữ liệu](supabase/cloud_saves.sql). Chơi khách không cần đăng nhập. Nhật ký cập nhật cũng có ngay trong menu game.
 
 ## Chơi trên web
 
